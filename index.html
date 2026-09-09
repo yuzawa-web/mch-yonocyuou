@@ -608,10 +608,16 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 }
 .event{
   background:var(--white); border:1px solid var(--line); border-radius:16px;
-  padding:20px 20px 18px; display:flex; flex-direction:column; gap:.5em;
+  overflow:hidden; display:flex; flex-direction:column;
   box-shadow:0 2px 12px rgba(31,39,35,.05);
 }
 .section--white .event{ background:var(--bg); }
+.event__photo{ margin:0; }
+.event__photo img{
+  width:100%; height:auto; aspect-ratio:4/3; object-fit:cover;
+  display:block; background:var(--line);
+}
+.event__body{ padding:18px 20px 18px; display:flex; flex-direction:column; gap:.5em; }
 .event__month{
   align-self:flex-start;
   background:var(--leaf-soft); color:var(--accent);
@@ -1229,45 +1235,66 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 
     <ul class="events">
       <li class="event">
-        <span class="event__month">1月</span>
-        <p class="event__name">初詣</p>
-        <p>一年のはじまりを、みなさんでお参りします。</p>
+        <figure class="event__photo"><img src="event-1.jpg" alt="初詣で神社にお参りするようす" width="444" height="332" loading="lazy"></figure>
+        <div class="event__body">
+          <span class="event__month">1月</span>
+          <p class="event__name">初詣</p>
+          <p>近くの神社まで。一年のはじまりを、みなさんでお参りします。</p>
+        </div>
       </li>
       <li class="event">
-        <span class="event__month">1月</span>
-        <p class="event__name">餅つき</p>
-        <p>つきたてのおもちで、お正月らしい一日を。</p>
+        <figure class="event__photo"><img src="event-2.jpg" alt="餅つきのようす" width="444" height="332" loading="lazy"></figure>
+        <div class="event__body">
+          <span class="event__month">1月</span>
+          <p class="event__name">餅つき</p>
+          <p>紅白幕の前で、杵をふるって。つきたてのおもちを味わいます。</p>
+        </div>
       </li>
       <li class="event">
-        <span class="event__month">2月</span>
-        <p class="event__name">節分</p>
-        <p>豆まきで、にぎやかに春を迎えます。</p>
+        <figure class="event__photo"><img src="event-3.jpg" alt="節分の豆まきのようす" width="444" height="332" loading="lazy"></figure>
+        <div class="event__body">
+          <span class="event__month">2月</span>
+          <p class="event__name">節分</p>
+          <p>職員が鬼に変身します。笑い声のたえない豆まきです。</p>
+        </div>
       </li>
       <li class="event">
-        <span class="event__month">4月</span>
-        <p class="event__name">お花見</p>
-        <p>春のあたたかい日に、桜を見に出かけます。</p>
+        <figure class="event__photo"><img src="event-4.jpg" alt="桜を見上げるようす" width="444" height="332" loading="lazy"></figure>
+        <div class="event__body">
+          <span class="event__month">4月</span>
+          <p class="event__name">お花見</p>
+          <p>春のあたたかい日に、桜並木まで。外の空気を感じていただきます。</p>
+        </div>
       </li>
       <li class="event">
-        <span class="event__month">8月</span>
-        <p class="event__name">夏祭り</p>
-        <p>屋台の雰囲気を、施設の中で。ご家族もどうぞ。</p>
+        <figure class="event__photo"><img src="event-5.jpg" alt="夏祭りの飾りつけ" width="444" height="332" loading="lazy"></figure>
+        <div class="event__body">
+          <span class="event__month">8月</span>
+          <p class="event__name">夏祭り</p>
+          <p>提灯と紅白幕で、館内がお祭りに。手づくりの神輿も登場します。</p>
+        </div>
       </li>
       <li class="event">
-        <span class="event__month">9月</span>
-        <p class="event__name">敬老会</p>
-        <p>長寿をお祝いする、一年でいちばん晴れやかな日。</p>
+        <figure class="event__photo"><img src="event-6.jpg" alt="敬老会での歌の披露" width="444" height="332" loading="lazy"></figure>
+        <div class="event__body">
+          <span class="event__month">9月</span>
+          <p class="event__name">敬老会</p>
+          <p>歌や踊りの披露も。長寿をお祝いする、晴れやかな一日です。</p>
+        </div>
       </li>
       <li class="event">
-        <span class="event__month">12月</span>
-        <p class="event__name">クリスマス会</p>
-        <p>一年のおわりを、みなさんでにぎやかに。</p>
+        <figure class="event__photo"><img src="event-7.jpg" alt="クリスマス会での演奏" width="444" height="332" loading="lazy"></figure>
+        <div class="event__body">
+          <span class="event__month">12月</span>
+          <p class="event__name">クリスマス会</p>
+          <p>ツリーを飾って、みんなでサンタの帽子を。一年のおわりをにぎやかに。</p>
+        </div>
       </li>
     </ul>
 
     <p class="events__note">このほかにも、お誕生日会や季節のレクリエーションを行っています。行事に合わせた<strong>イベント食</strong>もご用意しています。</p>
 
-    <p class="flow-note"><span class="check">要確認</span>行事の月と一言は、現サイトの「年間行事」をもとに置いています。実際の時期と合っているかご確認ください。<strong>現サイトに行事の写真が7枚あります。</strong>いただければ、各カードに写真を入れられます（そのほうが、ぐっと魅力が伝わります）。</p>
+    <p class="flow-note"><span class="check">要確認</span>写真は<strong>法人サイトの「年間行事」に載っているもの</strong>です。行事の月と一言は、こちらで書き添えました。実際の時期・内容と合っているかご確認ください。</p>
   </div>
 </section>
 
