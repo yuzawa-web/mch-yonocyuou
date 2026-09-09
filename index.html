@@ -823,7 +823,42 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 }
 
 /* =========================================================
-   資料のダウンロード
+   パンフレットのカード（施設情報の最後に置いています）
+   目に入りやすいよう、横いっぱいの1枚にしています。
+   ========================================================= */
+.pamph{
+  display:flex; align-items:center; gap:20px;
+  margin:2.6em 0 0; padding:22px 26px;
+  background:var(--white); border:2px solid var(--c3);
+  border-radius:16px; text-decoration:none; color:var(--ink);
+  box-shadow:0 3px 14px rgba(31,39,35,.06);
+  transition: background-color .18s ease, border-color .18s ease, transform .12s ease;
+}
+.section--white .pamph{ background:var(--bg); }
+.pamph:hover{ background:var(--c3-bg); border-color:#d9a92c; }
+.pamph:active{ transform:translateY(1px); }
+.pamph:focus-visible{ outline:3px solid var(--accent-dark); outline-offset:3px; }
+.pamph__icon{
+  flex:none; width:54px; height:54px; padding:11px; border-radius:12px;
+  background:var(--c3-bg); color:#c9a12f;
+}
+.pamph__icon svg{ width:100%; height:100%; }
+.pamph__text{ display:flex; flex-direction:column; gap:.2em; min-width:0; }
+.pamph__eyebrow{ font-size:.78rem; font-weight:700; letter-spacing:.08em; color:#c9a12f; }
+.pamph__name{ font-size:1.2rem; font-weight:700; line-height:1.5; }
+.pamph__meta{ font-size:.85rem; color:var(--ink-soft); line-height:1.6; }
+.pamph__arrow{ flex:none; margin-left:auto; width:30px; height:30px; color:var(--accent); }
+.pamph__arrow svg{ width:100%; height:100%; }
+.pamph__note{ margin-top:1em; font-size:.88rem; color:var(--ink-soft); }
+@media (max-width:560px){
+  .pamph{ gap:14px; padding:18px; align-items:flex-start; }
+  .pamph__icon{ width:44px; height:44px; padding:9px; }
+  .pamph__name{ font-size:1.05rem; }
+  .pamph__arrow{ width:24px; height:24px; align-self:center; }
+}
+
+/* =========================================================
+   資料のダウンロード（いまは使っていません）
    ========================================================= */
 .dl-list{ list-style:none; display:grid; gap:14px;
           grid-template-columns:repeat(auto-fit, minmax(280px,1fr));
@@ -1091,7 +1126,8 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
        うしろの「?utm_...」は、どこから応募につながったかを数えるための印です。
        消さないでください。 -->
   <a class="link-recruit" id="btn-recruit-header"
-     href="https://hakushinkai.jp/recuitment?utm_source=mch-yono&amp;utm_medium=site&amp;utm_campaign=recruit">
+     href="https://arwrk.net/recruit/hakushinkai/?utm_source=mch-yono&amp;utm_medium=site&amp;utm_campaign=recruit"
+     target="_blank" rel="noopener">
     採用情報
   </a>
   </div>
@@ -1548,6 +1584,31 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
       </article>
     </div>
 
+    <!-- ===== パンフレットのダウンロード =====
+         押された回数は id="btn-pdf-pamphlet" で数えられます（消さないでください） -->
+    <a class="pamph" id="btn-pdf-pamphlet"
+       href="pamphlet-mch-yononakaou.pdf" target="_blank" rel="noopener">
+      <span class="pamph__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <path d="M14 2v6h6"/><path d="M12 18v-6"/><path d="M9 15l3 3 3-3"/>
+        </svg>
+      </span>
+      <span class="pamph__text">
+        <span class="pamph__eyebrow">ご検討の材料に</span>
+        <strong class="pamph__name">施設パンフレットを見る</strong>
+        <span class="pamph__meta">PDF ／ 1.0MB ／ 2ページ ／ 名前や連絡先の入力は要りません</span>
+      </span>
+      <span class="pamph__arrow" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 4v13"/><path d="M6 12l6 6 6-6"/>
+        </svg>
+      </span>
+    </a>
+    <p class="pamph__note">開けない場合は、郵送でお送りすることもできます。お気軽にお申しつけください。</p>
+
   </div>
 </section>
 
@@ -1632,54 +1693,6 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
       Instagramで見る
     </a>
     <p class="photos__note" style="margin-top:1.2em"><span class="check">要確認</span>アカウントのアドレスが未確定です。決まったら上のリンク先を書き換えてください。アカウントが無ければ、この節ごと削除してかまいません。</p>
-  </div>
-</section>
-
-<!-- ===== 資料のダウンロード ===== -->
-<section class="section" aria-labelledby="dl-title">
-  <div class="wrap">
-    <p class="eyebrow">ご検討の材料に</p>
-    <h2 class="h2 h2--deco" id="dl-title"><span>資料を、ご覧いただけます。</span></h2>
-    <p class="lede lede--center">入力なしで、そのままご覧いただけます。印刷してお使いください。</p>
-
-    <ul class="dl-list">
-      <li>
-        <a class="dl-item" id="btn-pdf-pamphlet"
-           href="pamphlet-mch-yononakaou.pdf" target="_blank" rel="noopener">
-          <span class="dl-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
-                 stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-              <path d="M14 2v6h6"/><path d="M12 18v-6"/><path d="M9 15l3 3 3-3"/>
-            </svg>
-          </span>
-          <span class="dl-body">
-            <span class="dl-name">施設パンフレット</span>
-            <span class="dl-meta">PDF ／ 1.0MB ／ 2ページ</span>
-          </span>
-        </a>
-      </li>
-
-      <!-- 重要事項説明書。このフォルダの中のPDFをひらきます。 -->
-      <li>
-        <a class="dl-item" id="btn-pdf-juyojiko"
-           href="juyojiko-mch-yononakaou.pdf" target="_blank" rel="noopener">
-          <span class="dl-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
-                 stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-              <path d="M14 2v6h6"/><path d="M12 18v-6"/><path d="M9 15l3 3 3-3"/>
-            </svg>
-          </span>
-          <span class="dl-body">
-            <span class="dl-name">重要事項説明書</span>
-            <span class="dl-meta">PDF ／ 0.9MB ／ 令和7年1月</span>
-          </span>
-        </a>
-      </li>
-    </ul>
-
-    <p class="dl-note">開けない場合は、郵送でお送りすることもできます。お気軽にお申しつけください。</p>
   </div>
 </section>
 
@@ -1777,8 +1790,9 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
     <a href="https://hakushinkai.jp/" target="_blank" rel="noopener">医療法人 博滇会</a>
     <a href="https://hakushinkai.jp/facilities/yuzawa/" target="_blank" rel="noopener">湯澤医院</a>
     <!-- ▼差し替え②（ヘッダーと同じアドレス） -->
-    <a id="btn-recruit-footer"
-       href="https://hakushinkai.jp/recuitment?utm_source=mch-yono&amp;utm_medium=site&amp;utm_campaign=recruit">求人情報</a>
+    <a id="btn-recruit-footer" target="_blank" rel="noopener"
+       href="https://arwrk.net/recruit/hakushinkai/?utm_source=mch-yono&amp;utm_medium=site&amp;utm_campaign=recruit">求人情報</a>
+    <a id="btn-pdf-juyojiko" href="juyojiko-mch-yononakaou.pdf" target="_blank" rel="noopener">重要事項説明書（PDF）</a>
     <a href="https://hakushinkai.jp/privacy-policy/" target="_blank" rel="noopener">プライバシーポリシー</a>
   </nav>
 
@@ -1815,7 +1829,7 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 (function(){
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduce || !('IntersectionObserver' in window)) return;
-  var sel = '.section .h2, .section .lede, .tags, .points, .feat, .care-list, .doctors, .events, .fee-total, .tablewrap, .fee-etc,'
+  var sel = '.section .h2, .section .lede, .tags, .points, .feat, .care-list, .doctors, .events, .fee-total, .tablewrap, .fee-etc, .pamph,'
           + ' .care-legend, .care-note, .photos, .photos__note, .equip, .equip__note,'
           + ' .meal, .spec, .cards, .dl-list, .dl-note, .insta-embed, .flow-note';
   var els = Array.prototype.slice.call(document.querySelectorAll(sel));
