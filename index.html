@@ -359,36 +359,185 @@ h3.deco-label{ font-size:1.05rem; }
 }
 
 /* =========================================================
+   やわらかい飾り（2026-09-09 追加）
+   節の見出しまわり・背景の三角・葉の区切りを、この一式でそろえています。
+   色は5色。パンフレットの雰囲気に合わせた、うすい色づかいです。
+   ========================================================= */
+:root{
+  --c1:#8cc9a6; --c1-bg:#eef7f1;   /* みどり */
+  --c2:#e59aa0; --c2-bg:#fdeff0;   /* あかるい赤 */
+  --c3:#f0c34a; --c3-bg:#fdf6e0;   /* きいろ */
+  --c4:#9dc3e0; --c4-bg:#eef4fa;   /* あお */
+  --c5:#a9ce8c; --c5-bg:#f2f8ea;   /* きみどり */
+}
+
+/* 見出しの上の小さな一行（＼ ここが私たちの自慢です ／） */
+.eyebrow{
+  display:flex; align-items:center; justify-content:center; gap:16px;
+  font-size:.92rem; font-weight:700; letter-spacing:.08em;
+  color:var(--ink-soft); margin:0 0 .5em;
+}
+.eyebrow::before, .eyebrow::after{
+  content:""; width:2px; height:24px; background:var(--ink-soft);
+  border-radius:2px; opacity:.65;
+}
+.eyebrow::before{ transform:rotate(-22deg); }
+.eyebrow::after{ transform:rotate(22deg); }
+
+/* 節の見出し（中央ぞろえ・下に手描き風の線） */
+.h2--deco{
+  text-align:center; background-image:none;
+  display:table; margin:0 auto .55em; position:relative; padding-bottom:.4em;
+  max-width:min(100%, 24em);
+}
+.h2--deco span{ background-image:none; display:inline; white-space:normal; }
+.h2--deco .num{
+  color:#2f9e93; font-size:1.55em; line-height:1; vertical-align:-.06em;
+  margin-right:.02em;
+}
+.h2--deco::after{
+  content:""; display:block; position:absolute; left:50%; bottom:0;
+  width:100%; height:11px; transform:translateX(-50%);
+  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 12' preserveAspectRatio='none'><path d='M4 8 C 60 2 120 11 180 5 C 230 1 270 7 296 4' stroke='%23f7dc3e' stroke-width='6' fill='none' stroke-linecap='round'/></svg>") no-repeat center / 100% 100%;
+}
+.lede--center{ text-align:center; max-width:34em; margin-left:auto; margin-right:auto; }
+
+/* 最後のご相談（深緑の地）用 */
+.eyebrow--light{ color:rgba(255,255,255,.9); }
+.eyebrow--light::before, .eyebrow--light::after{ background:rgba(255,255,255,.9); }
+.h2--light::after{
+  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 12' preserveAspectRatio='none'><path d='M4 8 C 60 2 120 11 180 5 C 230 1 270 7 296 4' stroke='%23f7dc3e' stroke-width='6' fill='none' stroke-linecap='round' opacity='0.9'/></svg>") no-repeat center / 100% 100%;
+}
+
+/* 背景に散らす三角と葉（飾り。読み上げの対象外） */
+.decor{ position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
+.decor i{
+  position:absolute; left:var(--x); top:var(--y);
+  width:var(--s); height:var(--s); background:var(--col);
+  clip-path:polygon(0 0, 100% 0, 0 100%);
+  transform:rotate(var(--r, 0deg)); opacity:.55;
+}
+.decor .leafy{
+  position:absolute; left:var(--x); top:var(--y); width:var(--s);
+  opacity:.6; transform:rotate(var(--r,0deg));
+}
+.decor .leafy svg{ width:100%; height:auto; display:block; color:var(--c1); }
+.section--decor{ position:relative; }
+.section--decor > .wrap{ position:relative; z-index:1; }
+
+/* 5色を、ほかのカードにも順番に当てる
+   （ページ全体で同じ色の家族にそろえるため） */
+.feat li:nth-child(5n+1) .feat__icon{ color:var(--c1); background:var(--c1-bg); }
+.feat li:nth-child(5n+2) .feat__icon{ color:#d98089; background:var(--c2-bg); }
+.feat li:nth-child(5n+3) .feat__icon{ color:#c9a12f; background:var(--c3-bg); }
+.feat li:nth-child(5n+4) .feat__icon{ color:#6d9fc4; background:var(--c4-bg); }
+.feat li:nth-child(5n+5) .feat__icon{ color:var(--c5); background:var(--c5-bg); }
+
+.event:nth-child(5n+1){ background:var(--c1-bg); }
+.event:nth-child(5n+2){ background:var(--c2-bg); }
+.event:nth-child(5n+3){ background:var(--c3-bg); }
+.event:nth-child(5n+4){ background:var(--c4-bg); }
+.event:nth-child(5n+5){ background:var(--c5-bg); }
+.event:nth-child(5n+1) .event__month{ background:var(--c1); color:#fff; }
+.event:nth-child(5n+2) .event__month{ background:var(--c2); color:#fff; }
+.event:nth-child(5n+3) .event__month{ background:var(--c3); color:#6b5310; }
+.event:nth-child(5n+4) .event__month{ background:var(--c4); color:#fff; }
+.event:nth-child(5n+5) .event__month{ background:var(--c5); color:#fff; }
+
+/* サービスのカードにも、上に色の帯 */
+.cards .card{ position:relative; overflow:hidden; padding-top:28px; }
+.cards .card::before{
+  content:""; position:absolute; left:0; right:0; top:0; height:6px; background:var(--c1);
+}
+.cards .card:nth-child(2)::before{ background:var(--c2); }
+.cards .card:nth-child(3)::before{ background:var(--c3); }
+.cards .card:nth-child(4)::before{ background:var(--c4); }
+.cards .card:nth-child(1){ background:var(--c1-bg); }
+.cards .card:nth-child(2){ background:var(--c2-bg); }
+.cards .card:nth-child(3){ background:var(--c3-bg); }
+.cards .card:nth-child(4){ background:var(--c4-bg); }
+.section--white .cards .card:nth-child(1){ background:var(--c1-bg); }
+.section--white .cards .card:nth-child(2){ background:var(--c2-bg); }
+.section--white .cards .card:nth-child(3){ background:var(--c3-bg); }
+.section--white .cards .card:nth-child(4){ background:var(--c4-bg); }
+
+/* 設備の札も、やわらかい色に */
+.equip__box:nth-child(1) li{ background:var(--c1-bg); }
+.equip__box:nth-child(2) li{ background:var(--c4-bg); }
+
+/* 葉っぱの区切り */
+.leaf-rule{
+  display:flex; align-items:center; justify-content:center; gap:14px;
+  margin:2.8em auto 0; max-width:280px; color:var(--c1);
+}
+.leaf-rule::before, .leaf-rule::after{
+  content:""; flex:1 1 auto; height:2px; background:currentColor; opacity:.55; border-radius:2px;
+}
+.leaf-rule svg{ width:26px; height:26px; flex:none; }
+
+/* =========================================================
    おすすめポイント（5つ）
-   パンフレットの金色の丸を、カードの形にしています。
+   左上の色の三角に番号、右側に斜めに切った写真。
    ========================================================= */
 .points{
-  list-style:none; margin:0 0 2.4em; padding:0;
-  display:grid; gap:16px;
-  grid-template-columns:repeat(auto-fit, minmax(288px,1fr));
+  list-style:none; margin:0 0 0; padding:0;
+  display:grid; gap:18px;
+  grid-template-columns:repeat(auto-fit, minmax(min(420px, 100%),1fr));
 }
+.point:nth-child(5){ grid-column:1 / -1; }
+.point:nth-child(5){ --photo-w:34%; }
 .point{
-  background:var(--white); border:1px solid var(--line); border-radius:16px;
-  padding:24px 22px; display:flex; flex-direction:column;
-  box-shadow:0 2px 12px rgba(31,39,35,.05);
+  position:relative; overflow:hidden;
+  background:var(--pt-bg); border-radius:14px;
+  display:grid; grid-template-columns:1fr minmax(0, var(--photo-w, 40%));
+  align-items:stretch; min-height:212px;
+}
+.point__photo{ margin:0; position:relative; }
+.point__photo img{
+  width:100%; height:100%; object-fit:cover; display:block;
+  clip-path:polygon(22% 0, 100% 0, 100% 100%, 0 100%);
+}
+/* 写真が無いときの、色だけの面 */
+.point__photo--plain{ background:var(--pt-col); opacity:.35;
+  clip-path:polygon(22% 0, 100% 0, 100% 100%, 0 100%); }
+
+.point__body{ padding:26px 20px 24px 26px; display:flex; flex-direction:column; }
+.point__corner{
+  position:absolute; left:0; top:0; width:88px; height:88px;
+  background:var(--pt-col); clip-path:polygon(0 0, 100% 0, 0 100%); z-index:1;
 }
 .point__no{
-  display:inline-flex; align-items:center; justify-content:center;
-  width:38px; height:38px; margin-bottom:.7em;
-  background:var(--sun); color:var(--accent-dark); border-radius:50%;
-  font-size:.95rem; font-weight:700; flex:none;
+  position:absolute; left:14px; top:4px; z-index:2;
+  color:#fff; font-size:2rem; font-weight:700; line-height:1;
 }
+.point__icon{
+  width:40px; height:40px; color:var(--pt-col); margin:34px 0 .55em auto;
+  margin-left:0;
+}
+.point__icon svg{ width:100%; height:100%; }
 .point__ttl{
-  font-size:1.12rem; font-weight:700; line-height:1.5;
-  color:var(--accent-dark); margin:0 0 .45em;
+  font-size:1.14rem; font-weight:700; line-height:1.5;
+  color:var(--ink); margin:0 0 .45em;
 }
-.point p{ font-size:.94rem; color:var(--ink-soft); margin:0; }
+.point p{ font-size:.92rem; color:var(--ink-soft); margin:0; line-height:1.8; }
+
+@media (max-width:520px){
+  .point{ grid-template-columns:1fr; }
+  .point__photo{ order:-1; height:170px; }
+  .point__photo img, .point__photo--plain{
+    clip-path:polygon(0 0, 100% 0, 100% 82%, 0 100%);
+  }
+  .point__body{ padding:16px 20px 22px; }
+  .point__corner{ width:74px; height:74px; }
+  .point__no{ font-size:1.7rem; }
+  .point__icon{ margin-top:24px; }
+}
 
 /* =========================================================
    医療サポート体制（4つ）
    ========================================================= */
 .feat{ list-style:none; display:grid; gap:24px 32px;
-       grid-template-columns:repeat(auto-fit, minmax(400px,1fr)); }
+       grid-template-columns:repeat(auto-fit, minmax(min(400px, 100%),1fr)); }
 @media (max-width:520px){
   .feat{ grid-template-columns:1fr; }
 }
@@ -505,7 +654,7 @@ h3.deco-label{ font-size:1.05rem; }
 /* =========================================================
    ご利用いただけるサービス（カード）
    ========================================================= */
-.cards{ display:grid; gap:16px; grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+.cards{ display:grid; gap:18px; grid-template-columns:repeat(auto-fit, minmax(min(360px, 100%),1fr));
         align-items:start; }
 .card{
   background:var(--bg); border:1px solid var(--line); border-radius:10px;
@@ -745,6 +894,8 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 .access dt{ color:#9aa6a0; font-size:.85rem; }
 .access dd{ color:#e6ebe8; line-height:1.7; }
 .access dd a{ font-size:1.02rem; letter-spacing:.03em; white-space:nowrap; }
+/* メールアドレスは長いので、細い画面では折り返します */
+.access dd a[href^="mailto:"]{ white-space:normal; word-break:break-all; font-size:.95rem; }
 .access .bus-row{ display:block; margin-bottom:.8em; }
 .access .bus-row:last-child{ margin-bottom:0; }
 .access .bus-from{ display:block; color:#9aa6a0; font-size:.78rem; line-height:1.5; }
@@ -974,55 +1125,113 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 </main>
 
 <!-- ===== おすすめポイント ===== -->
-<section class="section section--flow" aria-labelledby="points-title">
-  <div class="bg-logo" aria-hidden="true"><img src="logo-mark.png" alt="" width="460" height="460"></div>
+<section class="section section--decor" aria-labelledby="points-title">
+  <div class="decor" aria-hidden="true">
+    <i style="--x:2%;--y:6%;--s:56px;--col:var(--c1)"></i>
+    <i style="--x:8%;--y:16%;--s:34px;--col:var(--c3);--r:180deg"></i>
+    <i style="--x:1%;--y:30%;--s:28px;--col:var(--c4)"></i>
+    <i style="--x:93%;--y:9%;--s:46px;--col:var(--c3);--r:90deg"></i>
+    <i style="--x:96%;--y:22%;--s:30px;--col:var(--c1);--r:270deg"></i>
+    <i style="--x:4%;--y:82%;--s:40px;--col:var(--c4);--r:90deg"></i>
+    <i style="--x:94%;--y:88%;--s:34px;--col:var(--c2);--r:180deg"></i>
+  </div>
   <div class="wrap">
-    <h2 class="h2" id="points-title"><span>プロの医療で見守る安心を。</span><br><span>かけがえのない、</span><span>我が家のぬくもりを。</span></h2>
-    <p class="lede">24時間365日の医療サポートがあるからこそ叶う、心からの安心。明るく充実した住環境で、笑顔あふれる心地よい毎日が始まります。</p>
-
-    <ul class="tags">
-      <li>医療法人による運営</li>
-      <li>看護師常駐</li>
-      <li>全室個室</li>
-    </ul>
-
-    <p class="deco-label"><span>5つのおすすめポイント</span></p>
+    <p class="eyebrow">ここが私たちの自慢です</p>
+    <h2 class="h2 h2--deco" id="points-title"><span class="num">5</span>つのおすすめポイント</h2>
+    <p class="lede lede--center">プロの医療で見守る安心を。かけがえのない、我が家のぬくもりを。<br>24時間365日の医療サポートがあるからこそ叶う、心からの安心をご用意しています。</p>
 
     <ul class="points">
-      <li class="point">
-        <span class="point__no">1</span>
-        <p class="point__ttl">快適な全室個室</p>
-        <p>すべてが個室です（18〜19.7㎡）。介護用電動ベッド・寝具・カーテン・家具をご用意しているので、身のまわりのものだけでお入りいただけます。</p>
+      <li class="point" style="--pt-col:var(--c1);--pt-bg:var(--c1-bg)">
+        <span class="point__corner" aria-hidden="true"></span>
+        <span class="point__no" aria-hidden="true">1</span>
+        <div class="point__body">
+          <span class="point__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9.5 21v-6h5v6"/>
+            </svg>
+          </span>
+          <p class="point__ttl">快適な全室個室</p>
+          <p>すべてが個室です（18〜19.7㎡）。介護用ベッド・洗面・カーテン・家具を備え、プライベートな空間でゆったりお過ごしいただけます。</p>
+        </div>
+        <figure class="point__photo"><img src="ph-room.jpg" alt="居室のようす" width="900" height="675" loading="lazy"></figure>
       </li>
-      <li class="point">
-        <span class="point__no">2</span>
-        <p class="point__ttl">24時間365日の安心</p>
-        <p>夜間の見守り体制に加え、グループの医師が24時間365日当直。常駐の看護師とすぐに連携できる救急体制を整えています。</p>
+
+      <li class="point" style="--pt-col:var(--c2);--pt-bg:var(--c2-bg)">
+        <span class="point__corner" aria-hidden="true"></span>
+        <span class="point__no" aria-hidden="true">2</span>
+        <div class="point__body">
+          <span class="point__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/>
+            </svg>
+          </span>
+          <p class="point__ttl">24時間365日の安心</p>
+          <p>夜間の見守り体制に加え、グループの医師が24時間365日当直。常駐の看護師がすぐに対応できる救急体制を整えています。</p>
+        </div>
+        <figure class="point__photo"><img src="ph-corridor.jpg" alt="手すりのある廊下" width="900" height="675" loading="lazy"></figure>
       </li>
-      <li class="point">
-        <span class="point__no">3</span>
-        <p class="point__ttl">医療法人による運営</p>
-        <p>医療法人博滇会が運営しています。内科の定期往診に加え、他施設では珍しい精神科医の臨時診察にも対応できます。</p>
+
+      <li class="point" style="--pt-col:var(--c3);--pt-bg:var(--c3-bg)">
+        <span class="point__corner" aria-hidden="true"></span>
+        <span class="point__no" aria-hidden="true">3</span>
+        <div class="point__body">
+          <span class="point__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6z"/>
+            </svg>
+          </span>
+          <p class="point__ttl">医療法人による運営</p>
+          <p>医療法人博滇会が運営しています。内科の定期往診に加え、精神科医の臨床診察にも対応できる体制を整えています。</p>
+        </div>
+        <figure class="point__photo"><img src="ph-entrance.jpg" alt="施設の入口" width="900" height="642" loading="lazy"></figure>
       </li>
-      <li class="point">
-        <span class="point__no">4</span>
-        <p class="point__ttl">多彩な行事と食事</p>
-        <p>お正月・ひなまつりなどの行事食をはじめ、季節を感じていただけるお食事をご用意しています。日々のレクリエーションもあります。</p>
+
+      <li class="point" style="--pt-col:var(--c4);--pt-bg:var(--c4-bg)">
+        <span class="point__corner" aria-hidden="true"></span>
+        <span class="point__no" aria-hidden="true">4</span>
+        <div class="point__body">
+          <span class="point__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="8" cy="8" r="2.6"/><circle cx="16" cy="8" r="2.6"/>
+              <path d="M3 19a5 5 0 0 1 10 0"/><path d="M13.5 19a5 5 0 0 1 7.5-4.3"/>
+            </svg>
+          </span>
+          <p class="point__ttl">多彩な行事と食事</p>
+          <p>お正月・ひなまつりなどの行事食をはじめ、季節を感じていただけるお食事をご用意しています。日々のレクリエーションもあります。</p>
+        </div>
+        <figure class="point__photo"><img src="meal-1.jpg" alt="お正月のイベント食" width="900" height="675" loading="lazy"></figure>
       </li>
-      <li class="point">
-        <span class="point__no">5</span>
-        <p class="point__ttl">個別ケアと看取り</p>
-        <p>お一人おひとりに合わせたケアを行います。最期までこの場所で過ごしたいというご希望にも、医師・看護師と連携して対応します。</p>
+
+      <li class="point" style="--pt-col:var(--c5);--pt-bg:var(--c5-bg)">
+        <span class="point__corner" aria-hidden="true"></span>
+        <span class="point__no" aria-hidden="true">5</span>
+        <div class="point__body">
+          <span class="point__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M11 17H6a3 3 0 0 1 0-6h3l3-2 3 2h3a3 3 0 0 1 0 6h-5"/><path d="M9 11l2.5 2.5"/><path d="M15 11l-2.5 2.5"/>
+            </svg>
+          </span>
+          <p class="point__ttl">個別ケアを重視</p>
+          <p>お一人おひとりに合わせたケアを行います。最期までその場所で過ごしたいというご希望にも、医師・看護師と連携して対応します。</p>
+        </div>
+        <figure class="point__photo"><img src="event-2.jpg" alt="行事で職員と過ごすようす" width="444" height="332" loading="lazy"></figure>
       </li>
     </ul>
+
+    <p class="leaf-rule" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 21V11"/><path d="M12 13c-4 0-6-2.5-6-6 4 0 6 2.5 6 6z"/><path d="M12 12c4 0 6-2 6-5.5-4 0-6 2-6 5.5z"/>
+      </svg>
+    </p>
   </div>
 </section>
 
 <!-- ===== 医療サポート体制 ===== -->
 <section class="section section--white" aria-labelledby="care-title">
   <div class="wrap">
-    <h2 class="h2" id="care-title"><span>充実した、</span><span>医療サポート体制。</span></h2>
-    <p class="lede">医療法人が運営しているからこそ、できることがあります。</p>
+    <p class="eyebrow">医療法人だからできること</p>
+    <h2 class="h2 h2--deco" id="care-title"><span>充実した、医療サポート体制。</span></h2>
+    <p class="lede lede--center">医療法人が運営しているからこそ、できることがあります。</p>
 
     <ul class="feat">
       <li>
@@ -1106,8 +1315,9 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 <!-- ===== 施設のご紹介 ===== -->
 <section class="section" aria-labelledby="facility-title">
   <div class="wrap">
-    <h2 class="h2" id="facility-title"><span>光と笑顔が、</span><span>あふれる場所。</span></h2>
-    <p class="lede">ここで始まる、新しい「楽しい毎日」。建物は4階建てで、2階から4階がお住まいです。3階・4階も2階と同じお部屋の配置になっています。</p>
+    <p class="eyebrow">中を、ご覧ください</p>
+    <h2 class="h2 h2--deco" id="facility-title"><span>光と笑顔が、あふれる場所。</span></h2>
+    <p class="lede lede--center">ここで始まる、新しい「楽しい毎日」。建物は4階建てで、2階から4階がお住まいです。3階・4階も2階と同じお部屋の配置になっています。</p>
 
     <ul class="photos">
       <li class="photos__item">
@@ -1206,7 +1416,8 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 <!-- ===== 食事 ===== -->
 <section class="section section--white" aria-labelledby="meal-title">
   <div class="wrap">
-    <h2 class="h2" id="meal-title">食事のこと</h2>
+    <p class="eyebrow">毎日の、たのしみ</p>
+    <h2 class="h2 h2--deco" id="meal-title">食事のこと</h2>
     <div class="meal">
       <figure class="meal__photo">
         <img class="ph-img" src="meal-1.jpg" alt="お正月のイベント食" width="900" height="675" loading="lazy">
@@ -1230,8 +1441,9 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
      いただければ、各カードの中に入れます。 -->
 <section class="section" aria-labelledby="event-title">
   <div class="wrap">
-    <h2 class="h2" id="event-title"><span>一年をとおして、</span><span>たのしみがあります。</span></h2>
-    <p class="lede">お正月から、クリスマスまで。季節ごとの行事を、みなさんで楽しんでいただいています。「今年もこの日が来たね」と感じていただけることを、大切にしています。</p>
+    <p class="eyebrow">一年の、たのしみ</p>
+    <h2 class="h2 h2--deco" id="event-title"><span>一年をとおして、たのしみがあります。</span></h2>
+    <p class="lede lede--center">お正月から、クリスマスまで。季節ごとの行事を、みなさんで楽しんでいただいています。「今年もこの日が来たね」と感じていただけることを、大切にしています。</p>
 
     <ul class="events">
       <li class="event">
@@ -1301,8 +1513,9 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 <!-- ===== ご利用いただけるサービス ===== -->
 <section class="section section--white" aria-labelledby="svc-title">
   <div class="wrap">
-    <h2 class="h2" id="svc-title"><span>ご利用いただける、</span><span>4つのかたち。</span></h2>
-    <p class="lede">ずっとお住まいになる方も、短い期間だけの方も、まずはお試しの方も。暮らしの状況に合わせて選んでいただけます。</p>
+    <p class="eyebrow">暮らしに合わせて</p>
+    <h2 class="h2 h2--deco" id="svc-title">ご利用いただける、<span class="num">4</span>つのかたち。</h2>
+    <p class="lede lede--center">ずっとお住まいになる方も、短い期間だけの方も、まずはお試しの方も。暮らしの状況に合わせて選んでいただけます。</p>
 
     <dl class="spec">
       <div><dt>居室数</dt><dd><strong>51室</strong><span class="spec-sub">入居定員 50名・全室個室</span></dd></div>
@@ -1343,8 +1556,9 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
      ★料金は改定されます。「いつ時点の金額か」を必ず書き、更新の担当を決めてください。★ -->
 <section class="section" aria-labelledby="fee-title">
   <div class="wrap">
-    <h2 class="h2" id="fee-title"><span>費用について。</span></h2>
-    <p class="lede">入居時にまとまったお金をいただくことはありません。毎月かかるのは、<strong>家賃・管理費・食費</strong>と、<strong>介護保険の自己負担額</strong>の2つだけです。</p>
+    <p class="eyebrow">安心してご検討いただくために</p>
+    <h2 class="h2 h2--deco" id="fee-title">費用について。</h2>
+    <p class="lede lede--center">入居時にまとまったお金をいただくことはありません。毎月かかるのは、<strong>家賃・管理費・食費</strong>と、<strong>介護保険の自己負担額</strong>の2つだけです。</p>
 
     <div class="fee-total">
       <p class="fee-total__cap">毎月かならずかかる費用（介護保険の自己負担をのぞく）</p>
@@ -1398,8 +1612,9 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
      アカウントが無い場合は、この <section> をまるごと削除してください。 -->
 <section class="section section--white" aria-labelledby="insta-title">
   <div class="wrap">
-    <h2 class="h2" id="insta-title">ふだんの様子は、Instagramで</h2>
-    <p class="lede">行事の様子や日々のできごとを、職員が投稿しています。</p>
+    <p class="eyebrow">ふだんの、ようす</p>
+    <h2 class="h2 h2--deco" id="insta-title">ふだんの様子は、Instagramで</h2>
+    <p class="lede lede--center">行事の様子や日々のできごとを、職員が投稿しています。</p>
 
     <div class="insta-embed">
       Instagramの埋め込みコードが入ります<br>
@@ -1423,8 +1638,9 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 <!-- ===== 資料のダウンロード ===== -->
 <section class="section" aria-labelledby="dl-title">
   <div class="wrap">
-    <h2 class="h2" id="dl-title"><span>資料を、</span><span>ご覧いただけます。</span></h2>
-    <p class="lede">入力なしで、そのままご覧いただけます。印刷してお使いください。</p>
+    <p class="eyebrow">ご検討の材料に</p>
+    <h2 class="h2 h2--deco" id="dl-title"><span>資料を、ご覧いただけます。</span></h2>
+    <p class="lede lede--center">入力なしで、そのままご覧いただけます。印刷してお使いください。</p>
 
     <ul class="dl-list">
       <li>
@@ -1470,8 +1686,9 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 <!-- ===== 最後のご相談 ===== -->
 <section class="cta" aria-labelledby="cta-title">
   <div class="wrap">
-    <h2 class="h2" id="cta-title"><span>まずは、</span><span>ご相談ください。</span></h2>
-    <p class="lede">ご本人の状態がわからない段階でも大丈夫です。ご家族だけのご見学もできます。</p>
+    <p class="eyebrow eyebrow--light">ご見学だけでも、どうぞ</p>
+    <h2 class="h2 h2--deco h2--light" id="cta-title"><span>まずは、ご相談ください。</span></h2>
+    <p class="lede lede--center">ご本人の状態がわからない段階でも大丈夫です。ご家族だけのご見学もできます。</p>
     <div class="actions">
       <a class="btn btn--tel" id="btn-tel-2" href="tel:0488297853">
         <span class="label">お電話でのご相談</span><span class="num">048-829-7853</span>
