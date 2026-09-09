@@ -417,6 +417,13 @@ h3.deco-label{ font-size:1.05rem; }
   clip-path:polygon(0 0, 100% 0, 0 100%);
   transform:rotate(var(--r, 0deg)); opacity:.55;
 }
+/* 右上の葉の枝 */
+.decor .sprig{
+  position:absolute; right:2%; top:4%; width:min(20vw, 150px);
+  color:var(--c1); opacity:.75;
+}
+.decor .sprig svg{ width:100%; height:auto; display:block; }
+@media (max-width:640px){ .decor .sprig{ display:none; } }
 .decor .leafy{
   position:absolute; left:var(--x); top:var(--y); width:var(--s);
   opacity:.6; transform:rotate(var(--r,0deg));
@@ -823,6 +830,104 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 }
 
 /* =========================================================
+   ご利用いただける、4つのかたち（2026-09-09 作り直し）
+   上：数字の札4つ／下：サービスのカード4つ。
+   どちらも「左上の色の三角＋白いアイコン」「斜めに切った写真」でそろえています。
+   ========================================================= */
+.svc-sec{ background:linear-gradient(180deg, #ffffff 0%, #fffdf6 100%); }
+
+/* 共通：左上の色の三角と、その上の白いアイコン */
+.cnr{
+  position:absolute; left:0; top:0; width:78px; height:78px; z-index:1;
+  background:var(--tc); clip-path:polygon(0 0, 100% 0, 0 100%);
+}
+.cnr-ico{
+  position:absolute; left:13px; top:11px; z-index:2;
+  width:26px; height:26px; color:#fff;
+}
+.cnr-ico svg{ width:100%; height:100%; }
+
+/* --- 上の4つ（数字の札） --- */
+.stats{
+  list-style:none; margin:0 0 22px; padding:0;
+  display:grid; gap:16px; grid-template-columns:repeat(auto-fit, minmax(min(220px,100%),1fr));
+}
+.stat{
+  position:relative; overflow:hidden; display:flex; flex-direction:column;
+  background:var(--white); border:1px solid var(--line); border-radius:14px;
+  box-shadow:0 2px 10px rgba(31,39,35,.05); min-height:250px;
+}
+.stat__body{ padding:52px 20px 14px; position:relative; z-index:2; }
+.stat__label{ font-size:.82rem; color:var(--ink-soft); display:block; margin-bottom:.15em; }
+.stat__num{
+  font-size:1.55rem; font-weight:700; color:var(--ink); line-height:1.3; display:block;
+}
+.stat__num small{ font-size:.72em; }
+.stat__sub{ display:block; font-size:.82rem; color:var(--ink-soft); line-height:1.6; margin-top:.3em; }
+.stat__photo{ margin:auto 0 0; position:relative; }
+.stat__photo img{
+  width:100%; height:112px; object-fit:cover; display:block;
+  clip-path:polygon(0 42%, 100% 0, 100% 100%, 0 100%);
+}
+/* うすい色の三角（飾り） */
+.stat::after{
+  content:""; position:absolute; left:6%; top:52%; width:62px; height:62px;
+  background:var(--tc); opacity:.24; clip-path:polygon(0 0, 100% 100%, 0 100%);
+  z-index:1; pointer-events:none;
+}
+
+/* --- 下の4つ（サービスのカード） --- */
+.svc-cards{
+  list-style:none; margin:0; padding:0;
+  display:grid; gap:18px; grid-template-columns:repeat(auto-fit, minmax(min(400px,100%),1fr));
+}
+.svc{
+  position:relative; overflow:hidden; border-radius:14px;
+  background:var(--tc-bg);
+  display:grid; grid-template-columns:1fr minmax(0,34%); align-items:stretch;
+  min-height:224px;
+}
+.svc__body{ padding:22px 18px 20px 26px; display:flex; flex-direction:column; }
+.svc__ttl{
+  font-size:1.12rem; font-weight:700; line-height:1.5; color:var(--ink);
+  margin:34px 0 .5em;
+}
+.svc__body p{ font-size:.9rem; color:var(--ink-soft); line-height:1.8; margin:0; }
+.svc__price{
+  margin-top:.9em; padding:9px 14px; border-radius:8px;
+  background:rgba(255,255,255,.75); font-size:.9rem; color:var(--ink);
+}
+.svc__price strong{ color:var(--tc-ink); }
+.svc__go{
+  display:inline-flex; align-items:center; gap:.5em; align-self:flex-start;
+  margin-top:auto; padding-top:1.1em;
+  font-size:.88rem; font-weight:700; color:var(--tc-ink); text-decoration:none;
+  transition: gap .18s ease, color .18s ease;
+}
+.svc__go svg{ width:18px; height:18px; }
+.svc__go:hover{ gap:.9em; }
+.svc__go:focus-visible{ outline:3px solid var(--accent-dark); outline-offset:3px; }
+.svc__photo{ margin:0; position:relative; }
+.svc__photo img{
+  width:100%; height:100%; object-fit:cover; display:block;
+  clip-path:polygon(30% 0, 100% 0, 100% 100%, 0 100%);
+}
+.svc::after{
+  content:""; position:absolute; right:34%; bottom:8%; width:78px; height:78px;
+  background:var(--tc); opacity:.28; clip-path:polygon(100% 0, 100% 100%, 0 100%);
+  z-index:1; pointer-events:none;
+}
+
+@media (max-width:560px){
+  .svc{ grid-template-columns:1fr; }
+  .svc__photo{ order:-1; height:150px; }
+  .svc__photo img{ clip-path:polygon(0 0, 100% 0, 100% 80%, 0 100%); }
+  .svc__ttl{ margin-top:26px; }
+  .svc::after{ display:none; }
+  .stat{ min-height:0; }
+}
+
+/* =========================================================
    パンフレットのカード（施設情報の最後に置いています）
    目に入りやすいよう、横いっぱいの1枚にしています。
    ========================================================= */
@@ -847,7 +952,16 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 .pamph__eyebrow{ font-size:.78rem; font-weight:700; letter-spacing:.08em; color:#c9a12f; }
 .pamph__name{ font-size:1.2rem; font-weight:700; line-height:1.5; }
 .pamph__meta{ font-size:.85rem; color:var(--ink-soft); line-height:1.6; }
-.pamph__arrow{ flex:none; margin-left:auto; width:30px; height:30px; color:var(--accent); }
+/* パンフレットの表紙を、右側に少しのぞかせる */
+.pamph__thumb{
+  flex:none; margin-left:auto; width:150px; height:96px; overflow:hidden;
+  border-radius:10px 10px 0 0; align-self:flex-end; margin-bottom:-22px;
+  box-shadow:0 -2px 10px rgba(31,39,35,.10);
+}
+.pamph__thumb img{ width:100%; height:auto; display:block; }
+@media (max-width:760px){ .pamph__thumb{ display:none; } }
+.pamph{ align-items:center; }
+.pamph__arrow{ flex:none; margin-left:22px; width:30px; height:30px; color:var(--accent); }
 .pamph__arrow svg{ width:100%; height:100%; }
 .pamph__note{ margin-top:1em; font-size:.88rem; color:var(--ink-soft); }
 @media (max-width:560px){
@@ -1547,42 +1661,167 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 </section>
 
 <!-- ===== ご利用いただけるサービス ===== -->
-<section class="section section--white" aria-labelledby="svc-title">
+<section class="section section--white svc-sec section--decor" aria-labelledby="svc-title">
+  <div class="decor" aria-hidden="true">
+    <i style="--x:2%;--y:5%;--s:52px;--col:var(--c1)"></i>
+    <i style="--x:7%;--y:13%;--s:30px;--col:var(--c3);--r:180deg"></i>
+    <i style="--x:93%;--y:6%;--s:44px;--col:var(--c1);--r:90deg"></i>
+    <i style="--x:3%;--y:90%;--s:34px;--col:var(--c4);--r:90deg"></i>
+    <span class="sprig" aria-hidden="true">
+      <svg viewBox="0 0 130 104">
+        <path d="M124 6 C 102 26, 74 54, 46 92" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+        <ellipse cx="112" cy="10" rx="15" ry="6.5" fill="currentColor" opacity=".8" transform="rotate(-28 112 10)"/>
+        <ellipse cx="100" cy="30" rx="15" ry="6.5" fill="currentColor" opacity=".7" transform="rotate(28 100 30)"/>
+        <ellipse cx="94" cy="24" rx="14" ry="6" fill="currentColor" opacity=".8" transform="rotate(-30 94 24)"/>
+        <ellipse cx="82" cy="46" rx="14" ry="6" fill="currentColor" opacity=".65" transform="rotate(26 82 46)"/>
+        <ellipse cx="76" cy="40" rx="13" ry="5.5" fill="currentColor" opacity=".75" transform="rotate(-32 76 40)"/>
+        <ellipse cx="64" cy="62" rx="13" ry="5.5" fill="currentColor" opacity=".6" transform="rotate(24 64 62)"/>
+        <ellipse cx="58" cy="56" rx="12" ry="5" fill="currentColor" opacity=".7" transform="rotate(-34 58 56)"/>
+        <ellipse cx="47" cy="78" rx="12" ry="5" fill="currentColor" opacity=".55" transform="rotate(22 47 78)"/>
+      </svg>
+    </span>
+  </div>
   <div class="wrap">
     <p class="eyebrow">暮らしに合わせて</p>
     <h2 class="h2 h2--deco" id="svc-title">ご利用いただける、<span class="num">4</span>つのかたち。</h2>
     <p class="lede lede--center">ずっとお住まいになる方も、短い期間だけの方も、まずはお試しの方も。暮らしの状況に合わせて選んでいただけます。</p>
 
-    <dl class="spec">
-      <div><dt>居室数</dt><dd><strong>51室</strong><span class="spec-sub">入居定員 50名・全室個室</span></dd></div>
-      <div><dt>お部屋の広さ</dt><dd><strong>18.00〜19.70㎡</strong><span class="spec-sub">6タイプ・洗面台・トイレつき</span></dd></div>
-      <div><dt>建物</dt><dd><strong>地上4階建て</strong><span class="spec-sub">鉄筋コンクリート造・耐火建築物<br>2階〜4階が居室</span></dd></div>
-      <div><dt>種類</dt><dd><strong style="font-size:1.05rem">介護付有料老人ホーム</strong><span class="spec-sub">一般型特定施設入居者生活介護（混合型）<br>介護保険事業所番号 1176510400</span></dd></div>
-    </dl>
+    <!-- 施設の数字（4つの札） -->
+    <ul class="stats">
+      <li class="stat" style="--tc:var(--c1)">
+        <span class="cnr" aria-hidden="true"></span>
+        <span class="cnr-ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9.5 21v-6h5v6"/>
+          </svg>
+        </span>
+        <div class="stat__body">
+          <span class="stat__label">居室数</span>
+          <span class="stat__num">51<small>室</small></span>
+          <span class="stat__sub">入居定員 50名・全室個室</span>
+        </div>
+        <figure class="stat__photo"><img src="ph-room.jpg" alt="居室のようす" width="900" height="675" loading="lazy"></figure>
+      </li>
 
-    <div class="cards">
-      <article class="card">
-        <h3>特定施設入居者生活介護</h3>
-        <p>要介護の認定を受けた方が、お住まいになりながら介護・生活支援を受けていただくサービスです。介護付き有料老人ホームの基本のかたちになります。</p>
-        <span class="target">これからお住まいになる方へ</span>
-      </article>
-      <article class="card">
-        <h3>短期利用特定施設<span class="nb">入居者生活介護</span></h3>
-        <p>短い期間だけご利用いただけます。ご家族の通院・お仕事・休息のあいだ、安心してお預けいただけます。</p>
-        <span class="target">短い期間だけ利用したい方へ</span>
-      </article>
-      <article class="card">
-        <h3>介護予防特定施設<span class="nb">入居者生活介護</span></h3>
-        <p>要支援の認定を受けた方向けのサービスです。いまの元気を保ちながら、必要な支援を受けて暮らしていただけます。</p>
-        <span class="target">要支援の認定を受けた方へ</span>
-      </article>
-      <article class="card">
-        <h3>体験入居<span class="badge">空室利用</span></h3>
-        <p>お部屋が空いているときに、実際に泊まって暮らしを体験していただけます。先に生活のリズムを知っておくと、そのあとの入居がスムーズです。</p>
-        <p class="card__strong"><strong>1泊 7,500円</strong>／原則 7泊8日まで</p>
-        <span class="target">まず試してみたい方へ</span>
-      </article>
-    </div>
+      <li class="stat" style="--tc:var(--c3)">
+        <span class="cnr" aria-hidden="true"></span>
+        <span class="cnr-ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 8V4h4"/><path d="M20 8V4h-4"/><path d="M4 16v4h4"/><path d="M20 16v4h-4"/>
+          </svg>
+        </span>
+        <div class="stat__body">
+          <span class="stat__label">お部屋の広さ</span>
+          <span class="stat__num">18.00〜19.70<small>㎡</small></span>
+          <span class="stat__sub">6タイプ・洗面台・トイレつき</span>
+        </div>
+        <figure class="stat__photo"><img src="ph-lobby.jpg" alt="エントランス" width="900" height="643" loading="lazy"></figure>
+      </li>
+
+      <li class="stat" style="--tc:var(--c4)">
+        <span class="cnr" aria-hidden="true"></span>
+        <span class="cnr-ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 21V6l8-3 8 3v15"/><path d="M9 21v-5h6v5"/><path d="M8 10h.01"/><path d="M12 10h.01"/><path d="M16 10h.01"/>
+          </svg>
+        </span>
+        <div class="stat__body">
+          <span class="stat__label">建物</span>
+          <span class="stat__num">地上4<small>階建て</small></span>
+          <span class="stat__sub">鉄筋コンクリート造・耐火建築物<br>2階〜4階が居室</span>
+        </div>
+        <figure class="stat__photo"><img src="fv-photo.jpg" alt="施設の外観" width="2000" height="1150" loading="lazy"></figure>
+      </li>
+
+      <li class="stat" style="--tc:var(--c2)">
+        <span class="cnr" aria-hidden="true"></span>
+        <span class="cnr-ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/>
+            <path d="M14 3v5h5"/><path d="M9 13h6"/><path d="M9 17h4"/>
+          </svg>
+        </span>
+        <div class="stat__body">
+          <span class="stat__label">種類</span>
+          <span class="stat__num" style="font-size:1.12rem">介護付有料老人ホーム</span>
+          <span class="stat__sub">一般型特定施設入居者生活介護（混合型）<br>介護保険事業所番号 1176510400</span>
+        </div>
+        <figure class="stat__photo"><img src="ph-entrance.jpg" alt="施設の入口" width="900" height="642" loading="lazy"></figure>
+      </li>
+    </ul>
+
+    <!-- 4つのサービス -->
+    <ul class="svc-cards">
+      <li class="svc" style="--tc:var(--c1);--tc-bg:var(--c1-bg);--tc-ink:#3f8f63">
+        <span class="cnr" aria-hidden="true"></span>
+        <span class="cnr-ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 3v6a5 5 0 0 0 10 0V3"/><path d="M4 3h4"/><path d="M14 3h4"/>
+            <path d="M11 14v2a5 5 0 0 0 9 3"/><circle cx="20" cy="17" r="2.2"/>
+          </svg>
+        </span>
+        <div class="svc__body">
+          <h3 class="svc__ttl">特定施設入居者生活介護</h3>
+          <p>要介護の認定を受けた方が、お住まいになりながら介護・生活支援を受けていただくサービスです。介護付有料老人ホームの基本のかたちになります。</p>
+          <a class="svc__go" id="btn-svc-1" href="https://hakushinkai.jp/contact/">これからお住まいになる方へ
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15"/><path d="M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+        <figure class="svc__photo"><img src="event-6.jpg" alt="行事で過ごすようす" width="444" height="332" loading="lazy"></figure>
+      </li>
+
+      <li class="svc" style="--tc:var(--c2);--tc-bg:var(--c2-bg);--tc-ink:#c96f79">
+        <span class="cnr" aria-hidden="true"></span>
+        <span class="cnr-ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/>
+          </svg>
+        </span>
+        <div class="svc__body">
+          <h3 class="svc__ttl">短期利用特定施設<span class="nb">入居者生活介護</span></h3>
+          <p>短い期間だけご利用いただけます。ご家族の通院・お仕事・休息のあいだ、安心してお預けいただけます。</p>
+          <a class="svc__go" id="btn-svc-2" href="https://hakushinkai.jp/contact/">短い期間だけ利用したい方へ
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15"/><path d="M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+        <figure class="svc__photo"><img src="event-4.jpg" alt="外出のようす" width="444" height="332" loading="lazy"></figure>
+      </li>
+
+      <li class="svc" style="--tc:var(--c3);--tc-bg:var(--c3-bg);--tc-ink:#b8901f">
+        <span class="cnr" aria-hidden="true"></span>
+        <span class="cnr-ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 18V8"/><path d="M3 13h18v5"/><path d="M21 18v-4a3 3 0 0 0-3-3H9"/><circle cx="6.5" cy="10.5" r="1.8"/>
+          </svg>
+        </span>
+        <div class="svc__body">
+          <h3 class="svc__ttl">介護予防特定施設<span class="nb">入居者生活介護</span></h3>
+          <p>要支援の認定を受けた方向けのサービスです。いまの元気を保ちながら、必要な支援を受けて暮らしていただけます。</p>
+          <a class="svc__go" id="btn-svc-3" href="https://hakushinkai.jp/contact/">要支援の認定を受けた方へ
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15"/><path d="M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+        <figure class="svc__photo"><img src="event-3.jpg" alt="レクリエーションのようす" width="444" height="332" loading="lazy"></figure>
+      </li>
+
+      <li class="svc" style="--tc:var(--c4);--tc-bg:var(--c4-bg);--tc-ink:#5d94bd">
+        <span class="cnr" aria-hidden="true"></span>
+        <span class="cnr-ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3v18"/><path d="M8 7h6a2.5 2.5 0 0 1 0 5h-4a2.5 2.5 0 0 0 0 5h6"/>
+          </svg>
+        </span>
+        <div class="svc__body">
+          <h3 class="svc__ttl">体験入居<span class="badge">空室利用</span></h3>
+          <p>お部屋が空いているときに、実際に泊まって暮らしを体験していただけます。先に生活のリズムを知っておくと、そのあとの入居がスムーズです。</p>
+          <p class="svc__price"><strong>1泊 7,500円</strong>／原則 7泊8日まで</p>
+          <a class="svc__go" id="btn-svc-4" href="https://hakushinkai.jp/contact/">まず試してみたい方へ
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15"/><path d="M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+        <figure class="svc__photo"><img src="ph-dining.jpg" alt="2階の食堂" width="900" height="675" loading="lazy"></figure>
+      </li>
+    </ul>
 
     <!-- ===== パンフレットのダウンロード =====
          押された回数は id="btn-pdf-pamphlet" で数えられます（消さないでください） -->
@@ -1598,7 +1837,10 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
       <span class="pamph__text">
         <span class="pamph__eyebrow">ご検討の材料に</span>
         <strong class="pamph__name">施設パンフレットを見る</strong>
-        <span class="pamph__meta">PDF ／ 1.0MB ／ 2ページ ／ 名前や連絡先の入力は要りません</span>
+        <span class="pamph__meta">PDF ／ 1.0MB ／ 2ページ ／ 事前に連絡先の入力は必要ありません</span>
+      </span>
+      <span class="pamph__thumb" aria-hidden="true">
+        <img src="pamphlet-thumb.jpg" alt="" width="376" height="560" loading="lazy">
       </span>
       <span class="pamph__arrow" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -1829,7 +2071,7 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 (function(){
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduce || !('IntersectionObserver' in window)) return;
-  var sel = '.section .h2, .section .lede, .tags, .points, .feat, .care-list, .doctors, .events, .fee-total, .tablewrap, .fee-etc, .pamph,'
+  var sel = '.section .h2, .section .lede, .tags, .points, .feat, .care-list, .doctors, .events, .fee-total, .tablewrap, .fee-etc, .pamph, .stats, .svc-cards,'
           + ' .care-legend, .care-note, .photos, .photos__note, .equip, .equip__note,'
           + ' .meal, .spec, .cards, .dl-list, .dl-note, .insta-embed, .flow-note';
   var els = Array.prototype.slice.call(document.querySelectorAll(sel));
