@@ -480,6 +480,29 @@ h3.deco-label{ font-size:1.05rem; }
 .equip__note{ margin-top:1.4em; font-size:.9rem; color:var(--ink-soft); }
 
 /* =========================================================
+   館内見取り図
+   スマホでは字が小さくなるので、押すと大きい画像が開くようにしています。
+   ========================================================= */
+.floorplan{ margin:0; }
+.floorplan__frame{
+  display:block; background:var(--white);
+  border:1px solid var(--line); border-radius:16px;
+  padding:18px; text-decoration:none;
+  transition: border-color .18s ease, background-color .18s ease;
+}
+.floorplan__frame:hover{ border-color:var(--accent); }
+.floorplan__frame:focus-visible{ outline:3px solid var(--accent-dark); outline-offset:3px; }
+.floorplan__frame img{ width:100%; height:auto; border-radius:8px; }
+.floorplan__zoom{
+  display:flex; align-items:center; justify-content:center; gap:.5em;
+  margin-top:.8em; font-size:.85rem; font-weight:700; color:var(--accent);
+}
+.floorplan__zoom svg{ width:16px; height:16px; flex:none; }
+.floorplan figcaption{
+  margin-top:.9em; font-size:.9rem; color:var(--ink-soft); line-height:1.8;
+}
+
+/* =========================================================
    ご利用いただけるサービス（カード）
    ========================================================= */
 .cards{ display:grid; gap:16px; grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
@@ -491,6 +514,12 @@ h3.deco-label{ font-size:1.05rem; }
 .section--white .card{ background:var(--bg); }
 .card h3{ font-size:1.08rem; margin-bottom:.5em; }
 .card p{ font-size:.94rem; color:var(--ink-soft); }
+.card__strong{
+  margin-top:1em; padding:12px 14px;
+  background:var(--accent-pale); border-radius:8px;
+  font-size:.9rem; color:var(--ink); line-height:1.8;
+}
+.card__strong strong{ color:var(--accent); font-size:1.05rem; }
 .card .target{
   display:inline-block; margin-top:1em; font-size:.82rem;
   color:var(--accent); border-top:1px solid var(--line); padding-top:.7em;
@@ -514,6 +543,98 @@ h3.deco-label{ font-size:1.05rem; }
 .spec dd{ font-size:1rem; line-height:1.7; }
 .spec strong{ font-size:1.6rem; color:var(--accent); line-height:1.3; display:block; }
 .spec-sub{ display:block; font-size:.9rem; color:var(--ink-soft); }
+
+/* =========================================================
+   費用
+   ========================================================= */
+.fee-total{
+  background:var(--white); border:1px solid var(--line); border-radius:16px;
+  padding:26px 26px 22px; margin:0 0 1.6em;
+  box-shadow:0 2px 12px rgba(31,39,35,.05);
+}
+.section--white .fee-total{ background:var(--bg); }
+.fee-total__cap{ font-size:.85rem; color:var(--ink-soft); }
+.fee-total__num{
+  font-size:clamp(1.9rem, 6vw, 2.6rem); font-weight:700; color:var(--accent);
+  line-height:1.3; letter-spacing:.01em;
+}
+.fee-total__num small{ font-size:.9rem; font-weight:700; margin-left:.3em; }
+.fee-break{
+  list-style:none; margin:1.2em 0 0; padding:1.2em 0 0;
+  border-top:1px solid var(--line);
+  display:grid; gap:10px; grid-template-columns:repeat(auto-fit, minmax(180px,1fr));
+}
+.fee-break li{ display:flex; justify-content:space-between; gap:1em; font-size:.94rem; }
+.fee-break .lbl{ color:var(--ink-soft); }
+.fee-break .val{ font-weight:700; white-space:nowrap; }
+.fee-nyukyo{
+  display:inline-flex; align-items:center; gap:.5em; margin-top:1.2em;
+  background:var(--sun-soft); color:var(--accent-dark);
+  border-radius:999px; padding:6px 16px; font-size:.86rem; font-weight:700;
+}
+
+.tablewrap{ overflow-x:auto; margin:0 0 1em; -webkit-overflow-scrolling:touch; }
+table.fee{
+  width:100%; min-width:430px; border-collapse:collapse;
+  background:var(--white); font-size:.95rem;
+}
+.section--white table.fee{ background:var(--bg); }
+table.fee th, table.fee td{
+  border:1px solid var(--line); padding:10px 12px; line-height:1.5;
+}
+table.fee thead th{ background:var(--sun-soft); font-size:.85rem; text-align:center; font-weight:700; }
+table.fee tbody th{ text-align:left; font-weight:700; font-size:.92rem; white-space:nowrap; }
+table.fee td{ text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
+table.fee tbody tr.total th, table.fee tbody tr.total td{
+  background:var(--accent-pale); font-weight:700; font-size:1.02rem; color:var(--accent-dark);
+}
+.fee-note{ font-size:.88rem; color:var(--ink-soft); }
+.fee-note + .fee-note{ margin-top:.6em; }
+.fee-etc{
+  margin-top:1.6em; padding:16px 20px;
+  background:var(--accent-pale); border-radius:12px;
+  font-size:.9rem; color:var(--ink); line-height:1.85;
+}
+.fee-etc strong{ color:var(--accent); }
+
+/* =========================================================
+   一年の行事
+   写真が届いたら、各カードの中に入れられる作りにしてあります。
+   ========================================================= */
+.events{
+  list-style:none; margin:0 0 1.6em; padding:0;
+  display:grid; gap:14px;
+  grid-template-columns:repeat(auto-fit, minmax(200px,1fr));
+}
+.event{
+  background:var(--white); border:1px solid var(--line); border-radius:16px;
+  padding:20px 20px 18px; display:flex; flex-direction:column; gap:.5em;
+  box-shadow:0 2px 12px rgba(31,39,35,.05);
+}
+.section--white .event{ background:var(--bg); }
+.event__month{
+  align-self:flex-start;
+  background:var(--leaf-soft); color:var(--accent);
+  font-size:.76rem; font-weight:700; letter-spacing:.06em;
+  border-radius:999px; padding:4px 12px;
+}
+.event__name{ font-size:1.08rem; font-weight:700; color:var(--accent-dark); line-height:1.5; }
+.event p{ font-size:.9rem; color:var(--ink-soft); margin:0; line-height:1.75; }
+.events__note{ font-size:.9rem; color:var(--ink-soft); }
+
+/* =========================================================
+   往診の医師
+   ========================================================= */
+.doctors{ display:grid; gap:16px; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); margin:0 0 1.4em; }
+.doctor{
+  background:var(--bg); border:1px solid var(--line); border-radius:12px;
+  padding:18px 20px;
+}
+.section--white .doctor{ background:var(--bg); }
+.doctor__name{ font-size:1.05rem; font-weight:700; line-height:1.5; }
+.doctor__name small{ font-size:.82rem; font-weight:400; color:var(--ink-soft); margin-left:.5em; }
+.doctor__field{ font-size:.9rem; color:var(--accent); margin:.2em 0 0; }
+.doctor__role{ font-size:.85rem; color:var(--ink-soft); margin:.3em 0 0; }
 
 /* =========================================================
    食事
@@ -828,7 +949,7 @@ h3.deco-label{ font-size:1.05rem; }
 
     <ul class="services">
       <li>介護付き有料老人ホーム</li>
-      <li>全室個室 50室</li>
+      <li>全室個室 51室</li>
       <li>24時間365日の医療サポート</li>
     </ul>
 
@@ -865,7 +986,7 @@ h3.deco-label{ font-size:1.05rem; }
       <li class="point">
         <span class="point__no">1</span>
         <p class="point__ttl">快適な全室個室</p>
-        <p>50室すべてが個室です（18〜19.7㎡）。介護用電動ベッド・寝具・家具をご用意しているので、身のまわりのものだけでお入りいただけます。</p>
+        <p>すべてが個室です（18〜19.7㎡）。介護用電動ベッド・寝具・カーテン・家具をご用意しているので、身のまわりのものだけでお入りいただけます。</p>
       </li>
       <li class="point">
         <span class="point__no">2</span>
@@ -931,6 +1052,21 @@ h3.deco-label{ font-size:1.05rem; }
         </div>
       </li>
     </ul>
+
+    <h3 class="deco-label deco-label--gap"><span>往診の医師</span></h3>
+    <p class="lede">定期的に往診する医師をご紹介します。内科だけでなく、<strong>精神科・神経内科の専門の医師</strong>が関わるのが、この施設の特徴です。</p>
+
+    <div class="doctors">
+      <div class="doctor">
+        <p class="doctor__name">湯澤 俊<small>ゆざわ たかし</small></p>
+        <p class="doctor__field">精神科・内科・小児科</p>
+        <p class="doctor__role">医療法人 博滇会 理事長</p>
+      </div>
+      <div class="doctor">
+        <p class="doctor__name">峰岸 敦子<small>みねぎし あつこ</small></p>
+        <p class="doctor__field">神経内科・消化器科</p>
+      </div>
+    </div>
 
     <h3 class="deco-label deco-label--gap"><span>医療処置対応一覧</span></h3>
 
@@ -1031,13 +1167,31 @@ h3.deco-label{ font-size:1.05rem; }
           <li>健康管理室</li>
           <li>相談室</li>
           <li>エントランス</li>
-          <li>浴槽（個浴・機械浴）</li>
-          <li>来客用トイレ（男性用・女性用）</li>
+          <li>共用浴室 3か所（すべて個浴）</li>
+          <li>チェアー浴（介護浴槽）</li>
+          <li>共用トイレ 7か所（うち車いす対応4か所）</li>
         </ul>
       </div>
     </div>
 
     <p class="equip__note">お部屋には必要なものがそろっているので、身のまわりのものだけでお入りいただけます。いつでもスタッフの手が届く設計です。</p>
+
+    <h3 class="deco-label deco-label--gap"><span>館内見取り図</span></h3>
+
+    <figure class="floorplan">
+      <a class="floorplan__frame" id="btn-floorplan"
+         href="floorplan-2f.jpg" target="_blank" rel="noopener">
+        <img src="floorplan-2f.jpg" alt="2階の館内見取り図。食堂兼機能訓練室、浴室、脱衣室、居室、ヘルパーステーション、エレベーター、洗濯室、リネン室、屋外階段の配置" width="1600" height="1197" loading="lazy">
+        <span class="floorplan__zoom">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/><path d="M11 8v6"/><path d="M8 11h6"/>
+          </svg>
+          押すと大きく見られます
+        </span>
+      </a>
+      <figcaption>2階の見取り図です。<strong>3階・4階も、2階と同じお部屋の配置</strong>になっています。廊下を囲むようにお部屋があり、食堂兼機能訓練室・浴室は同じ階にあります。</figcaption>
+    </figure>
 
     <p class="photos__note" style="margin-top:1.6em"><span class="check">要確認</span>写真はパンフレットのデータから取り出したものです。人が写っている写真（レクリエーション・職員）は、あらためて掲載の許可が必要なため入れていません。許可が取れたら追加してください。</p>
   </div>
@@ -1064,16 +1218,70 @@ h3.deco-label{ font-size:1.05rem; }
   </div>
 </section>
 
+<!-- ===== 一年の行事 =====
+     現サイト（hakushinkai.jp/facilities/yono_central/）の「年間行事」から。
+     ▼差し替え⑥：現サイトに行事の写真7枚（event_01〜07.jpg）があります。
+     いただければ、各カードの中に入れます。 -->
+<section class="section" aria-labelledby="event-title">
+  <div class="wrap">
+    <h2 class="h2" id="event-title"><span>一年をとおして、</span><span>たのしみがあります。</span></h2>
+    <p class="lede">お正月から、クリスマスまで。季節ごとの行事を、みなさんで楽しんでいただいています。「今年もこの日が来たね」と感じていただけることを、大切にしています。</p>
+
+    <ul class="events">
+      <li class="event">
+        <span class="event__month">1月</span>
+        <p class="event__name">初詣</p>
+        <p>一年のはじまりを、みなさんでお参りします。</p>
+      </li>
+      <li class="event">
+        <span class="event__month">1月</span>
+        <p class="event__name">餅つき</p>
+        <p>つきたてのおもちで、お正月らしい一日を。</p>
+      </li>
+      <li class="event">
+        <span class="event__month">2月</span>
+        <p class="event__name">節分</p>
+        <p>豆まきで、にぎやかに春を迎えます。</p>
+      </li>
+      <li class="event">
+        <span class="event__month">4月</span>
+        <p class="event__name">お花見</p>
+        <p>春のあたたかい日に、桜を見に出かけます。</p>
+      </li>
+      <li class="event">
+        <span class="event__month">8月</span>
+        <p class="event__name">夏祭り</p>
+        <p>屋台の雰囲気を、施設の中で。ご家族もどうぞ。</p>
+      </li>
+      <li class="event">
+        <span class="event__month">9月</span>
+        <p class="event__name">敬老会</p>
+        <p>長寿をお祝いする、一年でいちばん晴れやかな日。</p>
+      </li>
+      <li class="event">
+        <span class="event__month">12月</span>
+        <p class="event__name">クリスマス会</p>
+        <p>一年のおわりを、みなさんでにぎやかに。</p>
+      </li>
+    </ul>
+
+    <p class="events__note">このほかにも、お誕生日会や季節のレクリエーションを行っています。行事に合わせた<strong>イベント食</strong>もご用意しています。</p>
+
+    <p class="flow-note"><span class="check">要確認</span>行事の月と一言は、現サイトの「年間行事」をもとに置いています。実際の時期と合っているかご確認ください。<strong>現サイトに行事の写真が7枚あります。</strong>いただければ、各カードに写真を入れられます（そのほうが、ぐっと魅力が伝わります）。</p>
+  </div>
+</section>
+
 <!-- ===== ご利用いただけるサービス ===== -->
-<section class="section" aria-labelledby="svc-title">
+<section class="section section--white" aria-labelledby="svc-title">
   <div class="wrap">
     <h2 class="h2" id="svc-title"><span>ご利用いただける、</span><span>4つのかたち。</span></h2>
     <p class="lede">ずっとお住まいになる方も、短い期間だけの方も、まずはお試しの方も。暮らしの状況に合わせて選んでいただけます。</p>
 
     <dl class="spec">
-      <div><dt>居室数</dt><dd><strong>50室</strong><span class="spec-sub">全室個室（18〜19.7㎡）</span></dd></div>
-      <div><dt>建物</dt><dd><strong>4階建て</strong><span class="spec-sub">2階〜4階が居室です</span></dd></div>
-      <div><dt>お問い合わせ</dt><dd><strong style="font-size:1.35rem"><a href="tel:0488297853" style="color:inherit">048-829-7853</a></strong><span class="spec-sub">ご見学のお申し込みもこちらへ</span></dd></div>
+      <div><dt>居室数</dt><dd><strong>51室</strong><span class="spec-sub">入居定員 50名・全室個室</span></dd></div>
+      <div><dt>お部屋の広さ</dt><dd><strong>18.00〜19.70㎡</strong><span class="spec-sub">6タイプ・洗面台・トイレつき</span></dd></div>
+      <div><dt>建物</dt><dd><strong>地上4階建て</strong><span class="spec-sub">鉄筋コンクリート造・耐火建築物<br>2階〜4階が居室</span></dd></div>
+      <div><dt>種類</dt><dd><strong style="font-size:1.05rem">介護付有料老人ホーム</strong><span class="spec-sub">一般型特定施設入居者生活介護（混合型）<br>介護保険事業所番号 1176510400</span></dd></div>
     </dl>
 
     <div class="cards">
@@ -1095,11 +1303,66 @@ h3.deco-label{ font-size:1.05rem; }
       <article class="card">
         <h3>体験入居<span class="badge">空室利用</span></h3>
         <p>お部屋が空いているときに、実際に泊まって暮らしを体験していただけます。先に生活のリズムを知っておくと、そのあとの入居がスムーズです。</p>
+        <p class="card__strong"><strong>1泊 7,500円</strong>／原則 7泊8日まで</p>
         <span class="target">まず試してみたい方へ</span>
       </article>
     </div>
 
-    <p class="flow-note"><span class="check">要確認</span>ご利用料金・体験入居の費用・空室状況はページに載せていません。改定があるため、お電話でご案内する形にしています。載せる場合は「いつ時点の金額か」を明記し、更新の担当を決めてください。</p>
+  </div>
+</section>
+
+<!-- ===== 費用 =====
+     法人サイト（hakushinkai.jp/facilities/yono_central/）の掲載内容をもとにしています。
+     ★料金は改定されます。「いつ時点の金額か」を必ず書き、更新の担当を決めてください。★ -->
+<section class="section" aria-labelledby="fee-title">
+  <div class="wrap">
+    <h2 class="h2" id="fee-title"><span>費用について。</span></h2>
+    <p class="lede">入居時にまとまったお金をいただくことはありません。毎月かかるのは、<strong>家賃・管理費・食費</strong>と、<strong>介護保険の自己負担額</strong>の2つだけです。</p>
+
+    <div class="fee-total">
+      <p class="fee-total__cap">毎月かならずかかる費用（介護保険の自己負担をのぞく）</p>
+      <p class="fee-total__num">225,000<small>円 ／ 月</small></p>
+      <ul class="fee-break">
+        <li><span class="lbl">家賃</span><span class="val">80,000円</span></li>
+        <li><span class="lbl">管理費</span><span class="val">90,000円</span></li>
+        <li><span class="lbl">食費</span><span class="val">55,000円</span></li>
+      </ul>
+      <p class="fee-note" style="margin-top:1em"><strong>光熱水費は0円</strong>です（管理費にふくまれています）。介護費用も、この管理費のほかにいただくことはありません。</p>
+      <span class="fee-nyukyo">前払金・敷金は、いただきません（0円）</span>
+    </div>
+
+    <h3 class="deco-label deco-label--gap"><span>実際のお支払いの例</span></h3>
+    <p class="lede">上の費用に、<strong>介護保険の自己負担額</strong>が加わります。重要事項説明書に載せている、代表的な2つの例です。</p>
+
+    <div class="tablewrap">
+      <table class="fee">
+        <thead>
+          <tr>
+            <th scope="col">　</th>
+            <th scope="col">例1</th>
+            <th scope="col">例2</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">介護度</th><td>要支援2</td><td>要介護3</td></tr>
+          <tr><th scope="row">お部屋の広さ</th><td>18.00㎡</td><td>19.70㎡</td></tr>
+          <tr><th scope="row">家賃</th><td>80,000円</td><td>80,000円</td></tr>
+          <tr><th scope="row">管理費</th><td>90,000円</td><td>90,000円</td></tr>
+          <tr><th scope="row">食費</th><td>55,000円</td><td>55,000円</td></tr>
+          <tr><th scope="row">介護保険の自己負担</th><td>11,804円</td><td>25,284円</td></tr>
+          <tr class="total"><th scope="row">1か月の合計</th><td>236,804円</td><td>250,284円</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="fee-note">※ 介護保険の自己負担額は、介護度・負担割合（1割〜3割）・各種加算によって変わります。上の例はいずれも1割負担の場合です。</p>
+    <p class="fee-note">※ 各種加算（夜間看護体制加算、個別機能訓練加算、医療機関連携加算、看取り介護加算、処遇改善に関する加算など）がかかります。くわしくは重要事項説明書をご覧ください。</p>
+    <p class="fee-note">※ 入院などで不在のときも、月額の利用料は減額になりません。</p>
+
+    <p class="fee-etc"><strong>このほかに、実費でいただくもの</strong><br>
+    医療費（診療費・お薬代など）／介護用品・消耗品費／有料サービスのご利用料／福祉用具のレンタル・購入費（介護保険の対象外のもの）／お部屋のテレビのNHK受信料</p>
+
+    <p class="flow-note"><span class="check">要確認</span>金額は<strong>重要事項説明書（令和7年1月作成）</strong>から取っています。<strong>「◯年◯月時点の金額です」の一文を入れ、更新の担当を決めてください。</strong>改定があったときに古い金額が残っているのが、いちばん信用を落とします。<br>
+    <strong>※ 法人サイトの費用ページは食費が40,000円のままです。重要事項説明書では55,000円なので、法人サイト側も直したほうがよさそうです。</strong></p>
   </div>
 </section>
 
@@ -1154,12 +1417,10 @@ h3.deco-label{ font-size:1.05rem; }
         </a>
       </li>
 
-      <!-- ▼差し替え：重要事項説明書のPDFが用意できたら、下の
-           <span class="dl-item dl-item--soon"> を
-           <a class="dl-item" id="btn-pdf-juyojiko" href="juyojiko-mch.pdf" target="_blank" rel="noopener">
-           に戻し、閉じタグも </a> に直してください。 -->
+      <!-- 重要事項説明書。このフォルダの中のPDFをひらきます。 -->
       <li>
-        <span class="dl-item dl-item--soon">
+        <a class="dl-item" id="btn-pdf-juyojiko"
+           href="juyojiko-mch-yononakaou.pdf" target="_blank" rel="noopener">
           <span class="dl-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
                  stroke-linecap="round" stroke-linejoin="round">
@@ -1169,9 +1430,9 @@ h3.deco-label{ font-size:1.05rem; }
           </span>
           <span class="dl-body">
             <span class="dl-name">重要事項説明書</span>
-            <span class="dl-meta">ただいま準備中です</span>
+            <span class="dl-meta">PDF ／ 0.9MB ／ 令和7年1月</span>
           </span>
-        </span>
+        </a>
       </li>
     </ul>
 
@@ -1208,16 +1469,16 @@ h3.deco-label{ font-size:1.05rem; }
       <span class="name-services">介護付き有料老人ホーム（特定施設入居者生活介護）</span>
 
       <dl class="access">
-        <div><dt>所在地</dt><dd>〒338-0014<br>埼玉県さいたま市中央区上峰3丁目6−2</dd></div>
+        <div><dt>所在地</dt><dd>〒338-0014<br>埼玉県さいたま市中央区上峰3丁目6−2<span class="bus-from">新大宮バイパス沿い・浦和西警察署の裏側です</span></dd></div>
         <div><dt>電話</dt><dd><a href="tel:0488297853">048-829-7853</a></dd></div>
+        <div><dt>FAX</dt><dd>048-829-7854</dd></div>
+        <div><dt>メール</dt><dd><a href="mailto:mch.yono@hakushinkai.or.jp">mch.yono@hakushinkai.or.jp</a></dd></div>
         <div><dt>バス</dt><dd>
           <span class="bus-row"><span class="bus-from">北浦和駅 西口より</span>西武バス「北浦10」「北浦11」「北浦12」「北浦15」、国際興業バス「北浦04」「新都01」乗車、「浦和西警察署入口」下車 徒歩2分</span>
           <span class="bus-row"><span class="bus-from">南与野駅 西口より</span>西武バス「南与01」、国際興業バス「南与01」「北朝02」「志03-3」乗車、「鈴谷札の辻」下車 徒歩5分</span>
         </dd></div>
-        <div><dt>徒歩</dt><dd>与野本町駅より 徒歩約15分</dd></div>
+        <div><dt>徒歩</dt><dd>JR与野本町駅より 徒歩約15分</dd></div>
       </dl>
-      <!-- ▼差し替え④：FAX・メールアドレスは未確認のため載せていません。
-           わかったら、上の <dl class="access"> に行を足してください。 -->
 
     </div>
 
@@ -1310,7 +1571,7 @@ h3.deco-label{ font-size:1.05rem; }
 (function(){
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduce || !('IntersectionObserver' in window)) return;
-  var sel = '.section .h2, .section .lede, .tags, .points, .feat, .care-list,'
+  var sel = '.section .h2, .section .lede, .tags, .points, .feat, .care-list, .doctors, .events, .fee-total, .tablewrap, .fee-etc,'
           + ' .care-legend, .care-note, .photos, .photos__note, .equip, .equip__note,'
           + ' .meal, .spec, .cards, .dl-list, .dl-note, .insta-embed, .flow-note';
   var els = Array.prototype.slice.call(document.querySelectorAll(sel));
