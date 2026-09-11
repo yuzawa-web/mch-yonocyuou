@@ -56,18 +56,22 @@
    色（ル・サンク湯澤のページと同じ値です）
    ========================================================= */
 :root{
-  --bg:          #fbf7ea;   /* クリーム色。チラシの地の色に合わせました */
-  --sun:         #f7dc3e;   /* 黄色。札や番号に */
-  --sun-soft:    #fdf3b8;   /* うすい黄色。見出しのマーカーに */
-  --leaf:        #a9ce4b;   /* 黄緑 */
-  --leaf-soft:   #eef5da;
+  /* ▼ 医療法人博滇会のカラーコード一覧（2026-09-11 受領）に合わせています
+        MAIN01 博（深紅）／MAIN02 滇（深藍）／SUB01 暮らし（稲）／SUB02 育つ（若葉） */
+  --bg:          #F2EEE3;   /* 稲4。ページの地の色 */
+  --bg-soft:     #F7F5EE;   /* 稲5。さらにうすい地 */
+  --sun:         #E4C939;   /* 黄色2。札や下線に */
+  --sun-soft:    #F1E49C;   /* 黄色3。うすい黄色 */
+  --leaf:        #9DB899;   /* 若葉2 */
+  --leaf-soft:   #D8E3D6;   /* 若葉5 */
   --white:       #ffffff;
-  --ink:         #1f2723;
-  --ink-soft:    #55605a;
-  --accent:      #2b6151;
-  --accent-dark: #1f4a3d;
-  --accent-pale: #eaf1ed;
-  --line:        #d8d3c8;
+  --ink:         #23303B;   /* 深藍をもとにした、読みやすい濃い色 */
+  --ink-soft:    #5A6874;
+  --accent:      #1E4068;   /* 深藍1。ボタン・見出しの色 */
+  --accent-dark: #16304F;
+  --accent-pale: #E3EAF1;   /* 深藍5をうすくしたもの */
+  --crimson:     #A93A2E;   /* 深紅1。数字などの差し色 */
+  --line:        #E2D9C6;   /* 稲2。枠線 */
   --maxw:        1040px;
 }
 
@@ -170,7 +174,7 @@ img{ max-width:100%; display:block; }
   content:""; position:absolute; inset:0; z-index:0;
   background-image: var(--fv-photo);
   background-size:cover; background-position:50% 45%;
-  background-color:#e8e4dc;   /* 写真が読めなかったときの色 */
+  background-color:#DCD6C8;   /* 写真が読めなかったときの色 */
 }
 
 /* 写真の上にかける濃い膜。
@@ -179,10 +183,10 @@ img{ max-width:100%; display:block; }
   content:""; position:absolute; inset:0; z-index:0;
   background:
     linear-gradient(to top,
-      rgba(16,26,22,.82) 0%,
-      rgba(16,26,22,.64) 32%,
-      rgba(16,26,22,.30) 62%,
-      rgba(16,26,22,.12) 100%);
+      rgba(16,32,52,.84) 0%,
+      rgba(16,32,52,.66) 32%,
+      rgba(16,32,52,.32) 62%,
+      rgba(16,32,52,.12) 100%);
 }
 
 @media (max-width:640px){
@@ -190,16 +194,16 @@ img{ max-width:100%; display:block; }
   .fv::before{
     background-image:
       linear-gradient(to bottom,
-        rgba(22,51,43,0)   38%,
-        rgba(22,51,43,.42) 60%,
-        rgba(22,51,43,.88) 82%,
-        rgba(22,51,43,1)   94%,
-        rgba(22,51,43,1)  100%),
+        rgba(22,44,72,0)   38%,
+        rgba(22,44,72,.42) 60%,
+        rgba(22,44,72,.88) 82%,
+        rgba(30,64,104,1)  94%,
+        rgba(30,64,104,1) 100%),
       var(--fv-photo);
     background-size: 100% 125vw, 100% auto;
     background-position: top center, top center;
     background-repeat: no-repeat, no-repeat;
-    background-color:#16332b;
+    background-color:#1E4068;
   }
   .fv::after{ background:none; }
   .fv__inner{ padding-top: calc(125vw - 42vw); }
@@ -291,13 +295,13 @@ body > *:not(.bglogos){ position:relative; z-index:1; }
 }
 .section--white::after{
   content:""; position:absolute; left:0; right:0; bottom:0; height:23px;
-  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 23' preserveAspectRatio='none'><path d='M0 6 C 180 24 380 24 620 14 C 860 4 1040 2 1200 17 L1200 23 L0 23 Z' fill='%23fbf7ea'/></svg>") no-repeat center bottom / 100% 100%;
+  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 23' preserveAspectRatio='none'><path d='M0 6 C 180 24 380 24 620 14 C 860 4 1040 2 1200 17 L1200 23 L0 23 Z' fill='%23F2EEE3'/></svg>") no-repeat center bottom / 100% 100%;
   z-index:1; pointer-events:none;
 }
 .cta{ position:relative; }
 .cta::before{
   content:""; position:absolute; left:0; right:0; top:-22px; height:23px;
-  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 23' preserveAspectRatio='none'><path d='M0 23 C 180 2 380 2 620 12 C 860 22 1040 20 1200 5 L1200 23 Z' fill='%232b6151'/></svg>") no-repeat center bottom / 100% 100%;
+  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 23' preserveAspectRatio='none'><path d='M0 23 C 180 2 380 2 620 12 C 860 22 1040 20 1200 5 L1200 23 Z' fill='%231E4068'/></svg>") no-repeat center bottom / 100% 100%;
 }
 
 /* スクロールしたとき、下から小さく出てくる */
@@ -330,7 +334,7 @@ body > *:not(.bglogos){ position:relative; z-index:1; }
 .tags{ display:flex; flex-wrap:wrap; gap:8px; list-style:none; margin:0 0 1.8em; padding:0; }
 .tags li{
   font-size:.82rem; font-weight:700; color:var(--accent-dark);
-  background:var(--sun-soft); border:1px solid rgba(191,160,20,.35);
+  background:var(--sun-soft); border:1px solid rgba(201,163,26,.35);
   border-radius:999px; padding:6px 14px; white-space:nowrap;
 }
 
@@ -364,11 +368,11 @@ h3.deco-label{ font-size:1.05rem; }
    色は5色。パンフレットの雰囲気に合わせた、うすい色づかいです。
    ========================================================= */
 :root{
-  --c1:#8cc9a6; --c1-bg:#eef7f1;   /* みどり */
-  --c2:#e59aa0; --c2-bg:#fdeff0;   /* あかるい赤 */
-  --c3:#f0c34a; --c3-bg:#fdf6e0;   /* きいろ */
-  --c4:#9dc3e0; --c4-bg:#eef4fa;   /* あお */
-  --c5:#a9ce8c; --c5-bg:#f2f8ea;   /* きみどり */
+  --c1:#9DB899; --c1-bg:#E9F0E7; --c1-ink:#4E7049;   /* 若葉2 */
+  --c2:#E097A0; --c2-bg:#FAEBEC; --c2-ink:#B04D5F;   /* ピンク2 */
+  --c3:#E4C939; --c3-bg:#FAF3D9; --c3-ink:#8A6707;   /* 黄色2 */
+  --c4:#9CC1CF; --c4-bg:#E8F1F5; --c4-ink:#3F7280;   /* 水色2 */
+  --c5:#B9AAC0; --c5-bg:#EFEAF2; --c5-ink:#6F5E7E;   /* 紫2 */
 }
 
 /* 見出しの上の小さな一行（＼ ここが私たちの自慢です ／） */
@@ -392,13 +396,13 @@ h3.deco-label{ font-size:1.05rem; }
 }
 .h2--deco span{ background-image:none; display:inline; white-space:normal; }
 .h2--deco .num{
-  color:#2f9e93; font-size:1.55em; line-height:1; vertical-align:-.06em;
+  color:var(--crimson); font-size:1.55em; line-height:1; vertical-align:-.06em;
   margin-right:.02em;
 }
 .h2--deco::after{
   content:""; display:block; position:absolute; left:50%; bottom:0;
   width:100%; height:11px; transform:translateX(-50%);
-  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 12' preserveAspectRatio='none'><path d='M4 8 C 60 2 120 11 180 5 C 230 1 270 7 296 4' stroke='%23f7dc3e' stroke-width='6' fill='none' stroke-linecap='round'/></svg>") no-repeat center / 100% 100%;
+  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 12' preserveAspectRatio='none'><path d='M4 8 C 60 2 120 11 180 5 C 230 1 270 7 296 4' stroke='%23E4C939' stroke-width='6' fill='none' stroke-linecap='round'/></svg>") no-repeat center / 100% 100%;
 }
 .lede--center{ text-align:center; max-width:34em; margin-left:auto; margin-right:auto; }
 
@@ -406,7 +410,7 @@ h3.deco-label{ font-size:1.05rem; }
 .eyebrow--light{ color:rgba(255,255,255,.9); }
 .eyebrow--light::before, .eyebrow--light::after{ background:rgba(255,255,255,.9); }
 .h2--light::after{
-  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 12' preserveAspectRatio='none'><path d='M4 8 C 60 2 120 11 180 5 C 230 1 270 7 296 4' stroke='%23f7dc3e' stroke-width='6' fill='none' stroke-linecap='round' opacity='0.9'/></svg>") no-repeat center / 100% 100%;
+  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 12' preserveAspectRatio='none'><path d='M4 8 C 60 2 120 11 180 5 C 230 1 270 7 296 4' stroke='%23E4C939' stroke-width='6' fill='none' stroke-linecap='round' opacity='0.9'/></svg>") no-repeat center / 100% 100%;
 }
 
 /* 背景に散らす三角と葉（飾り。読み上げの対象外） */
@@ -435,9 +439,9 @@ h3.deco-label{ font-size:1.05rem; }
 /* 5色を、ほかのカードにも順番に当てる
    （ページ全体で同じ色の家族にそろえるため） */
 .feat li:nth-child(5n+1) .feat__icon{ color:var(--c1); background:var(--c1-bg); }
-.feat li:nth-child(5n+2) .feat__icon{ color:#d98089; background:var(--c2-bg); }
-.feat li:nth-child(5n+3) .feat__icon{ color:#c9a12f; background:var(--c3-bg); }
-.feat li:nth-child(5n+4) .feat__icon{ color:#6d9fc4; background:var(--c4-bg); }
+.feat li:nth-child(5n+2) .feat__icon{ color:var(--c2-ink); background:var(--c2-bg); }
+.feat li:nth-child(5n+3) .feat__icon{ color:var(--c3-ink); background:var(--c3-bg); }
+.feat li:nth-child(5n+4) .feat__icon{ color:var(--c4-ink); background:var(--c4-bg); }
 .feat li:nth-child(5n+5) .feat__icon{ color:var(--c5); background:var(--c5-bg); }
 
 .event:nth-child(5n+1){ background:var(--c1-bg); }
@@ -527,6 +531,18 @@ h3.deco-label{ font-size:1.05rem; }
   color:var(--ink); margin:0 0 .45em;
 }
 .point p{ font-size:.92rem; color:var(--ink-soft); margin:0; line-height:1.8; }
+/* カードから、下の節へ飛ぶ線（このページの目次のはたらき） */
+.point__more{
+  display:inline-flex; align-items:center; gap:.45em; align-self:flex-start;
+  margin-top:auto; padding-top:1.1em;
+  font-size:.86rem; font-weight:700; color:var(--pt-ink); text-decoration:none;
+  transition: gap .18s ease;
+}
+.point__more svg{ width:16px; height:16px; }
+.point__more:hover{ gap:.75em; }
+.point__more:focus-visible{ outline:3px solid var(--accent-dark); outline-offset:3px; }
+/* 飛んだ先が、画面の上にぴったりつかないように */
+[id^="sec-"]{ scroll-margin-top:14px; }
 
 @media (max-width:520px){
   .point{ grid-template-columns:1fr; }
@@ -581,8 +597,8 @@ h3.deco-label{ font-size:1.05rem; }
   font-size:.95rem; font-weight:700;
   background:var(--accent-pale); color:var(--accent);
 }
-.care-mark--soudan{ background:var(--sun-soft); color:#8a5a1c; }
-.care-mark--ng{ background:#f4e7e4; color:#a8564a; }
+.care-mark--soudan{ background:var(--sun-soft); color:#6B5107; }
+.care-mark--ng{ background:#EED8D5; color:var(--crimson); }
 .care-item{ min-width:0; }
 .care-item small{ display:block; font-size:.8rem; color:var(--ink-soft); line-height:1.5; }
 .care-legend{
@@ -834,7 +850,7 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
    上：数字の札4つ／下：サービスのカード4つ。
    どちらも「左上の色の三角＋白いアイコン」「斜めに切った写真」でそろえています。
    ========================================================= */
-.svc-sec{ background:linear-gradient(180deg, #ffffff 0%, #fffdf6 100%); }
+.svc-sec{ background:linear-gradient(180deg, var(--bg) 0%, var(--bg-soft) 100%); }
 
 /* 共通：左上の色の三角と、その上の白いアイコン */
 .cnr{
@@ -940,16 +956,16 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
   transition: background-color .18s ease, border-color .18s ease, transform .12s ease;
 }
 .section--white .pamph{ background:var(--bg); }
-.pamph:hover{ background:var(--c3-bg); border-color:#d9a92c; }
+.pamph:hover{ background:var(--c3-bg); border-color:#C9A31A; }
 .pamph:active{ transform:translateY(1px); }
 .pamph:focus-visible{ outline:3px solid var(--accent-dark); outline-offset:3px; }
 .pamph__icon{
   flex:none; width:54px; height:54px; padding:11px; border-radius:12px;
-  background:var(--c3-bg); color:#c9a12f;
+  background:var(--c3-bg); color:var(--c3-ink);
 }
 .pamph__icon svg{ width:100%; height:100%; }
 .pamph__text{ display:flex; flex-direction:column; gap:.2em; min-width:0; }
-.pamph__eyebrow{ font-size:.78rem; font-weight:700; letter-spacing:.08em; color:#c9a12f; }
+.pamph__eyebrow{ font-size:.78rem; font-weight:700; letter-spacing:.08em; color:var(--c3-ink); }
 .pamph__name{ font-size:1.2rem; font-weight:700; line-height:1.5; }
 .pamph__meta{ font-size:.85rem; color:var(--ink-soft); line-height:1.6; }
 /* パンフレットの表紙を、右側に少しのぞかせる */
@@ -999,13 +1015,13 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 /* 確認待ちの印（ル・サンクと同じ） */
 .check{
   display:inline-block; margin-right:.5em;
-  background:#fbf2e4; color:#8a5a1c;
+  background:var(--sun-soft); color:#6B5107;
   font-size:.72rem; font-weight:700; letter-spacing:.04em;
   padding:2px 8px; border-radius:4px; vertical-align:.1em;
 }
 .flow-note{
-  background:#fbf2e4; border-left:4px solid #8a5a1c; border-radius:0 8px 8px 0;
-  padding:12px 16px; font-size:.88rem; color:#6d4715; margin:2.4em 0 0;
+  background:#FAF3D9; border-left:4px solid #C9A31A; border-radius:0 8px 8px 0;
+  padding:12px 16px; font-size:.88rem; color:#6B5107; margin:2.4em 0 0;
 }
 
 /* =========================================================
@@ -1024,15 +1040,15 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 /* =========================================================
    フッター
    ========================================================= */
-.footer{ background:var(--ink); color:#cfd6d1; padding:56px 24px 44px; font-size:.9rem; }
+.footer{ background:#1B2733; color:#CBD3DB; padding:56px 24px 44px; font-size:.9rem; }
 .footer__grid{
   display:grid; gap:36px;
   grid-template-columns: minmax(280px, 1fr) minmax(280px, 1.1fr);
   align-items:start;
 }
 .footer .name{ color:#fff; font-weight:700; font-size:1.15rem; display:block; }
-.footer .name-services{ display:block; color:#cfd6d1; font-size:.88rem; margin-bottom:1.4em; }
-.footer a{ color:#cfd6d1; }
+.footer .name-services{ display:block; color:#CBD3DB; font-size:.88rem; margin-bottom:1.4em; }
+.footer a{ color:#CBD3DB; }
 
 .access{ display:grid; gap:0; }
 .access > div{
@@ -1040,19 +1056,19 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
   padding:12px 0; border-bottom:1px solid rgba(255,255,255,.14);
 }
 .access > div:first-child{ border-top:1px solid rgba(255,255,255,.14); }
-.access dt{ color:#9aa6a0; font-size:.85rem; }
-.access dd{ color:#e6ebe8; line-height:1.7; }
+.access dt{ color:#94A2AF; font-size:.85rem; }
+.access dd{ color:#E4EAF0; line-height:1.7; }
 .access dd a{ font-size:1.02rem; letter-spacing:.03em; white-space:nowrap; }
 /* メールアドレスは長いので、細い画面では折り返します */
 .access dd a[href^="mailto:"]{ white-space:normal; word-break:break-all; font-size:.95rem; }
 .access .bus-row{ display:block; margin-bottom:.8em; }
 .access .bus-row:last-child{ margin-bottom:0; }
-.access .bus-from{ display:block; color:#9aa6a0; font-size:.78rem; line-height:1.5; }
+.access .bus-from{ display:block; color:#94A2AF; font-size:.78rem; line-height:1.5; }
 
 .footer__map{ display:flex; flex-direction:column; gap:12px; }
 .footer__map iframe{
   width:100%; aspect-ratio:4/3; min-height:260px;
-  border:0; border-radius:10px; background:#2a332e; display:block;
+  border:0; border-radius:10px; background:#22303C; display:block;
 }
 .map-link{
   align-self:flex-start;
@@ -1083,16 +1099,16 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 .orgcard__logo img{ width:100%; height:100%; object-fit:contain; }
 .orgcard__text{ display:flex; flex-direction:column; gap:.25em; min-width:0; }
 .orgcard__text strong{ font-size:1.05rem; }
-.orgcard__text small{ font-size:.85rem; color:#cfd6d1; line-height:1.7; }
+.orgcard__text small{ font-size:.85rem; color:#CBD3DB; line-height:1.7; }
 .orgcard__arrow{ flex:none; margin-left:auto; width:26px; height:26px; color:#fff; }
 .orgcard__arrow svg{ width:100%; height:100%; }
 
 /* グループのサービス */
 .groupsvc{ margin-top:30px; padding-top:24px; border-top:1px solid rgba(255,255,255,.14); }
-.groupsvc h3{ font-size:.9rem; color:#9aa6a0; font-weight:700; margin-bottom:.9em; }
+.groupsvc h3{ font-size:.9rem; color:#94A2AF; font-weight:700; margin-bottom:.9em; }
 .groupsvc ul{ list-style:none; display:flex; flex-wrap:wrap; gap:8px; margin:0; padding:0; }
 .groupsvc li{
-  font-size:.84rem; color:#e6ebe8;
+  font-size:.84rem; color:#E4EAF0;
   border:1px solid rgba(255,255,255,.22); border-radius:999px; padding:5px 14px;
 }
 
@@ -1103,14 +1119,14 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 }
 .footer__links a{
   display:inline-flex; align-items:center; min-height:40px;
-  font-size:.88rem; color:#cfd6d1; text-decoration:none;
+  font-size:.88rem; color:#CBD3DB; text-decoration:none;
   border-bottom:1px solid transparent;
   transition: color .18s ease, border-color .18s ease;
 }
 .footer__links a:hover{ color:#fff; border-bottom-color:rgba(255,255,255,.6); }
 .footer__links a:focus-visible{ outline:3px solid #fff; outline-offset:3px; }
 
-.footer .group{ margin-top:2em; font-size:.82rem; color:#9aa6a0; }
+.footer .group{ margin-top:2em; font-size:.82rem; color:#94A2AF; }
 
 @media (max-width:560px){
   .orgcard{ gap:14px; padding:16px; }
@@ -1291,7 +1307,7 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
     <p class="lede lede--center">プロの医療で見守る安心を。かけがえのない、我が家のぬくもりを。<br>24時間365日の医療サポートがあるからこそ叶う、心からの安心をご用意しています。</p>
 
     <ul class="points">
-      <li class="point" style="--pt-col:var(--c1);--pt-bg:var(--c1-bg)">
+      <li class="point" style="--pt-col:var(--c1);--pt-bg:var(--c1-bg);--pt-ink:var(--c1-ink)">
         <span class="point__corner" aria-hidden="true"></span>
         <span class="point__no" aria-hidden="true">1</span>
         <div class="point__body">
@@ -1302,11 +1318,12 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
           </span>
           <p class="point__ttl">快適な全室個室</p>
           <p>すべてが個室です（18〜19.7㎡）。介護用ベッド・洗面・カーテン・家具を備え、プライベートな空間でゆったりお過ごしいただけます。</p>
+          <a class="point__more" id="btn-point-1" href="#sec-facility">お部屋と設備を見る<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v13"/><path d="M6 12l6 6 6-6"/></svg></a>
         </div>
         <figure class="point__photo"><img src="ph-room.jpg" alt="居室のようす" width="900" height="675" loading="lazy"></figure>
       </li>
 
-      <li class="point" style="--pt-col:var(--c2);--pt-bg:var(--c2-bg)">
+      <li class="point" style="--pt-col:var(--c2);--pt-bg:var(--c2-bg);--pt-ink:var(--c2-ink)">
         <span class="point__corner" aria-hidden="true"></span>
         <span class="point__no" aria-hidden="true">2</span>
         <div class="point__body">
@@ -1317,11 +1334,12 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
           </span>
           <p class="point__ttl">24時間365日の安心</p>
           <p>夜間の見守り体制に加え、グループの医師が24時間365日当直。常駐の看護師がすぐに対応できる救急体制を整えています。</p>
+          <a class="point__more" id="btn-point-2" href="#sec-care">医療サポート体制を見る<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v13"/><path d="M6 12l6 6 6-6"/></svg></a>
         </div>
         <figure class="point__photo"><img src="ph-corridor.jpg" alt="手すりのある廊下" width="900" height="675" loading="lazy"></figure>
       </li>
 
-      <li class="point" style="--pt-col:var(--c3);--pt-bg:var(--c3-bg)">
+      <li class="point" style="--pt-col:var(--c3);--pt-bg:var(--c3-bg);--pt-ink:var(--c3-ink)">
         <span class="point__corner" aria-hidden="true"></span>
         <span class="point__no" aria-hidden="true">3</span>
         <div class="point__body">
@@ -1332,11 +1350,12 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
           </span>
           <p class="point__ttl">医療法人による運営</p>
           <p>医療法人博滇会が運営しています。内科の定期往診に加え、精神科医の臨床診察にも対応できる体制を整えています。</p>
+          <a class="point__more" id="btn-point-3" href="#sec-care">医療サポート体制を見る<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v13"/><path d="M6 12l6 6 6-6"/></svg></a>
         </div>
         <figure class="point__photo"><img src="ph-entrance.jpg" alt="施設の入口" width="900" height="642" loading="lazy"></figure>
       </li>
 
-      <li class="point" style="--pt-col:var(--c4);--pt-bg:var(--c4-bg)">
+      <li class="point" style="--pt-col:var(--c4);--pt-bg:var(--c4-bg);--pt-ink:var(--c4-ink)">
         <span class="point__corner" aria-hidden="true"></span>
         <span class="point__no" aria-hidden="true">4</span>
         <div class="point__body">
@@ -1348,11 +1367,12 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
           </span>
           <p class="point__ttl">多彩な行事と食事</p>
           <p>お正月・ひなまつりなどの行事食をはじめ、季節を感じていただけるお食事をご用意しています。日々のレクリエーションもあります。</p>
+          <a class="point__more" id="btn-point-4" href="#sec-event">行事と食事を見る<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v13"/><path d="M6 12l6 6 6-6"/></svg></a>
         </div>
         <figure class="point__photo"><img src="meal-1.jpg" alt="お正月のイベント食" width="900" height="675" loading="lazy"></figure>
       </li>
 
-      <li class="point" style="--pt-col:var(--c5);--pt-bg:var(--c5-bg)">
+      <li class="point" style="--pt-col:var(--c5);--pt-bg:var(--c5-bg);--pt-ink:var(--c5-ink)">
         <span class="point__corner" aria-hidden="true"></span>
         <span class="point__no" aria-hidden="true">5</span>
         <div class="point__body">
@@ -1377,7 +1397,7 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 </section>
 
 <!-- ===== 医療サポート体制 ===== -->
-<section class="section section--white" aria-labelledby="care-title">
+<section class="section section--white" id="sec-care" aria-labelledby="care-title">
   <div class="wrap">
     <p class="eyebrow">医療法人だからできること</p>
     <h2 class="h2 h2--deco" id="care-title"><span>充実した、医療サポート体制。</span></h2>
@@ -1463,7 +1483,7 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 </section>
 
 <!-- ===== 施設のご紹介 ===== -->
-<section class="section" aria-labelledby="facility-title">
+<section class="section" id="sec-facility" aria-labelledby="facility-title">
   <div class="wrap">
     <p class="eyebrow">中を、ご覧ください</p>
     <h2 class="h2 h2--deco" id="facility-title"><span>光と笑顔が、あふれる場所。</span></h2>
@@ -1564,35 +1584,14 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 </section>
 
 <!-- ===== 食事 ===== -->
-<section class="section section--white" aria-labelledby="meal-title">
-  <div class="wrap">
-    <p class="eyebrow">毎日の、たのしみ</p>
-    <h2 class="h2 h2--deco" id="meal-title">食事のこと</h2>
-    <div class="meal">
-      <figure class="meal__photo">
-        <img class="ph-img" src="meal-1.jpg" alt="お正月のイベント食" width="900" height="675" loading="lazy">
-        <figcaption>イベント食・正月</figcaption>
-      </figure>
-      <figure class="meal__photo">
-        <img class="ph-img" src="meal-2.jpg" alt="ひなまつりのイベント食" width="900" height="676" loading="lazy">
-        <figcaption>イベント食・ひなまつり</figcaption>
-      </figure>
-      <div class="meal-text js-fade">
-        <p>お正月、ひなまつり。季節の行事に合わせたイベント食をご用意しています。目で見て楽しんでいただけるよう、盛りつけにも気を配っています。</p>
-        <p class="meal-sub">ふだんのお食事は、お一人おひとりの状態に合わせてご用意します。かむ力・飲み込む力に合わせた形のお食事も、ご相談ください。</p>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ===== 一年の行事 =====
      現サイト（hakushinkai.jp/facilities/yono_central/）の「年間行事」から。
      ▼差し替え⑥：現サイトに行事の写真7枚（event_01〜07.jpg）があります。
      いただければ、各カードの中に入れます。 -->
-<section class="section" aria-labelledby="event-title">
+<section class="section section--white" id="sec-event" aria-labelledby="event-title">
   <div class="wrap">
-    <p class="eyebrow">一年の、たのしみ</p>
-    <h2 class="h2 h2--deco" id="event-title"><span>一年をとおして、たのしみがあります。</span></h2>
+    <p class="eyebrow">季節を、感じていただく</p>
+    <h2 class="h2 h2--deco" id="event-title"><span>多彩な行事と、食事。</span></h2>
     <p class="lede lede--center">お正月から、クリスマスまで。季節ごとの行事を、みなさんで楽しんでいただいています。「今年もこの日が来たね」と感じていただけることを、大切にしています。</p>
 
     <ul class="events">
@@ -1656,12 +1655,29 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 
     <p class="events__note">このほかにも、お誕生日会や季節のレクリエーションを行っています。行事に合わせた<strong>イベント食</strong>もご用意しています。</p>
 
+
+    <h3 class="deco-label deco-label--gap"><span>行事に合わせた、お食事</span></h3>
+    <div class="meal">
+      <figure class="meal__photo">
+        <img class="ph-img" src="meal-1.jpg" alt="お正月のイベント食" width="900" height="675" loading="lazy">
+        <figcaption>イベント食・正月</figcaption>
+      </figure>
+      <figure class="meal__photo">
+        <img class="ph-img" src="meal-2.jpg" alt="ひなまつりのイベント食" width="900" height="676" loading="lazy">
+        <figcaption>イベント食・ひなまつり</figcaption>
+      </figure>
+      <div class="meal-text js-fade">
+        <p>お正月、ひなまつり。季節の行事に合わせたイベント食をご用意しています。目で見て楽しんでいただけるよう、盛りつけにも気を配っています。</p>
+        <p class="meal-sub">ふだんのお食事は、お一人おひとりの状態に合わせてご用意します。かむ力・飲み込む力に合わせた形のお食事も、ご相談ください。</p>
+      </div>
+    </div>
+
     <p class="flow-note"><span class="check">要確認</span>写真は<strong>法人サイトの「年間行事」に載っているもの</strong>です。行事の月と一言は、こちらで書き添えました。実際の時期・内容と合っているかご確認ください。</p>
   </div>
 </section>
 
 <!-- ===== ご利用いただけるサービス ===== -->
-<section class="section section--white svc-sec section--decor" aria-labelledby="svc-title">
+<section class="section svc-sec section--decor" id="sec-svc" aria-labelledby="svc-title">
   <div class="decor" aria-hidden="true">
     <i style="--x:2%;--y:5%;--s:52px;--col:var(--c1)"></i>
     <i style="--x:7%;--y:13%;--s:30px;--col:var(--c3);--r:180deg"></i>
@@ -1752,7 +1768,7 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 
     <!-- 4つのサービス -->
     <ul class="svc-cards">
-      <li class="svc" style="--tc:var(--c1);--tc-bg:var(--c1-bg);--tc-ink:#3f8f63">
+      <li class="svc" style="--tc:var(--c1);--tc-bg:var(--c1-bg);--tc-ink:var(--c1-ink)">
         <span class="cnr" aria-hidden="true"></span>
         <span class="cnr-ico" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
@@ -1770,7 +1786,7 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
         <figure class="svc__photo"><img src="event-6.jpg" alt="行事で過ごすようす" width="444" height="332" loading="lazy"></figure>
       </li>
 
-      <li class="svc" style="--tc:var(--c2);--tc-bg:var(--c2-bg);--tc-ink:#c96f79">
+      <li class="svc" style="--tc:var(--c2);--tc-bg:var(--c2-bg);--tc-ink:var(--c2-ink)">
         <span class="cnr" aria-hidden="true"></span>
         <span class="cnr-ico" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
@@ -1787,7 +1803,7 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
         <figure class="svc__photo"><img src="event-4.jpg" alt="外出のようす" width="444" height="332" loading="lazy"></figure>
       </li>
 
-      <li class="svc" style="--tc:var(--c3);--tc-bg:var(--c3-bg);--tc-ink:#b8901f">
+      <li class="svc" style="--tc:var(--c3);--tc-bg:var(--c3-bg);--tc-ink:var(--c3-ink)">
         <span class="cnr" aria-hidden="true"></span>
         <span class="cnr-ico" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
@@ -1804,7 +1820,7 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
         <figure class="svc__photo"><img src="event-3.jpg" alt="レクリエーションのようす" width="444" height="332" loading="lazy"></figure>
       </li>
 
-      <li class="svc" style="--tc:var(--c4);--tc-bg:var(--c4-bg);--tc-ink:#5d94bd">
+      <li class="svc" style="--tc:var(--c4);--tc-bg:var(--c4-bg);--tc-ink:var(--c4-ink)">
         <span class="cnr" aria-hidden="true"></span>
         <span class="cnr-ico" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
@@ -1857,7 +1873,7 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 <!-- ===== 費用 =====
      法人サイト（hakushinkai.jp/facilities/yono_central/）の掲載内容をもとにしています。
      ★料金は改定されます。「いつ時点の金額か」を必ず書き、更新の担当を決めてください。★ -->
-<section class="section" aria-labelledby="fee-title">
+<section class="section section--white" aria-labelledby="fee-title">
   <div class="wrap">
     <p class="eyebrow">安心してご検討いただくために</p>
     <h2 class="h2 h2--deco" id="fee-title">費用について。</h2>
@@ -1913,7 +1929,7 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 <!-- ===== Instagram =====
      ▼差し替え③：与野中央のInstagramアカウントが未確定です。
      アカウントが無い場合は、この <section> をまるごと削除してください。 -->
-<section class="section section--white" aria-labelledby="insta-title">
+<section class="section" aria-labelledby="insta-title">
   <div class="wrap">
     <p class="eyebrow">ふだんの、ようす</p>
     <h2 class="h2 h2--deco" id="insta-title">ふだんの様子は、Instagramで</h2>
