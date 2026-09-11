@@ -86,7 +86,8 @@
 
 *{ box-sizing:border-box; margin:0; padding:0; }
 
-html{ height:100%; scroll-behavior:auto; }
+html{ height:100%; scroll-behavior:smooth; }
+@media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
 body{
   min-height:100svh; display:flex; flex-direction:column;
   background:var(--bg); color:var(--ink);
@@ -531,6 +532,50 @@ h3.deco-label{ font-size:1.05rem; }
   color:var(--ink); margin:0 0 .45em;
 }
 .point p{ font-size:.92rem; color:var(--ink-soft); margin:0; line-height:1.8; }
+/* =========================================================
+   カードの中の折り畳み（2026-09-11）
+   くわしい内容は、このカードの中にしかありません（同じ文章が
+   ページの別の場所にもある、という状態を作らないためです）。
+   ========================================================= */
+.pdetail{ grid-column:1 / -1; }
+.pdetail__head{
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding:14px 22px 14px 26px; min-height:54px;
+  font-size:.92rem; font-weight:700; color:var(--pt-ink);
+  cursor:pointer; list-style:none;
+  border-top:1px solid rgba(255,255,255,.85);
+  transition: background-color .18s ease;
+}
+.pdetail__head::-webkit-details-marker{ display:none; }
+.pdetail__head:hover{ background:rgba(255,255,255,.5); }
+.pdetail__head:focus-visible{ outline:3px solid var(--accent-dark); outline-offset:-3px; }
+/* ＋ と − の印（開くと横棒だけになります） */
+.pdetail__mark{ position:relative; flex:none; width:16px; height:16px; }
+.pdetail__mark::before,.pdetail__mark::after{
+  content:""; position:absolute; left:0; top:7px; width:16px; height:2px;
+  background:currentColor; border-radius:2px;
+}
+.pdetail__mark::after{ transform:rotate(90deg); }
+.pdetail[open] .pdetail__mark::after{ display:none; }
+
+.point__panel{
+  padding:6px 26px 30px; border-top:1px solid rgba(255,255,255,.85);
+  background:rgba(255,255,255,.45);
+}
+/* 折り畳みの中は、スクロールの演出をやめて、開いたらすぐ見えるようにします */
+.point__panel .reveal{ opacity:1 !important; transform:none !important; }
+.point__panel .js-fade{ opacity:1 !important; }
+.point__panel .lede{ margin-top:1.2em; }
+.point__panel .deco-label--gap{ margin-top:2.6em; }
+
+/* 開いたカードは、横いっぱいに広がります */
+.point.is-open{ grid-column:1 / -1; }
+
+@media (max-width:560px){
+  .pdetail__head{ padding:13px 18px; }
+  .point__panel{ padding:6px 18px 24px; }
+}
+
 /* カードから、下の節へ飛ぶ線（このページの目次のはたらき） */
 .point__more{
   display:inline-flex; align-items:center; gap:.45em; align-self:flex-start;
@@ -542,7 +587,20 @@ h3.deco-label{ font-size:1.05rem; }
 .point__more:hover{ gap:.75em; }
 .point__more:focus-visible{ outline:3px solid var(--accent-dark); outline-offset:3px; }
 /* 飛んだ先が、画面の上にぴったりつかないように */
-[id^="sec-"]{ scroll-margin-top:14px; }
+[id^="sec-"]{ scroll-margin-top:18px; }
+/* 飛んだ先で、見出しの黄色い線が引かれる。
+   「どこへ移動したか」が分かるようにするための動きです。 */
+[id^="sec-"]:target .h2--deco::after{
+  transform-origin:left center;
+  animation: draw-line .7s cubic-bezier(.22,.61,.36,1) both;
+}
+@keyframes draw-line{
+  from{ transform:translateX(-50%) scaleX(0); }
+  to  { transform:translateX(-50%) scaleX(1); }
+}
+@media (prefers-reduced-motion: reduce){
+  [id^="sec-"]:target .h2--deco::after{ animation:none; }
+}
 
 @media (max-width:520px){
   .point{ grid-template-columns:1fr; }
@@ -1318,176 +1376,12 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
           </span>
           <p class="point__ttl">快適な全室個室</p>
           <p>すべてが個室です（18〜19.7㎡）。介護用ベッド・洗面・カーテン・家具を備え、プライベートな空間でゆったりお過ごしいただけます。</p>
-          <a class="point__more" id="btn-point-1" href="#sec-facility">お部屋と設備を見る<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v13"/><path d="M6 12l6 6 6-6"/></svg></a>
         </div>
-        <figure class="point__photo"><img src="ph-room.jpg" alt="居室のようす" width="900" height="675" loading="lazy"></figure>
-      </li>
-
-      <li class="point" style="--pt-col:var(--c2);--pt-bg:var(--c2-bg);--pt-ink:var(--c2-ink)">
-        <span class="point__corner" aria-hidden="true"></span>
-        <span class="point__no" aria-hidden="true">2</span>
-        <div class="point__body">
-          <span class="point__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/>
-            </svg>
-          </span>
-          <p class="point__ttl">24時間365日の安心</p>
-          <p>夜間の見守り体制に加え、グループの医師が24時間365日当直。常駐の看護師がすぐに対応できる救急体制を整えています。</p>
-          <a class="point__more" id="btn-point-2" href="#sec-care">医療サポート体制を見る<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v13"/><path d="M6 12l6 6 6-6"/></svg></a>
-        </div>
-        <figure class="point__photo"><img src="ph-corridor.jpg" alt="手すりのある廊下" width="900" height="675" loading="lazy"></figure>
-      </li>
-
-      <li class="point" style="--pt-col:var(--c3);--pt-bg:var(--c3-bg);--pt-ink:var(--c3-ink)">
-        <span class="point__corner" aria-hidden="true"></span>
-        <span class="point__no" aria-hidden="true">3</span>
-        <div class="point__body">
-          <span class="point__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6z"/>
-            </svg>
-          </span>
-          <p class="point__ttl">医療法人による運営</p>
-          <p>医療法人博滇会が運営しています。内科の定期往診に加え、精神科医の臨床診察にも対応できる体制を整えています。</p>
-          <a class="point__more" id="btn-point-3" href="#sec-care">医療サポート体制を見る<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v13"/><path d="M6 12l6 6 6-6"/></svg></a>
-        </div>
-        <figure class="point__photo"><img src="ph-entrance.jpg" alt="施設の入口" width="900" height="642" loading="lazy"></figure>
-      </li>
-
-      <li class="point" style="--pt-col:var(--c4);--pt-bg:var(--c4-bg);--pt-ink:var(--c4-ink)">
-        <span class="point__corner" aria-hidden="true"></span>
-        <span class="point__no" aria-hidden="true">4</span>
-        <div class="point__body">
-          <span class="point__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="8" cy="8" r="2.6"/><circle cx="16" cy="8" r="2.6"/>
-              <path d="M3 19a5 5 0 0 1 10 0"/><path d="M13.5 19a5 5 0 0 1 7.5-4.3"/>
-            </svg>
-          </span>
-          <p class="point__ttl">多彩な行事と食事</p>
-          <p>お正月・ひなまつりなどの行事食をはじめ、季節を感じていただけるお食事をご用意しています。日々のレクリエーションもあります。</p>
-          <a class="point__more" id="btn-point-4" href="#sec-event">行事と食事を見る<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v13"/><path d="M6 12l6 6 6-6"/></svg></a>
-        </div>
-        <figure class="point__photo"><img src="meal-1.jpg" alt="お正月のイベント食" width="900" height="675" loading="lazy"></figure>
-      </li>
-
-      <li class="point" style="--pt-col:var(--c5);--pt-bg:var(--c5-bg);--pt-ink:var(--c5-ink)">
-        <span class="point__corner" aria-hidden="true"></span>
-        <span class="point__no" aria-hidden="true">5</span>
-        <div class="point__body">
-          <span class="point__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M11 17H6a3 3 0 0 1 0-6h3l3-2 3 2h3a3 3 0 0 1 0 6h-5"/><path d="M9 11l2.5 2.5"/><path d="M15 11l-2.5 2.5"/>
-            </svg>
-          </span>
-          <p class="point__ttl">個別ケアを重視</p>
-          <p>お一人おひとりに合わせたケアを行います。最期までその場所で過ごしたいというご希望にも、医師・看護師と連携して対応します。</p>
-        </div>
-        <figure class="point__photo"><img src="event-2.jpg" alt="行事で職員と過ごすようす" width="444" height="332" loading="lazy"></figure>
-      </li>
-    </ul>
-
-    <p class="leaf-rule" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 21V11"/><path d="M12 13c-4 0-6-2.5-6-6 4 0 6 2.5 6 6z"/><path d="M12 12c4 0 6-2 6-5.5-4 0-6 2-6 5.5z"/>
-      </svg>
-    </p>
-  </div>
-</section>
-
-<!-- ===== 医療サポート体制 ===== -->
-<section class="section section--white" id="sec-care" aria-labelledby="care-title">
-  <div class="wrap">
-    <p class="eyebrow">医療法人だからできること</p>
-    <h2 class="h2 h2--deco" id="care-title"><span>充実した、医療サポート体制。</span></h2>
-    <p class="lede lede--center">医療法人が運営しているからこそ、できることがあります。</p>
-
-    <ul class="feat">
-      <li>
-        <span class="feat__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v6a5 5 0 0 0 10 0V3"/><path d="M4 3h4"/><path d="M14 3h4"/><path d="M11 14v2a5 5 0 0 0 9 3"/><circle cx="20" cy="17" r="2.2"/></svg></span>
-        <div>
-          <h4>訪問診療</h4>
-          <span class="feat__cap">定期的な内科診察 ＋ 精神科医による臨時診察・薬剤師同行</span>
-          <p>内科の定期往診に加え、他施設では珍しい「精神科医の臨時診察」と、薬剤師同行による確実なお薬管理を行います。</p>
-        </div>
-      </li>
-      <li>
-        <span class="feat__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 13.5A8.5 8.5 0 1 1 10.5 3.5a6.6 6.6 0 0 0 10 10z"/></svg></span>
-        <div>
-          <h4>夜間サポート</h4>
-          <span class="feat__cap">24時間の夜間見守り体制 ＋ 医師の24時間365日当直体制</span>
-          <p>夜間の見守り体制に加え、グループの医師が24時間365日当直。常駐看護師との即時連携で万全の救急体制を整えています。</p>
-        </div>
-      </li>
-      <li>
-        <span class="feat__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6"/><path d="M20 9v6"/><path d="M7 6v12"/><path d="M17 6v12"/><path d="M7 12h10"/></svg></span>
-        <div>
-          <h4>機能訓練</h4>
-          <span class="feat__cap">法人内の訪問リハビリの提供可能</span>
-          <p>法人内のPT・OT・ST（理学療法士／作業療法士／言語聴覚士）が直接訪問し、お一人おひとりに最適な個別訓練を提供します。</p>
-        </div>
-      </li>
-      <li>
-        <span class="feat__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-7-9a3.5 3.5 0 0 1 7-1 3.5 3.5 0 0 1 7 1c0 4.5-7 9-7 9z"/></svg></span>
-        <div>
-          <h4>看護師常駐</h4>
-          <span class="feat__cap">小さな変化を見逃さない、確かな看護。</span>
-          <p>看護師が日々の健康状態を細やかに観察し、必要な医療処置や急変時の迅速な対応、医師・ご家族との密な連携により、安心して暮らせる毎日を支えます。</p>
-        </div>
-      </li>
-    </ul>
-
-    <h3 class="deco-label deco-label--gap"><span>往診の医師</span></h3>
-    <p class="lede">定期的に往診する医師をご紹介します。内科だけでなく、<strong>精神科・神経内科の専門の医師</strong>が関わるのが、この施設の特徴です。</p>
-
-    <div class="doctors">
-      <div class="doctor">
-        <p class="doctor__name">湯澤 俊<small>ゆざわ たかし</small></p>
-        <p class="doctor__field">精神科・内科・小児科</p>
-        <p class="doctor__role">医療法人 博滇会 理事長</p>
-      </div>
-      <div class="doctor">
-        <p class="doctor__name">峰岸 敦子<small>みねぎし あつこ</small></p>
-        <p class="doctor__field">神経内科・消化器科</p>
-      </div>
-    </div>
-
-    <h3 class="deco-label deco-label--gap"><span>医療処置対応一覧</span></h3>
-
-    <ul class="care-list">
-      <li><span class="care-mark">○</span><span class="care-item">在宅酸素</span></li>
-      <li><span class="care-mark">○</span><span class="care-item">ペースメーカー</span></li>
-      <li><span class="care-mark">○</span><span class="care-item">バルーンカテーテル</span></li>
-      <li><span class="care-mark">○</span><span class="care-item">腸ろう</span></li>
-      <li><span class="care-mark">○</span><span class="care-item">ストーマ</span></li>
-      <li><span class="care-mark">○</span><span class="care-item">褥瘡</span></li>
-      <li><span class="care-mark">○</span><span class="care-item">認知症</span></li>
-      <li><span class="care-mark care-mark--soudan">△</span><span class="care-item">胃ろう</span></li>
-      <li><span class="care-mark care-mark--soudan">△</span><span class="care-item">痰吸引</span></li>
-      <li><span class="care-mark care-mark--soudan">△</span><span class="care-item">インスリン</span></li>
-      <li><span class="care-mark care-mark--soudan">△</span><span class="care-item">透析</span></li>
-      <li><span class="care-mark care-mark--soudan">△</span><span class="care-item">中心静脈栄養（IVH）<small>ポート埋め込み術後は可</small></span></li>
-      <li><span class="care-mark care-mark--soudan">△</span><span class="care-item">筋萎縮性側索硬化症（ALS）<small>人工呼吸器の対応は不可</small></span></li>
-      <li><span class="care-mark care-mark--ng">×</span><span class="care-item">鼻腔経管栄養</span></li>
-      <li><span class="care-mark care-mark--ng">×</span><span class="care-item">気管切開</span></li>
-    </ul>
-
-    <ul class="care-legend">
-      <li>○ … 受け入れ可</li>
-      <li>△ … 要相談</li>
-      <li>× … 受け入れ不可</li>
-    </ul>
-    <p class="care-note">表に無い処置についても、まずはご相談ください。ご本人の状態をうかがったうえで、受け入れの可否をご案内します。</p>
-  </div>
-</section>
-
-<!-- ===== 施設のご紹介 ===== -->
-<section class="section" id="sec-facility" aria-labelledby="facility-title">
-  <div class="wrap">
-    <p class="eyebrow">中を、ご覧ください</p>
-    <h2 class="h2 h2--deco" id="facility-title"><span>光と笑顔が、あふれる場所。</span></h2>
-    <p class="lede lede--center">ここで始まる、新しい「楽しい毎日」。建物は4階建てで、2階から4階がお住まいです。3階・4階も2階と同じお部屋の配置になっています。</p>
+                <figure class="point__photo"><img src="ph-room.jpg" alt="居室のようす" width="900" height="675" loading="lazy"></figure>
+        <details class="pdetail" id="dt-point-1">
+          <summary class="pdetail__head"><span>お部屋と設備を、くわしく見る</span><span class="pdetail__mark" aria-hidden="true"></span></summary>
+          <div class="point__panel">
+    <p class="lede">ここで始まる、新しい「楽しい毎日」。建物は4階建てで、2階から4階がお住まいです。3階・4階も2階と同じお部屋の配置になっています。</p>
 
     <ul class="photos">
       <li class="photos__item">
@@ -1580,19 +1474,148 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
     </figure>
 
     <p class="photos__note" style="margin-top:1.6em"><span class="check">要確認</span>写真はパンフレットのデータから取り出したものです。人が写っている写真（レクリエーション・職員）は、あらためて掲載の許可が必要なため入れていません。許可が取れたら追加してください。</p>
-  </div>
-</section>
+          </div>
+        </details>
+      </li>
 
-<!-- ===== 食事 ===== -->
-<!-- ===== 一年の行事 =====
-     現サイト（hakushinkai.jp/facilities/yono_central/）の「年間行事」から。
-     ▼差し替え⑥：現サイトに行事の写真7枚（event_01〜07.jpg）があります。
-     いただければ、各カードの中に入れます。 -->
-<section class="section section--white" id="sec-event" aria-labelledby="event-title">
-  <div class="wrap">
-    <p class="eyebrow">季節を、感じていただく</p>
-    <h2 class="h2 h2--deco" id="event-title"><span>多彩な行事と、食事。</span></h2>
-    <p class="lede lede--center">お正月から、クリスマスまで。季節ごとの行事を、みなさんで楽しんでいただいています。「今年もこの日が来たね」と感じていただけることを、大切にしています。</p>
+      <li class="point" style="--pt-col:var(--c2);--pt-bg:var(--c2-bg);--pt-ink:var(--c2-ink)">
+        <span class="point__corner" aria-hidden="true"></span>
+        <span class="point__no" aria-hidden="true">2</span>
+        <div class="point__body">
+          <span class="point__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/>
+            </svg>
+          </span>
+          <p class="point__ttl">24時間365日の安心</p>
+          <p>夜間の見守り体制に加え、グループの医師が24時間365日当直。常駐の看護師がすぐに対応できる救急体制を整えています。</p>
+        </div>
+                <figure class="point__photo"><img src="ph-corridor.jpg" alt="手すりのある廊下" width="900" height="675" loading="lazy"></figure>
+        <details class="pdetail" id="dt-point-2">
+          <summary class="pdetail__head"><span>夜間と看護の体制を、くわしく見る</span><span class="pdetail__mark" aria-hidden="true"></span></summary>
+          <div class="point__panel">
+    <ul class="feat">
+      <li>
+        <span class="feat__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 13.5A8.5 8.5 0 1 1 10.5 3.5a6.6 6.6 0 0 0 10 10z"/></svg></span>
+        <div>
+          <h4>夜間サポート</h4>
+          <span class="feat__cap">24時間の夜間見守り体制 ＋ 医師の24時間365日当直体制</span>
+          <p>夜間の見守り体制に加え、グループの医師が24時間365日当直。常駐看護師との即時連携で万全の救急体制を整えています。</p>
+        </div>
+      </li>
+      <li>
+        <span class="feat__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-7-9a3.5 3.5 0 0 1 7-1 3.5 3.5 0 0 1 7 1c0 4.5-7 9-7 9z"/></svg></span>
+        <div>
+          <h4>看護師常駐</h4>
+          <span class="feat__cap">小さな変化を見逃さない、確かな看護。</span>
+          <p>看護師が日々の健康状態を細やかに観察し、必要な医療処置や急変時の迅速な対応、医師・ご家族との密な連携により、安心して暮らせる毎日を支えます。</p>
+        </div>
+      </li>
+    </ul>
+          </div>
+        </details>
+      </li>
+
+      <li class="point" style="--pt-col:var(--c3);--pt-bg:var(--c3-bg);--pt-ink:var(--c3-ink)">
+        <span class="point__corner" aria-hidden="true"></span>
+        <span class="point__no" aria-hidden="true">3</span>
+        <div class="point__body">
+          <span class="point__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6z"/>
+            </svg>
+          </span>
+          <p class="point__ttl">医療法人による運営</p>
+          <p>医療法人博滇会が運営しています。内科の定期往診に加え、精神科医の臨床診察にも対応できる体制を整えています。</p>
+        </div>
+                <figure class="point__photo"><img src="ph-entrance.jpg" alt="施設の入口" width="900" height="642" loading="lazy"></figure>
+        <details class="pdetail" id="dt-point-3">
+          <summary class="pdetail__head"><span>医療の体制を、くわしく見る</span><span class="pdetail__mark" aria-hidden="true"></span></summary>
+          <div class="point__panel">
+    <p class="lede">医療法人が運営しているからこそ、できることがあります。</p>
+
+    <ul class="feat">
+      <li>
+        <span class="feat__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v6a5 5 0 0 0 10 0V3"/><path d="M4 3h4"/><path d="M14 3h4"/><path d="M11 14v2a5 5 0 0 0 9 3"/><circle cx="20" cy="17" r="2.2"/></svg></span>
+        <div>
+          <h4>訪問診療</h4>
+          <span class="feat__cap">定期的な内科診察 ＋ 精神科医による臨時診察・薬剤師同行</span>
+          <p>内科の定期往診に加え、他施設では珍しい「精神科医の臨時診察」と、薬剤師同行による確実なお薬管理を行います。</p>
+        </div>
+      </li>
+      <li>
+        <span class="feat__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6"/><path d="M20 9v6"/><path d="M7 6v12"/><path d="M17 6v12"/><path d="M7 12h10"/></svg></span>
+        <div>
+          <h4>機能訓練</h4>
+          <span class="feat__cap">法人内の訪問リハビリの提供可能</span>
+          <p>法人内のPT・OT・ST（理学療法士／作業療法士／言語聴覚士）が直接訪問し、お一人おひとりに最適な個別訓練を提供します。</p>
+        </div>
+      </li>
+    </ul>
+
+    <h3 class="deco-label deco-label--gap"><span>往診の医師</span></h3>
+    <p class="lede">定期的に往診する医師をご紹介します。内科だけでなく、<strong>精神科・神経内科の専門の医師</strong>が関わるのが、この施設の特徴です。</p>
+
+    <div class="doctors">
+      <div class="doctor">
+        <p class="doctor__name">湯澤 俊<small>ゆざわ たかし</small></p>
+        <p class="doctor__field">精神科・内科・小児科</p>
+        <p class="doctor__role">医療法人 博滇会 理事長</p>
+      </div>
+      <div class="doctor">
+        <p class="doctor__name">峰岸 敦子<small>みねぎし あつこ</small></p>
+        <p class="doctor__field">神経内科・消化器科</p>
+      </div>
+    </div>
+
+    <h3 class="deco-label deco-label--gap"><span>医療処置対応一覧</span></h3>
+
+    <ul class="care-list">
+      <li><span class="care-mark">○</span><span class="care-item">在宅酸素</span></li>
+      <li><span class="care-mark">○</span><span class="care-item">ペースメーカー</span></li>
+      <li><span class="care-mark">○</span><span class="care-item">バルーンカテーテル</span></li>
+      <li><span class="care-mark">○</span><span class="care-item">腸ろう</span></li>
+      <li><span class="care-mark">○</span><span class="care-item">ストーマ</span></li>
+      <li><span class="care-mark">○</span><span class="care-item">褥瘡</span></li>
+      <li><span class="care-mark">○</span><span class="care-item">認知症</span></li>
+      <li><span class="care-mark care-mark--soudan">△</span><span class="care-item">胃ろう</span></li>
+      <li><span class="care-mark care-mark--soudan">△</span><span class="care-item">痰吸引</span></li>
+      <li><span class="care-mark care-mark--soudan">△</span><span class="care-item">インスリン</span></li>
+      <li><span class="care-mark care-mark--soudan">△</span><span class="care-item">透析</span></li>
+      <li><span class="care-mark care-mark--soudan">△</span><span class="care-item">中心静脈栄養（IVH）<small>ポート埋め込み術後は可</small></span></li>
+      <li><span class="care-mark care-mark--soudan">△</span><span class="care-item">筋萎縮性側索硬化症（ALS）<small>人工呼吸器の対応は不可</small></span></li>
+      <li><span class="care-mark care-mark--ng">×</span><span class="care-item">鼻腔経管栄養</span></li>
+      <li><span class="care-mark care-mark--ng">×</span><span class="care-item">気管切開</span></li>
+    </ul>
+
+    <ul class="care-legend">
+      <li>○ … 受け入れ可</li>
+      <li>△ … 要相談</li>
+      <li>× … 受け入れ不可</li>
+    </ul>
+    <p class="care-note">表に無い処置についても、まずはご相談ください。ご本人の状態をうかがったうえで、受け入れの可否をご案内します。</p>
+          </div>
+        </details>
+      </li>
+
+      <li class="point" style="--pt-col:var(--c4);--pt-bg:var(--c4-bg);--pt-ink:var(--c4-ink)">
+        <span class="point__corner" aria-hidden="true"></span>
+        <span class="point__no" aria-hidden="true">4</span>
+        <div class="point__body">
+          <span class="point__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="8" cy="8" r="2.6"/><circle cx="16" cy="8" r="2.6"/>
+              <path d="M3 19a5 5 0 0 1 10 0"/><path d="M13.5 19a5 5 0 0 1 7.5-4.3"/>
+            </svg>
+          </span>
+          <p class="point__ttl">多彩な行事と食事</p>
+          <p>お正月・ひなまつりなどの行事食をはじめ、季節を感じていただけるお食事をご用意しています。日々のレクリエーションもあります。</p>
+        </div>
+                <figure class="point__photo"><img src="meal-1.jpg" alt="お正月のイベント食" width="900" height="675" loading="lazy"></figure>
+        <details class="pdetail" id="dt-point-4">
+          <summary class="pdetail__head"><span>行事と食事を、くわしく見る</span><span class="pdetail__mark" aria-hidden="true"></span></summary>
+          <div class="point__panel">
+    <p class="lede">お正月から、クリスマスまで。季節ごとの行事を、みなさんで楽しんでいただいています。「今年もこの日が来たね」と感じていただけることを、大切にしています。</p>
 
     <ul class="events">
       <li class="event">
@@ -1673,8 +1696,67 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
     </div>
 
     <p class="flow-note"><span class="check">要確認</span>写真は<strong>法人サイトの「年間行事」に載っているもの</strong>です。行事の月と一言は、こちらで書き添えました。実際の時期・内容と合っているかご確認ください。</p>
+          </div>
+        </details>
+      </li>
+
+      <li class="point" style="--pt-col:var(--c5);--pt-bg:var(--c5-bg);--pt-ink:var(--c5-ink)">
+        <span class="point__corner" aria-hidden="true"></span>
+        <span class="point__no" aria-hidden="true">5</span>
+        <div class="point__body">
+          <span class="point__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M11 17H6a3 3 0 0 1 0-6h3l3-2 3 2h3a3 3 0 0 1 0 6h-5"/><path d="M9 11l2.5 2.5"/><path d="M15 11l-2.5 2.5"/>
+            </svg>
+          </span>
+          <p class="point__ttl">個別ケアを重視</p>
+          <p>お一人おひとりに合わせたケアを行います。最期までその場所で過ごしたいというご希望にも、医師・看護師と連携して対応します。</p>
+        </div>
+                <figure class="point__photo"><img src="event-2.jpg" alt="行事で職員と過ごすようす" width="444" height="332" loading="lazy"></figure>
+        <details class="pdetail" id="dt-point-5">
+          <summary class="pdetail__head"><span>個別ケアの考え方を、くわしく見る</span><span class="pdetail__mark" aria-hidden="true"></span></summary>
+          <div class="point__panel">
+    <p class="lede">「個」のケアを実践し、お一人おひとりの個性を尊重します。プライバシーに配慮した環境で、これまでの価値観・習慣・人間関係・社会とのつながりを、そのまま続けていただけるようにお手伝いします。</p>
+
+    <ul class="feat">
+      <li>
+        <span class="feat__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-7-9a3.5 3.5 0 0 1 7-1 3.5 3.5 0 0 1 7 1c0 4.5-7 9-7 9z"/></svg></span>
+        <div>
+          <h4>これまでの暮らしを、続けていただく</h4>
+          <span class="feat__cap">価値観・習慣・人間関係・社会とのつながりを、そのままに。</span>
+          <p>入居されたからといって、それまでの暮らしが途切れてしまわないように。お一人おひとりのご希望をうかがいながら、過ごし方を決めていきます。</p>
+        </div>
+      </li>
+      <li>
+        <span class="feat__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M11 17H6a3 3 0 0 1 0-6h3l3-2 3 2h3a3 3 0 0 1 0 6h-5"/><path d="M9 11l2.5 2.5"/><path d="M15 11l-2.5 2.5"/></svg></span>
+        <div>
+          <h4>最期まで、この場所で</h4>
+          <span class="feat__cap">看取りにも対応しています。</span>
+          <p>「最期までここで過ごしたい」というご希望にも、ご本人・ご家族とよくお話し合いをしたうえで、医師・看護師と連携して対応します。</p>
+        </div>
+      </li>
+    </ul>
+
+    <p class="flow-note"><span class="check">要確認</span>この節の文章は、法人サイトの「施設の特徴」をもとに、こちらで書き起こしたものです。施設のお考えと合っているかご確認ください。</p>
+          </div>
+        </details>
+      </li>
+    </ul>
+
+    <p class="leaf-rule" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 21V11"/><path d="M12 13c-4 0-6-2.5-6-6 4 0 6 2.5 6 6z"/><path d="M12 12c4 0 6-2 6-5.5-4 0-6 2-6 5.5z"/>
+      </svg>
+    </p>
   </div>
 </section>
+
+
+
+
+
+<!-- ===== 食事 ===== -->
+
 
 <!-- ===== ご利用いただけるサービス ===== -->
 <section class="section svc-sec section--decor" id="sec-svc" aria-labelledby="svc-title">
@@ -2131,6 +2213,58 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
       bar.classList.toggle('is-hidden', entry.isIntersecting);
     });
   }, { threshold: 0.2 }).observe(cta);
+})();
+
+/* =========================================================
+   数えるための合図（2026-09-11 追加）
+   ★このページ自体には、アナリティクスのタグは入っていません。★
+   本番として hakushinkai.jp に置くと、サイト側のGoogleアナリティクスが
+   読み込まれるので、そのときだけ下の合図が送られます。
+   お試し公開（GitHub）のあいだは、何も起こりません（エラーにもなりません）。
+   → Googleタグマネージャーは要りません。
+   ========================================================= */
+(function () {
+  function send(name) {
+    if (typeof window.gtag === 'function') { window.gtag('event', name); }
+  }
+
+  /* ① 折り畳みを開いたとき。どの話に興味を持たれたかが分かります。
+        イベント名：point_open_1 〜 point_open_5 */
+  document.querySelectorAll('.pdetail').forEach(function (d) {
+    d.addEventListener('toggle', function () {
+      if (!d.open) return;                 /* 閉じたときは数えません */
+      if (d.dataset.counted) return;       /* 1人1回だけ数えます */
+      d.dataset.counted = '1';
+      var n = (d.id || '').replace('dt-point-', '');
+      if (n) send('point_open_' + n);
+    });
+  });
+
+  /* ② 電話ボタンを押したとき。
+        ★Googleアナリティクスは tel: のクリックを自動では数えません。★
+        イベント名：tel_click_fv（1枚目）／tel_click_last（最後のご相談）／
+                   tel_click_bar（画面下のバー）／tel_click_other（そのほか） */
+  var telName = {
+    'btn-tel': 'tel_click_fv',
+    'btn-tel-2': 'tel_click_last',
+    'btn-tel-bar': 'tel_click_bar'
+  };
+  document.querySelectorAll('a[href^="tel:"]').forEach(function (a) {
+    a.addEventListener('click', function () {
+      send(telName[a.id] || 'tel_click_other');
+    });
+  });
+})();
+
+/* 折り畳みを開いたら、そのカードを横いっぱいに広げます。
+   仕組みが動かない端末では、カードの幅のまま開くだけです（何も壊れません）。 */
+(function () {
+  document.querySelectorAll('.pdetail').forEach(function (d) {
+    d.addEventListener('toggle', function () {
+      var card = d.closest('.point');
+      if (card) card.classList.toggle('is-open', d.open);
+    });
+  });
 })();
 
 /* 食事の説明を、画面に入ったときにふわっと濃くします。
