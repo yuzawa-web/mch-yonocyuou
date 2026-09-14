@@ -540,23 +540,52 @@ h3.deco-label{ font-size:1.05rem; }
 .pdetail{ grid-column:1 / -1; }
 .pdetail__head{
   display:flex; align-items:center; justify-content:space-between; gap:12px;
-  padding:14px 22px 14px 26px; min-height:54px;
+  padding:14px 22px 14px 26px; min-height:56px;
   font-size:.92rem; font-weight:700; color:var(--pt-ink);
   cursor:pointer; list-style:none;
   border-top:1px solid rgba(255,255,255,.85);
-  transition: background-color .18s ease;
+  transition: background-color .18s ease, color .18s ease;
 }
 .pdetail__head::-webkit-details-marker{ display:none; }
-.pdetail__head:hover{ background:rgba(255,255,255,.5); }
+.pdetail__head:hover{ background:rgba(255,255,255,.55); }
 .pdetail__head:focus-visible{ outline:3px solid var(--accent-dark); outline-offset:-3px; }
-/* ＋ と − の印（開くと横棒だけになります） */
-.pdetail__mark{ position:relative; flex:none; width:16px; height:16px; }
-.pdetail__mark::before,.pdetail__mark::after{
-  content:""; position:absolute; left:0; top:7px; width:16px; height:2px;
-  background:currentColor; border-radius:2px;
+
+/* 開いているあいだは、色を反転させて「押せば閉じる」ことを分かりやすくします */
+.pdetail[open] > .pdetail__head{ background:var(--pt-ink); color:#fff; }
+.pdetail[open] > .pdetail__head:hover{ background:var(--ink); }
+
+/* 文字を入れ替える（閉じているとき／開いているとき） */
+.pdetail:not([open]) .lbl-open{ display:none; }
+.pdetail[open] .lbl-close{ display:none; }
+
+/* ＋ と − の印。まるで囲って、見つけやすくしています */
+.pdetail__mark{
+  position:relative; flex:none; width:26px; height:26px; border-radius:50%;
+  background:rgba(255,255,255,.75);
 }
+.pdetail[open] .pdetail__mark{ background:rgba(255,255,255,.22); }
+.pdetail__mark::before,.pdetail__mark::after{
+  content:""; position:absolute; left:7px; top:12px; width:12px; height:2.5px;
+  background:var(--pt-ink); border-radius:2px;
+}
+.pdetail[open] .pdetail__mark::before,
+.pdetail[open] .pdetail__mark::after{ background:#fff; }
 .pdetail__mark::after{ transform:rotate(90deg); }
 .pdetail[open] .pdetail__mark::after{ display:none; }
+
+/* 中身を読み終わったところにも、閉じるボタンを置きます */
+.pdetail__close{
+  display:inline-flex; align-items:center; justify-content:center; gap:.55em;
+  margin:2.2em auto 0; padding:12px 26px; min-height:52px;
+  background:#fff; color:var(--pt-ink);
+  border:2px solid var(--pt-ink); border-radius:999px;
+  font-size:.95rem; font-weight:700; font-family:inherit; cursor:pointer;
+  transition: background-color .18s ease, color .18s ease;
+}
+.pdetail__close:hover{ background:var(--pt-ink); color:#fff; }
+.pdetail__close:focus-visible{ outline:3px solid var(--accent-dark); outline-offset:3px; }
+.pdetail__close svg{ width:17px; height:17px; }
+.pdetail__closewrap{ display:flex; justify-content:center; }
 
 .point__panel{
   padding:6px 26px 30px; border-top:1px solid rgba(255,255,255,.85);
@@ -1379,7 +1408,7 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
         </div>
                 <figure class="point__photo"><img src="ph-room.jpg" alt="居室のようす" width="900" height="675" loading="lazy"></figure>
         <details class="pdetail" id="dt-point-1">
-          <summary class="pdetail__head"><span>お部屋と設備を、くわしく見る</span><span class="pdetail__mark" aria-hidden="true"></span></summary>
+          <summary class="pdetail__head"><span><span class="lbl-close">お部屋と設備を、くわしく見る</span><span class="lbl-open">とじる</span></span><span class="pdetail__mark" aria-hidden="true"></span></summary>
           <div class="point__panel">
     <p class="lede">ここで始まる、新しい「楽しい毎日」。建物は4階建てで、2階から4階がお住まいです。3階・4階も2階と同じお部屋の配置になっています。</p>
 
@@ -1492,7 +1521,7 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
         </div>
                 <figure class="point__photo"><img src="ph-corridor.jpg" alt="手すりのある廊下" width="900" height="675" loading="lazy"></figure>
         <details class="pdetail" id="dt-point-2">
-          <summary class="pdetail__head"><span>夜間と看護の体制を、くわしく見る</span><span class="pdetail__mark" aria-hidden="true"></span></summary>
+          <summary class="pdetail__head"><span><span class="lbl-close">夜間と看護の体制を、くわしく見る</span><span class="lbl-open">とじる</span></span><span class="pdetail__mark" aria-hidden="true"></span></summary>
           <div class="point__panel">
     <ul class="feat">
       <li>
@@ -1530,7 +1559,7 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
         </div>
                 <figure class="point__photo"><img src="ph-entrance.jpg" alt="施設の入口" width="900" height="642" loading="lazy"></figure>
         <details class="pdetail" id="dt-point-3">
-          <summary class="pdetail__head"><span>医療の体制を、くわしく見る</span><span class="pdetail__mark" aria-hidden="true"></span></summary>
+          <summary class="pdetail__head"><span><span class="lbl-close">医療の体制を、くわしく見る</span><span class="lbl-open">とじる</span></span><span class="pdetail__mark" aria-hidden="true"></span></summary>
           <div class="point__panel">
     <p class="lede">医療法人が運営しているからこそ、できることがあります。</p>
 
@@ -1613,7 +1642,7 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
         </div>
                 <figure class="point__photo"><img src="meal-1.jpg" alt="お正月のイベント食" width="900" height="675" loading="lazy"></figure>
         <details class="pdetail" id="dt-point-4">
-          <summary class="pdetail__head"><span>行事と食事を、くわしく見る</span><span class="pdetail__mark" aria-hidden="true"></span></summary>
+          <summary class="pdetail__head"><span><span class="lbl-close">行事と食事を、くわしく見る</span><span class="lbl-open">とじる</span></span><span class="pdetail__mark" aria-hidden="true"></span></summary>
           <div class="point__panel">
     <p class="lede">お正月から、クリスマスまで。季節ごとの行事を、みなさんで楽しんでいただいています。「今年もこの日が来たね」と感じていただけることを、大切にしています。</p>
 
@@ -1714,7 +1743,7 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
         </div>
                 <figure class="point__photo"><img src="event-2.jpg" alt="行事で職員と過ごすようす" width="444" height="332" loading="lazy"></figure>
         <details class="pdetail" id="dt-point-5">
-          <summary class="pdetail__head"><span>個別ケアの考え方を、くわしく見る</span><span class="pdetail__mark" aria-hidden="true"></span></summary>
+          <summary class="pdetail__head"><span><span class="lbl-close">個別ケアの考え方を、くわしく見る</span><span class="lbl-open">とじる</span></span><span class="pdetail__mark" aria-hidden="true"></span></summary>
           <div class="point__panel">
     <p class="lede">「個」のケアを実践し、お一人おひとりの個性を尊重します。プライバシーに配慮した環境で、これまでの価値観・習慣・人間関係・社会とのつながりを、そのまま続けていただけるようにお手伝いします。</p>
 
@@ -2253,6 +2282,32 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
     a.addEventListener('click', function () {
       send(telName[a.id] || 'tel_click_other');
     });
+  });
+})();
+
+/* 中身の最後に「とじる」ボタンを置きます。
+   長い中身を読み終わったところで、上まで戻らなくても閉じられるようにするためです。
+   この仕組みが動かない端末では、上のバーを押せば閉じられます（何も壊れません）。 */
+(function () {
+  document.querySelectorAll('.pdetail').forEach(function (d) {
+    var panel = d.querySelector('.point__panel');
+    if (!panel) return;
+    var wrap = document.createElement('div');
+    wrap.className = 'pdetail__closewrap';
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'pdetail__close';
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" '
+      + 'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+      + '<path d="M12 20V7"/><path d="M6 13l6-6 6 6"/></svg>とじる';
+    btn.addEventListener('click', function () {
+      var card = d.closest('.point');
+      d.open = false;
+      /* 閉じたあと、そのカードの頭が画面に入るようにします */
+      if (card && card.scrollIntoView) card.scrollIntoView({ block: 'nearest' });
+    });
+    wrap.appendChild(btn);
+    panel.appendChild(wrap);
   });
 })();
 
