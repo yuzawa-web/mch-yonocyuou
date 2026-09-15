@@ -950,36 +950,37 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 }
 .cnr-ico svg{ width:100%; height:100%; }
 
-/* --- 上の4つ（数字の札） --- */
+/* --- 下の4つ（施設のデータ） ---
+   「4つのかたち」を主役にするため、この札は
+   ①サービスカードより下に置き ②写真を外し ③高さを詰めています。
+   数字を読むだけの帯として、静かに見えるようにしてあります。 */
+.statshead{
+  display:flex; align-items:center; gap:.9em;
+  margin:46px 0 14px; font-size:.9rem; font-weight:700; color:var(--ink-soft);
+}
+.statshead::after{ content:""; flex:1; height:1px; background:var(--line); }
+
 .stats{
-  list-style:none; margin:0 0 22px; padding:0;
-  display:grid; gap:16px; grid-template-columns:repeat(auto-fit, minmax(min(220px,100%),1fr));
+  list-style:none; margin:0; padding:0;
+  display:grid; gap:12px; grid-template-columns:repeat(auto-fit, minmax(min(230px,100%),1fr));
 }
 .stat{
-  position:relative; overflow:hidden; display:flex; flex-direction:column;
-  background:var(--white); border:1px solid var(--line); border-radius:14px;
-  box-shadow:0 2px 10px rgba(31,39,35,.05); min-height:250px;
+  position:relative; overflow:hidden; display:block;
+  background:var(--white); border:1px solid var(--line); border-radius:12px;
+  box-shadow:none; min-height:0;
 }
-.stat__body{ padding:52px 20px 14px; position:relative; z-index:2; }
+.stat .cnr{ width:56px; height:56px; }
+.stat .cnr-ico{ left:9px; top:8px; width:20px; height:20px; }
+.stat::after{ display:none; }
+.stat__body{ padding:36px 18px 16px; position:relative; z-index:2; }
 .stat__label{ font-size:.82rem; color:var(--ink-soft); display:block; margin-bottom:.15em; }
 .stat__num{
-  font-size:1.55rem; font-weight:700; color:var(--ink); line-height:1.3; display:block;
+  font-size:1.34rem; font-weight:700; color:var(--ink); line-height:1.35; display:block;
 }
 .stat__num small{ font-size:.72em; }
-.stat__sub{ display:block; font-size:.82rem; color:var(--ink-soft); line-height:1.6; margin-top:.3em; }
-.stat__photo{ margin:auto 0 0; position:relative; }
-.stat__photo img{
-  width:100%; height:112px; object-fit:cover; display:block;
-  clip-path:polygon(0 42%, 100% 0, 100% 100%, 0 100%);
-}
-/* うすい色の三角（飾り） */
-.stat::after{
-  content:""; position:absolute; left:6%; top:52%; width:62px; height:62px;
-  background:var(--tc); opacity:.24; clip-path:polygon(0 0, 100% 100%, 0 100%);
-  z-index:1; pointer-events:none;
-}
+.stat__sub{ display:block; font-size:.8rem; color:var(--ink-soft); line-height:1.6; margin-top:.3em; }
 
-/* --- 下の4つ（サービスのカード） --- */
+/* --- 上の4つ（ご利用いただける4つのかたち）。ここがこの節の主役 --- */
 .svc-cards{
   list-style:none; margin:0; padding:0;
   display:grid; gap:18px; grid-template-columns:repeat(auto-fit, minmax(min(400px,100%),1fr));
@@ -990,10 +991,21 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
   display:grid; grid-template-columns:1fr minmax(0,34%); align-items:stretch;
   min-height:224px;
 }
+/* 左上の三角を大きくして、白い番号を入れる（1〜4が数えられるように）。
+   アイコンは、おすすめポイントのカードと同じく本文の上へ移しています。 */
+.svc .cnr{ width:96px; height:96px; }
+.svc__no{
+  position:absolute; left:15px; top:3px; z-index:2;
+  color:#fff; font-size:2.1rem; font-weight:700; line-height:1;
+}
+.svc__icon{
+  display:block; width:38px; height:38px; color:var(--tc-ink); margin:32px 0 .55em;
+}
+.svc__icon svg{ width:100%; height:100%; }
 .svc__body{ padding:22px 18px 20px 26px; display:flex; flex-direction:column; }
 .svc__ttl{
-  font-size:1.12rem; font-weight:700; line-height:1.5; color:var(--ink);
-  margin:34px 0 .5em;
+  font-size:1.2rem; font-weight:700; line-height:1.5; color:var(--ink);
+  margin:0 0 .5em;
 }
 .svc__body p{ font-size:.9rem; color:var(--ink-soft); line-height:1.8; margin:0; }
 .svc__price{
@@ -1178,9 +1190,14 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 }
 .orgcard:hover{ background:rgba(255,255,255,.12); border-color:rgba(255,255,255,.45); }
 .orgcard:focus-visible{ outline:3px solid #fff; outline-offset:3px; }
+/* 法人ロゴの箱。
+   ここは「法人名が読めること」を優先して、マークだけでなく
+   名前まで入った横型ロゴ（logo-hakushinkai.png）を入れています。
+   マークだけに戻したい場合は、下の width/height を 74px/74px にして
+   HTML側の画像を logo-mark.png に差し替えてください。 */
 .orgcard__logo{
-  flex:none; width:74px; height:74px; border-radius:10px;
-  background:#fff; padding:11px;
+  flex:none; width:128px; height:100px; border-radius:10px;
+  background:#fff; padding:12px 14px;
   display:flex; align-items:center; justify-content:center;
 }
 .orgcard__logo img{ width:100%; height:100%; object-fit:contain; }
@@ -1191,35 +1208,74 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 .orgcard__arrow svg{ width:100%; height:100%; }
 
 /* グループのサービス */
-.groupsvc{ margin-top:30px; padding-top:24px; border-top:1px solid rgba(255,255,255,.14); }
-.groupsvc h3{ font-size:.9rem; color:#94A2AF; font-weight:700; margin-bottom:.9em; }
-.groupsvc ul{ list-style:none; display:flex; flex-wrap:wrap; gap:8px; margin:0; padding:0; }
-.groupsvc li{
-  font-size:.84rem; color:#E4EAF0;
-  border:1px solid rgba(255,255,255,.22); border-radius:999px; padding:5px 14px;
+/* ===== フッターの「行き先」2枚 =====
+   このページを読み終えた人が、次にどこへ行けばよいか。
+   ①ご相談（白＝主役） ②求人情報 の2枚だけに絞っています。
+   法人サイトは、この下の法人カードが受けます。 */
+.exits{
+  margin-top:36px; display:grid; gap:14px;
+  grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));
 }
+.exit{
+  display:flex; align-items:center; gap:15px; padding:20px 22px;
+  border-radius:12px; text-decoration:none; min-height:88px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.22); color:#fff !important;
+  transition: background-color .18s ease, border-color .18s ease, color .18s ease;
+}
+.exit:hover{ background:rgba(255,255,255,.14); border-color:rgba(255,255,255,.5); }
+.exit:focus-visible{ outline:3px solid #fff; outline-offset:3px; }
+.exit--main{ background:#fff; border-color:#fff; color:var(--accent) !important; }
+.exit--main:hover{ background:var(--sun); border-color:var(--sun); color:var(--ink) !important; }
+.exit__ic{ flex:none; width:32px; height:32px; }
+.exit__ic svg{ width:100%; height:100%; }
+.exit__t{ display:flex; flex-direction:column; gap:.3em; min-width:0; }
+.exit__t strong{ font-size:1.02rem; }
+.exit__t small{ font-size:.8rem; opacity:.72; line-height:1.65; }
 
-.footer__links{
-  display:flex; flex-wrap:wrap; gap:10px 26px;
-  margin-top:30px; padding-top:24px;
+/* ===== 法人＋グループ。ひとつの枠にまとめています ===== */
+.orgblock{ margin-top:34px; }
+.groupsvc{ margin-top:16px; padding:20px 22px 22px;
+  background:rgba(255,255,255,.04); border-radius:12px; }
+.groupsvc__lede{ font-size:.88rem; color:#CBD3DB; line-height:1.9; margin:0 0 1.1em; }
+.groupsvc__lede strong{ color:#fff; }
+.groupsvc ul{ list-style:none; display:flex; flex-wrap:wrap; gap:8px; margin:0; padding:0; }
+.groupsvc a{
+  display:inline-flex; align-items:baseline; gap:.5em; min-height:42px;
+  padding:8px 16px; font-size:.88rem; font-weight:700; color:#E4EAF0; text-decoration:none;
+  border:1px solid rgba(255,255,255,.24); border-radius:999px;
+  transition: background-color .18s ease, border-color .18s ease;
+}
+.groupsvc a small{ font-size:.76rem; font-weight:400; color:#94A2AF; }
+.groupsvc a:hover{ background:rgba(255,255,255,.14); border-color:rgba(255,255,255,.55); }
+.groupsvc a:hover small{ color:#CBD3DB; }
+.groupsvc a:focus-visible{ outline:3px solid #fff; outline-offset:3px; }
+
+/* ===== いちばん下の細い字 ===== */
+.footer__fine{
+  display:flex; flex-wrap:wrap; align-items:center; gap:4px 22px;
+  margin-top:30px; padding-top:18px;
   border-top:1px solid rgba(255,255,255,.14);
 }
-.footer__links a{
+.footer__fine a{
   display:inline-flex; align-items:center; min-height:40px;
-  font-size:.88rem; color:#CBD3DB; text-decoration:none;
+  font-size:.8rem; color:#94A2AF; text-decoration:none;
   border-bottom:1px solid transparent;
   transition: color .18s ease, border-color .18s ease;
 }
-.footer__links a:hover{ color:#fff; border-bottom-color:rgba(255,255,255,.6); }
-.footer__links a:focus-visible{ outline:3px solid #fff; outline-offset:3px; }
-
-.footer .group{ margin-top:2em; font-size:.82rem; color:#94A2AF; }
+.footer__fine a:hover{ color:#fff; border-bottom-color:rgba(255,255,255,.5); }
+.footer__fine a:focus-visible{ outline:3px solid #fff; outline-offset:3px; }
+.footer__fine .copy{ font-size:.8rem; color:#94A2AF; margin-left:auto; }
 
 @media (max-width:560px){
-  .orgcard{ gap:14px; padding:16px; }
-  .orgcard__logo{ width:60px; height:60px; padding:9px; }
-  .footer__links{ flex-direction:column; gap:0; }
-  .footer__links a{ min-height:44px; border-bottom:1px solid rgba(255,255,255,.10); width:100%; }
+  /* スマホでは、ロゴ・文章・矢印を縦に積みます（横に並べると文章がつぶれるため） */
+  .orgcard{ flex-direction:column; align-items:flex-start; gap:13px; padding:16px; }
+  .orgcard__logo{ width:112px; height:88px; padding:9px 10px; }
+  .orgcard__text strong{ font-size:1rem; }
+  .orgcard__arrow{ margin-left:0; align-self:flex-end; width:22px; height:22px; }
+  .footer__fine{ gap:0; }
+  .footer__fine a{ min-height:44px; width:100%; border-bottom:1px solid rgba(255,255,255,.10); }
+  .footer__fine .copy{ margin:1.4em 0 0; }
 }
 @media (max-width:760px){
   .footer__grid{ grid-template-columns:1fr; gap:28px; }
@@ -1310,7 +1366,7 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
   .callbar{ transition:none; }
   .dl-item{ transition:none; }
   .dl-item:active{ transform:none; }
-  .orgcard, .footer__links a, .map-link{ transition:none; }
+  .orgcard, .exit, .groupsvc a, .footer__fine a, .map-link{ transition:none; }
   .js-fade{ opacity:1; transition:none; }
 }
 </style>
@@ -1367,8 +1423,12 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
       <a class="btn btn--tel" id="btn-tel" href="tel:0488297853">
         <span class="label">お電話でのご相談</span><span class="num">048-829-7853</span>
       </a>
-      <!-- ▼差し替え①：問い合わせページのアドレス -->
-      <a class="btn btn--visit" id="btn-visit" href="https://hakushinkai.jp/contact/">
+      <!-- ▼差し替え①：問い合わせページのアドレス
+           アドレスのうしろの ?from=mch-yono&place=○○ は「どのボタンから来たか」の印です。
+           アドレスを差し替えるときも、この印（?から後ろ）は残してください。
+           place の中身は、ボタンごとに違います（fv／nyukyo／tanki／yobo／taiken／cta／footer／bar）。
+           ★utm_source ではなく from を使っています。理由はREADMEに書いてあります。 -->
+      <a class="btn btn--visit" id="btn-visit" href="https://hakushinkai.jp/contact/?from=mch-yono&amp;place=fv">
         見学・入居のご相談
       </a>
     </div>
@@ -1813,7 +1873,77 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
     <h2 class="h2 h2--deco" id="svc-title">ご利用いただける、<span class="num">4</span>つのかたち。</h2>
     <p class="lede lede--center">ずっとお住まいになる方も、短い期間だけの方も、まずはお試しの方も。暮らしの状況に合わせて選んでいただけます。</p>
 
-    <!-- 施設の数字（4つの札） -->
+    <!-- 4つのサービス -->
+    <ul class="svc-cards">
+      <li class="svc" style="--tc:var(--c1);--tc-bg:var(--c1-bg);--tc-ink:var(--c1-ink)">
+        <span class="cnr" aria-hidden="true"></span>
+        <span class="svc__no" aria-hidden="true">1</span>
+        <div class="svc__body">
+          <span class="svc__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 3v6a5 5 0 0 0 10 0V3"/><path d="M4 3h4"/><path d="M14 3h4"/>
+            <path d="M11 14v2a5 5 0 0 0 9 3"/><circle cx="20" cy="17" r="2.2"/>
+          </svg></span>
+          <h3 class="svc__ttl">特定施設入居者生活介護</h3>
+          <p>要介護の認定を受けた方が、お住まいになりながら介護・生活支援を受けていただくサービスです。介護付有料老人ホームの基本のかたちになります。</p>
+          <a class="svc__go" id="btn-svc-1" href="https://hakushinkai.jp/contact/?from=mch-yono&amp;place=nyukyo">これからお住まいになる方へ
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15"/><path d="M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+        <figure class="svc__photo"><img src="event-6.jpg" alt="行事で過ごすようす" width="444" height="332" loading="lazy"></figure>
+      </li>
+
+      <li class="svc" style="--tc:var(--c2);--tc-bg:var(--c2-bg);--tc-ink:var(--c2-ink)">
+        <span class="cnr" aria-hidden="true"></span>
+        <span class="svc__no" aria-hidden="true">2</span>
+        <div class="svc__body">
+          <span class="svc__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/>
+          </svg></span>
+          <h3 class="svc__ttl">短期利用特定施設<span class="nb">入居者生活介護</span></h3>
+          <p>短い期間だけご利用いただけます。ご家族の通院・お仕事・休息のあいだ、安心してお預けいただけます。</p>
+          <a class="svc__go" id="btn-svc-2" href="https://hakushinkai.jp/contact/?from=mch-yono&amp;place=tanki">短い期間だけ利用したい方へ
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15"/><path d="M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+        <figure class="svc__photo"><img src="event-4.jpg" alt="外出のようす" width="444" height="332" loading="lazy"></figure>
+      </li>
+
+      <li class="svc" style="--tc:var(--c3);--tc-bg:var(--c3-bg);--tc-ink:var(--c3-ink)">
+        <span class="cnr" aria-hidden="true"></span>
+        <span class="svc__no" aria-hidden="true">3</span>
+        <div class="svc__body">
+          <span class="svc__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 18V8"/><path d="M3 13h18v5"/><path d="M21 18v-4a3 3 0 0 0-3-3H9"/><circle cx="6.5" cy="10.5" r="1.8"/>
+          </svg></span>
+          <h3 class="svc__ttl">介護予防特定施設<span class="nb">入居者生活介護</span></h3>
+          <p>要支援の認定を受けた方向けのサービスです。いまの元気を保ちながら、必要な支援を受けて暮らしていただけます。</p>
+          <a class="svc__go" id="btn-svc-3" href="https://hakushinkai.jp/contact/?from=mch-yono&amp;place=yobo">要支援の認定を受けた方へ
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15"/><path d="M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+        <figure class="svc__photo"><img src="event-3.jpg" alt="レクリエーションのようす" width="444" height="332" loading="lazy"></figure>
+      </li>
+
+      <li class="svc" style="--tc:var(--c4);--tc-bg:var(--c4-bg);--tc-ink:var(--c4-ink)">
+        <span class="cnr" aria-hidden="true"></span>
+        <span class="svc__no" aria-hidden="true">4</span>
+        <div class="svc__body">
+          <span class="svc__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3v18"/><path d="M8 7h6a2.5 2.5 0 0 1 0 5h-4a2.5 2.5 0 0 0 0 5h6"/>
+          </svg></span>
+          <h3 class="svc__ttl">体験入居<span class="badge">空室利用</span></h3>
+          <p>お部屋が空いているときに、実際に泊まって暮らしを体験していただけます。先に生活のリズムを知っておくと、そのあとの入居がスムーズです。</p>
+          <p class="svc__price"><strong>1泊 7,500円</strong>／原則 7泊8日まで</p>
+          <a class="svc__go" id="btn-svc-4" href="https://hakushinkai.jp/contact/?from=mch-yono&amp;place=taiken">まず試してみたい方へ
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15"/><path d="M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+        <figure class="svc__photo"><img src="ph-dining.jpg" alt="2階の食堂" width="900" height="675" loading="lazy"></figure>
+      </li>
+    </ul>
+
+    <!-- 施設のデータ。4つのかたちより下に置き、写真を外して小さくしています -->
+    <p class="statshead">施設のデータ</p>
     <ul class="stats">
       <li class="stat" style="--tc:var(--c1)">
         <span class="cnr" aria-hidden="true"></span>
@@ -1827,7 +1957,6 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
           <span class="stat__num">51<small>室</small></span>
           <span class="stat__sub">入居定員 50名・全室個室</span>
         </div>
-        <figure class="stat__photo"><img src="ph-room.jpg" alt="居室のようす" width="900" height="675" loading="lazy"></figure>
       </li>
 
       <li class="stat" style="--tc:var(--c3)">
@@ -1842,7 +1971,6 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
           <span class="stat__num">18.00〜19.70<small>㎡</small></span>
           <span class="stat__sub">6タイプ・洗面台・トイレつき</span>
         </div>
-        <figure class="stat__photo"><img src="ph-lobby.jpg" alt="エントランス" width="900" height="643" loading="lazy"></figure>
       </li>
 
       <li class="stat" style="--tc:var(--c4)">
@@ -1857,7 +1985,6 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
           <span class="stat__num">地上4<small>階建て</small></span>
           <span class="stat__sub">鉄筋コンクリート造・耐火建築物<br>2階〜4階が居室</span>
         </div>
-        <figure class="stat__photo"><img src="fv-photo.jpg" alt="施設の外観" width="2000" height="1150" loading="lazy"></figure>
       </li>
 
       <li class="stat" style="--tc:var(--c2)">
@@ -1873,80 +2000,6 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
           <span class="stat__num" style="font-size:1.12rem">介護付有料老人ホーム</span>
           <span class="stat__sub">一般型特定施設入居者生活介護（混合型）<br>介護保険事業所番号 1176510400</span>
         </div>
-        <figure class="stat__photo"><img src="ph-entrance.jpg" alt="施設の入口" width="900" height="642" loading="lazy"></figure>
-      </li>
-    </ul>
-
-    <!-- 4つのサービス -->
-    <ul class="svc-cards">
-      <li class="svc" style="--tc:var(--c1);--tc-bg:var(--c1-bg);--tc-ink:var(--c1-ink)">
-        <span class="cnr" aria-hidden="true"></span>
-        <span class="cnr-ico" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M6 3v6a5 5 0 0 0 10 0V3"/><path d="M4 3h4"/><path d="M14 3h4"/>
-            <path d="M11 14v2a5 5 0 0 0 9 3"/><circle cx="20" cy="17" r="2.2"/>
-          </svg>
-        </span>
-        <div class="svc__body">
-          <h3 class="svc__ttl">特定施設入居者生活介護</h3>
-          <p>要介護の認定を受けた方が、お住まいになりながら介護・生活支援を受けていただくサービスです。介護付有料老人ホームの基本のかたちになります。</p>
-          <a class="svc__go" id="btn-svc-1" href="https://hakushinkai.jp/contact/">これからお住まいになる方へ
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15"/><path d="M13 6l6 6-6 6"/></svg>
-          </a>
-        </div>
-        <figure class="svc__photo"><img src="event-6.jpg" alt="行事で過ごすようす" width="444" height="332" loading="lazy"></figure>
-      </li>
-
-      <li class="svc" style="--tc:var(--c2);--tc-bg:var(--c2-bg);--tc-ink:var(--c2-ink)">
-        <span class="cnr" aria-hidden="true"></span>
-        <span class="cnr-ico" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/>
-          </svg>
-        </span>
-        <div class="svc__body">
-          <h3 class="svc__ttl">短期利用特定施設<span class="nb">入居者生活介護</span></h3>
-          <p>短い期間だけご利用いただけます。ご家族の通院・お仕事・休息のあいだ、安心してお預けいただけます。</p>
-          <a class="svc__go" id="btn-svc-2" href="https://hakushinkai.jp/contact/">短い期間だけ利用したい方へ
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15"/><path d="M13 6l6 6-6 6"/></svg>
-          </a>
-        </div>
-        <figure class="svc__photo"><img src="event-4.jpg" alt="外出のようす" width="444" height="332" loading="lazy"></figure>
-      </li>
-
-      <li class="svc" style="--tc:var(--c3);--tc-bg:var(--c3-bg);--tc-ink:var(--c3-ink)">
-        <span class="cnr" aria-hidden="true"></span>
-        <span class="cnr-ico" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 18V8"/><path d="M3 13h18v5"/><path d="M21 18v-4a3 3 0 0 0-3-3H9"/><circle cx="6.5" cy="10.5" r="1.8"/>
-          </svg>
-        </span>
-        <div class="svc__body">
-          <h3 class="svc__ttl">介護予防特定施設<span class="nb">入居者生活介護</span></h3>
-          <p>要支援の認定を受けた方向けのサービスです。いまの元気を保ちながら、必要な支援を受けて暮らしていただけます。</p>
-          <a class="svc__go" id="btn-svc-3" href="https://hakushinkai.jp/contact/">要支援の認定を受けた方へ
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15"/><path d="M13 6l6 6-6 6"/></svg>
-          </a>
-        </div>
-        <figure class="svc__photo"><img src="event-3.jpg" alt="レクリエーションのようす" width="444" height="332" loading="lazy"></figure>
-      </li>
-
-      <li class="svc" style="--tc:var(--c4);--tc-bg:var(--c4-bg);--tc-ink:var(--c4-ink)">
-        <span class="cnr" aria-hidden="true"></span>
-        <span class="cnr-ico" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 3v18"/><path d="M8 7h6a2.5 2.5 0 0 1 0 5h-4a2.5 2.5 0 0 0 0 5h6"/>
-          </svg>
-        </span>
-        <div class="svc__body">
-          <h3 class="svc__ttl">体験入居<span class="badge">空室利用</span></h3>
-          <p>お部屋が空いているときに、実際に泊まって暮らしを体験していただけます。先に生活のリズムを知っておくと、そのあとの入居がスムーズです。</p>
-          <p class="svc__price"><strong>1泊 7,500円</strong>／原則 7泊8日まで</p>
-          <a class="svc__go" id="btn-svc-4" href="https://hakushinkai.jp/contact/">まず試してみたい方へ
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15"/><path d="M13 6l6 6-6 6"/></svg>
-          </a>
-        </div>
-        <figure class="svc__photo"><img src="ph-dining.jpg" alt="2階の食堂" width="900" height="675" loading="lazy"></figure>
       </li>
     </ul>
 
@@ -2077,8 +2130,8 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
       </a>
     </div>
     <div class="actions">
-      <!-- ▼差し替え①（同じアドレス） -->
-      <a class="btn btn--visit" id="btn-visit-2" href="https://hakushinkai.jp/contact/">
+      <!-- ▼差し替え①（同じアドレス。?から後ろの印は残してください） -->
+      <a class="btn btn--visit" id="btn-visit-2" href="https://hakushinkai.jp/contact/?from=mch-yono&amp;place=cta">
         見学・入居のご相談
       </a>
     </div>
@@ -2123,49 +2176,69 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 
   </div>
 
-  <!-- 法人サイトへのカード -->
-  <div class="wrap">
+  <!-- ===== 行き先は2枚だけ。①ご相談（主役・白） ②求人情報 =====
+       id は消さないでください（押された回数を数えるために使います）。 -->
+  <nav class="wrap exits" aria-label="おもな行き先">
+    <!-- ▼差し替え①（同じアドレス。?から後ろの印は残してください） -->
+    <a class="exit exit--main" id="btn-visit-3" href="https://hakushinkai.jp/contact/?from=mch-yono&amp;place=footer">
+      <span class="exit__ic" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+             stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.4 9.1 9.1 0 0 1-3.2-.6L3 21l1.8-5.1A8.2 8.2 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg>
+      </span>
+      <span class="exit__t">
+        <strong>見学・入居のご相談</strong>
+        <small>フォームからお問い合わせいただけます</small>
+      </span>
+    </a>
+    <!-- ▼差し替え②（ヘッダーと同じアドレス） -->
+    <a class="exit" id="btn-recruit-footer" target="_blank" rel="noopener"
+       href="https://arwrk.net/recruit/hakushinkai/?utm_source=mch-yono&amp;utm_medium=site&amp;utm_campaign=recruit">
+      <span class="exit__ic" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+             stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </span>
+      <span class="exit__t">
+        <strong>求人情報を見る</strong>
+        <small>介護職・看護職ほか（博滇会グループ 採用サイト）</small>
+      </span>
+    </a>
+  </nav>
+
+  <!-- ===== 法人とグループ。ひとまとめにして「規模」を見せる場所 ===== -->
+  <div class="wrap orgblock">
     <a class="orgcard" id="btn-org" href="https://hakushinkai.jp/" target="_blank" rel="noopener">
       <span class="orgcard__logo">
-        <img src="logo-mark.png" alt="" width="256" height="256" loading="lazy">
+        <!-- 法人名まで入った横型ロゴ。マークだけに戻す場合は logo-mark.png に差し替え -->
+        <img src="logo-hakushinkai.png" alt="医療法人 博滇会" width="600" height="600" loading="lazy">
       </span>
       <span class="orgcard__text">
-        <strong>医療法人 博滇会</strong>
-        <small>メディカルケアホーム与野中央は医療法人 博滇会の施設です。法人サイトはこちら</small>
+        <strong>この施設を運営しているのは</strong>
+        <small>医療法人 博滇会（さいたま市西区）。法人サイトで、グループ全体をご覧いただけます</small>
       </span>
       <span class="orgcard__arrow" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
              stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15"/><path d="M13 6l6 6-6 6"/></svg>
       </span>
     </a>
+
+    <!-- 4つの区分は、法人サイトの言い方に合わせています。
+         リンク先は法人サイトの「事業を知る」の各見出しです。 -->
+    <div class="groupsvc">
+      <p class="groupsvc__lede">博滇会グループは、さいたま市・上尾市で、<strong>医療・介護・保育の20をこえる事業所</strong>を運営しています。</p>
+      <ul>
+        <li><a id="btn-grp-mamoru" href="https://hakushinkai.jp/facilities/#mamoru" target="_blank" rel="noopener">まもる<small>医療</small></a></li>
+        <li><a id="btn-grp-kurasu" href="https://hakushinkai.jp/facilities/#kurasu" target="_blank" rel="noopener">くらす<small>住まい</small></a></li>
+        <li><a id="btn-grp-sasaeru" href="https://hakushinkai.jp/facilities/#sasaeru" target="_blank" rel="noopener">ささえる<small>在宅</small></a></li>
+        <li><a id="btn-grp-hagukumu" href="https://hakushinkai.jp/facilities/#hagukumu" target="_blank" rel="noopener">はぐくむ<small>保育</small></a></li>
+      </ul>
+    </div>
   </div>
 
-  <!-- 博滇会グループのサービス -->
-  <div class="wrap groupsvc">
-    <h3>博滇会グループのサービス</h3>
-    <ul>
-      <li>湯澤医院</li>
-      <li>訪問看護</li>
-      <li>訪問リハビリ</li>
-      <li>通所介護</li>
-      <li>通所リハビリ</li>
-      <li>居宅介護支援</li>
-      <li>有料老人ホーム</li>
-      <li>保育園</li>
-    </ul>
-  </div>
-
-  <nav class="wrap footer__links" aria-label="関連リンク">
-    <a href="https://hakushinkai.jp/" target="_blank" rel="noopener">医療法人 博滇会</a>
-    <a href="https://hakushinkai.jp/facilities/yuzawa/" target="_blank" rel="noopener">湯澤医院</a>
-    <!-- ▼差し替え②（ヘッダーと同じアドレス） -->
-    <a id="btn-recruit-footer" target="_blank" rel="noopener"
-       href="https://arwrk.net/recruit/hakushinkai/?utm_source=mch-yono&amp;utm_medium=site&amp;utm_campaign=recruit">求人情報</a>
+  <div class="wrap footer__fine">
     <a id="btn-pdf-juyojiko" href="juyojiko-mch-yononakaou.pdf" target="_blank" rel="noopener">重要事項説明書（PDF）</a>
     <a href="https://hakushinkai.jp/privacy-policy/" target="_blank" rel="noopener">プライバシーポリシー</a>
-  </nav>
-
-  <p class="wrap group">医療法人博滇会グループ</p>
+    <span class="copy">© 医療法人博滇会グループ</span>
+  </div>
 </footer>
 
 <!-- ===== 画面下に常に出る、お問い合わせバー =====
@@ -2180,8 +2253,8 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
         <span class="only-sp">電話する</span>
         <span class="only-pc">お電話でのご相談&nbsp;&nbsp;048-829-7853</span>
       </a>
-      <!-- ▼差し替え①（同じアドレス） -->
-      <a class="cbtn cbtn--visit" id="btn-visit-bar" href="https://hakushinkai.jp/contact/">
+      <!-- ▼差し替え①（同じアドレス。?から後ろの印は残してください） -->
+      <a class="cbtn cbtn--visit" id="btn-visit-bar" href="https://hakushinkai.jp/contact/?from=mch-yono&amp;place=bar">
         <span class="only-sp">見学・相談</span>
         <span class="only-pc">見学・入居のご相談</span>
       </a>
