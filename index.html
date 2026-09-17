@@ -605,6 +605,111 @@ h3.deco-label{ font-size:1.05rem; }
   .point__panel{ padding:6px 18px 24px; }
 }
 
+/* =========================================================
+   くわしい内容の「ポップアップ」（2026-09-17）
+   「くわしく見る」を押すと、画面の真ん中に大きく開きます。
+   下の「前へ／次へ」で、1〜5を行ったり来たりできます（5の次は1に戻ります）。
+
+   ★中身は、折り畳み（details）の中にあるものを“そのまま移してくる”だけです。
+     同じ文章を2か所に置いていないので、直すときは1か所で済みます。
+   ★この仕組みが動かない端末では、もとの折り畳みとして開きます（何も壊れません）。
+   ========================================================= */
+/* ★このページは「body直下の要素は position:relative」という決めごとがあるため、
+   ここは必ず body > .pmodal と書きます（.pmodal だけでは上書きされて位置がずれます）。 */
+body > .pmodal{
+  position:fixed; inset:0; z-index:200;   /* 画面下のお問い合わせバー（50）より上に出します */
+  display:flex; align-items:center; justify-content:center;
+  padding:24px 16px;
+}
+.pmodal[hidden]{ display:none !important; }
+.pmodal__backdrop{
+  position:absolute; inset:0; background:rgba(35,48,59,.66);
+  backdrop-filter:blur(3px); -webkit-backdrop-filter:blur(3px);
+}
+.pmodal__wrap{
+  position:relative; display:flex; align-items:center; gap:14px;
+  width:100%; max-width:calc(var(--maxw) - 20px);
+}
+.pmodal__card{
+  position:relative; overflow:hidden; flex:1; min-width:0;
+  display:flex; flex-direction:column; max-height:88vh;
+  background:var(--white); border-radius:18px;
+  box-shadow:0 24px 60px rgba(20,28,36,.34);
+}
+/* カードと同じ、左上の色の三角 */
+.pmodal__card::before{
+  content:""; position:absolute; left:0; top:0; width:112px; height:112px;
+  background:var(--pt-col); clip-path:polygon(0 0, 100% 0, 0 100%); z-index:1;
+}
+.pmodal__head{
+  position:relative; z-index:2; flex:none; display:flex; align-items:flex-start; gap:14px;
+  padding:20px 18px 16px 24px; border-bottom:1px solid var(--line);
+}
+.pmodal__no{
+  flex:none; width:44px; margin:-6px 0 0 -6px;
+  color:#fff; font-size:2rem; font-weight:700; line-height:1;
+}
+.pmodal__ttlwrap{ flex:1; min-width:0; }
+.pmodal__eyebrow{
+  display:block; font-size:.76rem; font-weight:700; color:var(--pt-ink);
+  letter-spacing:.06em; margin-bottom:.25em;
+}
+.pmodal__ttl{ font-size:1.22rem; font-weight:700; line-height:1.5; color:var(--ink); margin:0; }
+.pmodal__close{
+  flex:none; width:46px; height:46px; border-radius:50%; border:0; cursor:pointer;
+  background:var(--pt-ink); color:#fff;
+  display:inline-flex; align-items:center; justify-content:center;
+  transition: background-color .18s ease;
+}
+.pmodal__close svg{ width:20px; height:20px; }
+.pmodal__close:hover{ background:var(--ink); }
+.pmodal__close:focus-visible{ outline:3px solid var(--accent-dark); outline-offset:3px; }
+.pmodal__body{
+  flex:1; min-height:0; overflow-y:auto; -webkit-overflow-scrolling:touch;
+  background:var(--pt-bg); overscroll-behavior:contain;
+}
+/* ポップアップの中では、カードの中のときより余白を広めに */
+.pmodal__body .point__panel{ padding:20px 26px 28px; border-top:0; background:transparent; }
+.pmodal__foot{
+  flex:none; display:flex; align-items:center; gap:10px;
+  padding:12px 16px; border-top:1px solid var(--line); background:var(--white);
+}
+.pmodal__count{ margin:0 auto; font-size:.86rem; font-weight:700; color:var(--ink-soft); }
+.pmodal__fnav{
+  display:inline-flex; align-items:center; gap:.45em; min-height:46px; padding:10px 18px;
+  border-radius:999px; border:2px solid var(--pt-ink); background:#fff; color:var(--pt-ink);
+  font-family:inherit; font-size:.9rem; font-weight:700; cursor:pointer;
+  transition: background-color .18s ease, color .18s ease;
+}
+.pmodal__fnav:hover{ background:var(--pt-ink); color:#fff; }
+.pmodal__fnav:focus-visible{ outline:3px solid var(--accent-dark); outline-offset:3px; }
+.pmodal__fnav svg{ width:16px; height:16px; }
+/* 画面の左右に出る丸い矢印。せまい画面では出しません（下の「前へ／次へ」を使います） */
+.pmodal__nav{
+  flex:none; width:52px; height:52px; border-radius:50%; border:0; cursor:pointer;
+  background:rgba(255,255,255,.92); color:var(--ink);
+  display:none; align-items:center; justify-content:center;
+  box-shadow:0 6px 18px rgba(20,28,36,.25);
+}
+.pmodal__nav svg{ width:24px; height:24px; }
+.pmodal__nav:hover{ background:#fff; }
+.pmodal__nav:focus-visible{ outline:3px solid #fff; outline-offset:3px; }
+@media (min-width:1040px){ .pmodal__nav{ display:inline-flex; } }
+
+@media (max-width:560px){
+  /* スマホでは画面いっぱいに開きます */
+  .pmodal{ padding:0; align-items:stretch; }
+  .pmodal__wrap{ max-width:none; height:100%; }
+  .pmodal__card{ max-height:none; height:100%; border-radius:0; }
+  .pmodal__head{ padding:15px 12px 13px 20px; gap:10px; }
+  .pmodal__no{ font-size:1.7rem; width:34px; }
+  .pmodal__ttl{ font-size:1.06rem; }
+  .pmodal__close{ width:42px; height:42px; }
+  .pmodal__body .point__panel{ padding:16px 18px 24px; }
+  .pmodal__fnav{ padding:10px 13px; font-size:.85rem; }
+  .pmodal__count{ font-size:.8rem; }
+}
+
 /* カードから、下の節へ飛ぶ線（このページの目次のはたらき） */
 .point__more{
   display:inline-flex; align-items:center; gap:.45em; align-self:flex-start;
@@ -722,7 +827,7 @@ h3.deco-label{ font-size:1.05rem; }
 /* =========================================================
    設備のリスト（居室／共有）
    ========================================================= */
-.equip{ display:grid; gap:20px; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); }
+.equip{ display:grid; gap:20px; grid-template-columns:repeat(auto-fit, minmax(min(280px,100%),1fr)); }
 .equip__box{
   background:var(--white); border:1px solid var(--line); border-radius:16px;
   padding:24px 22px;
@@ -890,7 +995,7 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 /* =========================================================
    往診の医師
    ========================================================= */
-.doctors{ display:grid; gap:16px; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); margin:0 0 1.4em; }
+.doctors{ display:grid; gap:16px; grid-template-columns:repeat(auto-fit, minmax(min(280px,100%),1fr)); margin:0 0 1.4em; }
 .doctor{
   background:var(--bg); border:1px solid var(--line); border-radius:12px;
   padding:18px 20px;
@@ -2241,6 +2346,52 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
   </div>
 </footer>
 
+<!-- ===== くわしい内容のポップアップ（2026-09-17） =====
+     中身はカラのままです。開いたときに、そのポイントの中身をここへ“移してきます”。
+     同じ文章を2か所に書いていないので、直すときは1か所で済みます。 -->
+<div class="pmodal" id="pmodal" hidden aria-hidden="true">
+  <div class="pmodal__backdrop" data-close></div>
+  <div class="pmodal__wrap">
+    <button class="pmodal__nav pmodal__prev" type="button" aria-label="前のポイント">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+    </button>
+
+    <div class="pmodal__card" role="dialog" aria-modal="true" aria-labelledby="pmodal-ttl">
+      <div class="pmodal__head">
+        <span class="pmodal__no" aria-hidden="true">1</span>
+        <div class="pmodal__ttlwrap">
+          <span class="pmodal__eyebrow">おすすめポイント</span>
+          <h2 class="pmodal__ttl" id="pmodal-ttl">　</h2>
+        </div>
+        <button class="pmodal__close" type="button" aria-label="とじる" data-close>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12"/><path d="M18 6L6 18"/></svg>
+        </button>
+      </div>
+
+      <div class="pmodal__body" id="pmodal-body"></div>
+
+      <div class="pmodal__foot">
+        <button class="pmodal__fnav pmodal__fprev" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>前へ
+        </button>
+        <span class="pmodal__count">1 / 5</span>
+        <button class="pmodal__fnav pmodal__fnext" type="button">次へ
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <button class="pmodal__nav pmodal__next" type="button" aria-label="次のポイント">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+    </button>
+  </div>
+</div>
+
 <!-- ===== 画面下に常に出る、お問い合わせバー =====
      どこを読んでいても1タップで電話できるようにするためのものです。
      ページ最後の「まずは、ご相談ください。」が画面に入ったときだけ隠れます。
@@ -2373,7 +2524,10 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
     btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" '
       + 'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
       + '<path d="M12 20V7"/><path d="M6 13l6-6 6 6"/></svg>とじる';
+    /* ポップアップで開いているときは、この印（data-close）でポップアップが閉じます */
+    btn.setAttribute('data-close', '');
     btn.addEventListener('click', function () {
+      if (panel.closest('.pmodal')) return;   /* ポップアップのときは、そちらが閉じます */
       var card = d.closest('.point');
       d.open = false;
       /* 閉じたあと、そのカードの頭が画面に入るようにします */
@@ -2413,6 +2567,113 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
     });
   }, { threshold: 0.25 });
   targets.forEach(function (t) { io.observe(t); });
+})();
+
+/* =========================================================
+   くわしい内容を「ポップアップ」で開きます（2026-09-17）
+   ・「くわしく見る」を押すと、画面の真ん中に大きく開きます
+   ・下の「前へ／次へ」で 1〜5 を行き来できます（5の次は1）
+   ・×ボタン・背景・Escキー・中身のいちばん下の「とじる」で閉じられます
+   ・中身は折り畳みの中にあるものを“移してくる”だけなので、二重管理になりません
+   ・この仕組みが動かない端末では、もとの折り畳みとして開きます
+   ========================================================= */
+(function () {
+  var modal = document.getElementById('pmodal');
+  var list  = Array.prototype.slice.call(document.querySelectorAll('.pdetail'));
+  if (!modal || !list.length) return;          /* 無ければ、折り畳みのまま使えます */
+
+  var bodyEl  = modal.querySelector('.pmodal__body');
+  var noEl    = modal.querySelector('.pmodal__no');
+  var ttlEl   = modal.querySelector('.pmodal__ttl');
+  var cntEl   = modal.querySelector('.pmodal__count');
+  var closeEl = modal.querySelector('.pmodal__close');
+
+  var items = list.map(function (d, i) {
+    var card = d.closest('.point');
+    var ttl  = card ? card.querySelector('.point__ttl') : null;
+    var no   = card ? card.querySelector('.point__no') : null;
+    return {
+      d: d,
+      panel: d.querySelector('.point__panel'),
+      title: ttl ? ttl.textContent.trim() : '',
+      no:    no ? no.textContent.trim() : String(i + 1),
+      style: card ? (card.getAttribute('style') || '') : '',
+      n:     (d.id || '').replace('dt-point-', '')
+    };
+  }).filter(function (it) { return !!it.panel; });
+  if (!items.length) return;
+
+  var cur = -1, opener = null;
+
+  function send(name) {
+    if (typeof window.gtag === 'function') { window.gtag('event', name); }
+  }
+  /* いま出している中身を、もとの折り畳みの中へ返します */
+  function putBack() {
+    if (cur >= 0) { items[cur].d.appendChild(items[cur].panel); }
+  }
+  function show(i) {
+    i = (i + items.length) % items.length;      /* 5の次は1、1の前は5 */
+    var it = items[i];
+    putBack();
+    modal.setAttribute('style', it.style);      /* そのポイントの色にそろえます */
+    noEl.textContent  = it.no;
+    ttlEl.textContent = it.title;
+    cntEl.textContent = (i + 1) + ' / ' + items.length;
+    bodyEl.appendChild(it.panel);
+    bodyEl.scrollTop = 0;
+    cur = i;
+    /* 数えるための合図。1人1回だけ送ります */
+    if (it.n && !it.d.dataset.counted) {
+      it.d.dataset.counted = '1';
+      send('point_open_' + it.n);
+    }
+  }
+  function openAt(i, trigger) {
+    opener = trigger || null;
+    modal.hidden = false;
+    modal.setAttribute('aria-hidden', 'false');
+    document.documentElement.style.overflow = 'hidden';   /* 後ろが動かないように */
+    show(i);
+    if (closeEl && closeEl.focus) closeEl.focus();
+  }
+  function closeModal() {
+    if (modal.hidden) return;
+    putBack();
+    cur = -1;
+    modal.hidden = true;
+    modal.setAttribute('aria-hidden', 'true');
+    document.documentElement.style.overflow = '';
+    if (opener && opener.focus) opener.focus();           /* 押した場所に戻します */
+    opener = null;
+  }
+
+  /* 「くわしく見る」のバーを、ポップアップを開くボタンにします */
+  items.forEach(function (it, i) {
+    var head = it.d.querySelector('.pdetail__head');
+    if (!head) return;
+    head.setAttribute('aria-haspopup', 'dialog');
+    head.addEventListener('click', function (e) {
+      e.preventDefault();                                  /* 折り畳みは開きません */
+      openAt(i, head);
+    });
+  });
+
+  /* ×・背景・中身のいちばん下の「とじる」（data-close）で閉じます */
+  modal.addEventListener('click', function (e) {
+    if (e.target.closest('[data-close]')) closeModal();
+  });
+  modal.querySelector('.pmodal__prev').addEventListener('click', function () { show(cur - 1); });
+  modal.querySelector('.pmodal__next').addEventListener('click', function () { show(cur + 1); });
+  modal.querySelector('.pmodal__fprev').addEventListener('click', function () { show(cur - 1); });
+  modal.querySelector('.pmodal__fnext').addEventListener('click', function () { show(cur + 1); });
+
+  document.addEventListener('keydown', function (e) {
+    if (modal.hidden) return;
+    if (e.key === 'Escape') { closeModal(); }
+    else if (e.key === 'ArrowRight') { show(cur + 1); }
+    else if (e.key === 'ArrowLeft')  { show(cur - 1); }
+  });
 })();
 </script>
 
