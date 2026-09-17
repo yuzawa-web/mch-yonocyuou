@@ -1105,19 +1105,16 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 }
 /* 左上の三角を大きくして、白い番号を入れる（1〜4が数えられるように）。
    アイコンは、おすすめポイントのカードと同じく本文の上へ移しています。 */
-.svc .cnr{ width:96px; height:96px; }
+.svc .cnr{ width:80px; height:80px; }   /* アイコンを外したので、見出しと重ならない大きさに */
 .svc__no{
-  position:absolute; left:15px; top:3px; z-index:2;
-  color:#fff; font-size:2.1rem; font-weight:700; line-height:1;
+  position:absolute; left:13px; top:2px; z-index:2;
+  color:#fff; font-size:1.95rem; font-weight:700; line-height:1;
 }
-.svc__icon{
-  display:block; width:38px; height:38px; color:var(--tc-ink); margin:32px 0 .55em;
-}
-.svc__icon svg{ width:100%; height:100%; }
 .svc__body{ padding:22px 18px 20px 26px; display:flex; flex-direction:column; }
 .svc__ttl{
+  /* 左上の番号（三角）と重ならないための余白 */
   font-size:1.2rem; font-weight:700; line-height:1.5; color:var(--ink);
-  margin:0 0 .5em;
+  margin:40px 0 .5em;
 }
 .svc__body p{ font-size:.9rem; color:var(--ink-soft); line-height:1.8; margin:0; }
 .svc__price{
@@ -1125,15 +1122,35 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
   background:rgba(255,255,255,.75); font-size:.9rem; color:var(--ink);
 }
 .svc__price strong{ color:var(--tc-ink); }
-.svc__go{
-  display:inline-flex; align-items:center; gap:.5em; align-self:flex-start;
-  margin-top:auto; padding-top:1.1em;
-  font-size:.88rem; font-weight:700; color:var(--tc-ink); text-decoration:none;
-  transition: gap .18s ease, color .18s ease;
+/* 4つのかたちに共通の、ひとつのボタン（2026-09-17）
+   もとはカードごとにリンクがありましたが、飛び先が同じだったので1つにまとめました。 */
+.svc-cta{ margin-top:30px; text-align:center; }
+.svc-cta__lead{
+  font-size:1rem; font-weight:700; color:var(--ink); line-height:1.8; margin:0 0 .9em;
 }
-.svc__go svg{ width:18px; height:18px; }
-.svc__go:hover{ gap:.9em; }
-.svc__go:focus-visible{ outline:3px solid var(--accent-dark); outline-offset:3px; }
+.svc-cta__btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:.7em;
+  min-height:68px; padding:16px 38px; border-radius:999px;
+  background:var(--accent); color:#fff; text-decoration:none;
+  font-size:1.12rem; font-weight:700; letter-spacing:.02em; line-height:1.5;
+  box-shadow:0 8px 22px rgba(30,64,104,.26);
+  transition: background-color .18s ease, transform .12s ease, box-shadow .18s ease;
+}
+.svc-cta__btn:hover{
+  background:var(--accent-dark); box-shadow:0 10px 26px rgba(30,64,104,.34);
+}
+.svc-cta__btn:active{ transform:translateY(1px); }
+.svc-cta__btn:focus-visible{ outline:3px solid var(--accent-dark); outline-offset:4px; }
+.svc-cta__ic{ flex:none; width:26px; height:26px; }
+.svc-cta__ar{ flex:none; width:20px; height:20px; }
+.svc-cta__ic svg,.svc-cta__ar svg{ width:100%; height:100%; }
+.svc-cta__note{
+  font-size:.88rem; color:var(--ink-soft); line-height:1.85; margin:1.1em 0 0;
+}
+@media (max-width:560px){
+  .svc-cta__btn{ width:100%; min-height:64px; padding:15px 18px; font-size:1.02rem; gap:.5em; }
+  .svc-cta__lead{ font-size:.95rem; }
+}
 .svc__photo{ margin:0; position:relative; }
 .svc__photo img{
   width:100%; height:100%; object-fit:cover; display:block;
@@ -1538,7 +1555,7 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
       <!-- ▼差し替え①：問い合わせページのアドレス
            アドレスのうしろの ?from=mch-yono&place=○○ は「どのボタンから来たか」の印です。
            アドレスを差し替えるときも、この印（?から後ろ）は残してください。
-           place の中身は、ボタンごとに違います（fv／nyukyo／tanki／yobo／taiken／cta／footer／bar）。
+           place の中身は、ボタンごとに違います（fv／katachi／cta／footer／bar）。
            ★utm_source ではなく from を使っています。理由はREADMEに書いてあります。 -->
       <a class="btn btn--visit" id="btn-visit" href="https://hakushinkai.jp/contact/?from=mch-yono&amp;place=fv">
         見学・入居のご相談
@@ -1999,15 +2016,8 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
         <span class="cnr" aria-hidden="true"></span>
         <span class="svc__no" aria-hidden="true">1</span>
         <div class="svc__body">
-          <span class="svc__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M6 3v6a5 5 0 0 0 10 0V3"/><path d="M4 3h4"/><path d="M14 3h4"/>
-            <path d="M11 14v2a5 5 0 0 0 9 3"/><circle cx="20" cy="17" r="2.2"/>
-          </svg></span>
           <h3 class="svc__ttl">特定施設入居者生活介護</h3>
           <p>要介護の認定を受けた方が、お住まいになりながら介護・生活支援を受けていただくサービスです。介護付有料老人ホームの基本のかたちになります。</p>
-          <a class="svc__go" id="btn-svc-1" href="https://hakushinkai.jp/contact/?from=mch-yono&amp;place=nyukyo">これからお住まいになる方へ
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15"/><path d="M13 6l6 6-6 6"/></svg>
-          </a>
         </div>
         <figure class="svc__photo"><img src="event-6.jpg" alt="行事で過ごすようす" width="444" height="332" loading="lazy"></figure>
       </li>
@@ -2016,14 +2026,8 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
         <span class="cnr" aria-hidden="true"></span>
         <span class="svc__no" aria-hidden="true">2</span>
         <div class="svc__body">
-          <span class="svc__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/>
-          </svg></span>
           <h3 class="svc__ttl">短期利用特定施設<span class="nb">入居者生活介護</span></h3>
           <p>短い期間だけご利用いただけます。ご家族の通院・お仕事・休息のあいだ、安心してお預けいただけます。</p>
-          <a class="svc__go" id="btn-svc-2" href="https://hakushinkai.jp/contact/?from=mch-yono&amp;place=tanki">短い期間だけ利用したい方へ
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15"/><path d="M13 6l6 6-6 6"/></svg>
-          </a>
         </div>
         <figure class="svc__photo"><img src="event-4.jpg" alt="外出のようす" width="444" height="332" loading="lazy"></figure>
       </li>
@@ -2032,14 +2036,8 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
         <span class="cnr" aria-hidden="true"></span>
         <span class="svc__no" aria-hidden="true">3</span>
         <div class="svc__body">
-          <span class="svc__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 18V8"/><path d="M3 13h18v5"/><path d="M21 18v-4a3 3 0 0 0-3-3H9"/><circle cx="6.5" cy="10.5" r="1.8"/>
-          </svg></span>
           <h3 class="svc__ttl">介護予防特定施設<span class="nb">入居者生活介護</span></h3>
           <p>要支援の認定を受けた方向けのサービスです。いまの元気を保ちながら、必要な支援を受けて暮らしていただけます。</p>
-          <a class="svc__go" id="btn-svc-3" href="https://hakushinkai.jp/contact/?from=mch-yono&amp;place=yobo">要支援の認定を受けた方へ
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15"/><path d="M13 6l6 6-6 6"/></svg>
-          </a>
         </div>
         <figure class="svc__photo"><img src="event-3.jpg" alt="レクリエーションのようす" width="444" height="332" loading="lazy"></figure>
       </li>
@@ -2048,19 +2046,36 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
         <span class="cnr" aria-hidden="true"></span>
         <span class="svc__no" aria-hidden="true">4</span>
         <div class="svc__body">
-          <span class="svc__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 3v18"/><path d="M8 7h6a2.5 2.5 0 0 1 0 5h-4a2.5 2.5 0 0 0 0 5h6"/>
-          </svg></span>
           <h3 class="svc__ttl">体験入居<span class="badge">空室利用</span></h3>
           <p>お部屋が空いているときに、実際に泊まって暮らしを体験していただけます。先に生活のリズムを知っておくと、そのあとの入居がスムーズです。</p>
           <p class="svc__price"><strong>1泊 7,500円</strong>／原則 7泊8日まで</p>
-          <a class="svc__go" id="btn-svc-4" href="https://hakushinkai.jp/contact/?from=mch-yono&amp;place=taiken">まず試してみたい方へ
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15"/><path d="M13 6l6 6-6 6"/></svg>
-          </a>
         </div>
         <figure class="svc__photo"><img src="ph-dining.jpg" alt="2階の食堂" width="900" height="675" loading="lazy"></figure>
       </li>
     </ul>
+
+    <!-- ===== 4つのかたちに共通の、ひとつのボタン（2026-09-17） =====
+         もとは4枚のカードにそれぞれリンクがありましたが、
+         飛び先がぜんぶ同じだったので、1つにまとめて目立たせています。
+         id は消さないでください（押された回数を数えるために使います）。 -->
+    <div class="svc-cta">
+      <p class="svc-cta__lead">どのかたちが合うか、決まっていなくても大丈夫です。</p>
+      <!-- ▼差し替え①（同じアドレス。?から後ろの印は残してください） -->
+      <a class="svc-cta__btn" id="btn-svc-all" href="https://hakushinkai.jp/contact/?from=mch-yono&amp;place=katachi">
+        <span class="svc-cta__ic" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+               stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.4 9.1 9.1 0 0 1-3.2-.6L3 21l1.8-5.1A8.2 8.2 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/>
+          </svg>
+        </span>
+        まずは、お問い合わせください
+        <span class="svc-cta__ar" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+               stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15"/><path d="M13 6l6 6-6 6"/></svg>
+        </span>
+      </a>
+      <p class="svc-cta__note">ご本人の状態がわからない段階でも、ご家族だけでもご相談いただけます。<br class="only-pc">どのサービスになるかは、ご相談のうえで一緒に決めていきます。</p>
+    </div>
 
     <!-- 施設のデータ。4つのかたちより下に置き、写真を外して小さくしています -->
     <p class="statshead">施設のデータ</p>
@@ -2437,7 +2452,7 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 (function(){
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduce || !('IntersectionObserver' in window)) return;
-  var sel = '.section .h2, .section .lede, .tags, .points, .feat, .care-list, .clinic-linkwrap, .events, .fee-total, .tablewrap, .fee-etc, .pamph, .stats, .svc-cards,'
+  var sel = '.section .h2, .section .lede, .tags, .points, .feat, .care-list, .clinic-linkwrap, .events, .fee-total, .tablewrap, .fee-etc, .pamph, .stats, .svc-cards, .svc-cta,'
           + ' .care-legend, .care-note, .photos, .photos__note, .equip, .equip__note,'
           + ' .meal, .spec, .cards, .dl-list, .dl-note, .insta-embed, .flow-note';
   var els = Array.prototype.slice.call(document.querySelectorAll(sel));
