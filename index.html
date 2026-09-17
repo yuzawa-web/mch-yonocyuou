@@ -1014,6 +1014,51 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 }
 
 /* =========================================================
+   お支払いの例の折りたたみ（2026-09-17）
+   ★ここは「その場で開く」ふつうの折りたたみです。
+     ポイントのカード（.pdetail）はポップアップになりますが、
+     こちらは .fdetail という別の名前にしてあるので、そうなりません。
+   ========================================================= */
+.fdetail{
+  margin-top:1.6em; border:1px solid var(--line); border-radius:12px; overflow:hidden;
+}
+.fdetail__head{
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding:16px 20px; min-height:62px; cursor:pointer; list-style:none;
+  background:var(--bg-soft); color:var(--accent);
+  font-size:1rem; font-weight:700;
+  transition: background-color .18s ease, color .18s ease;
+}
+.fdetail__head::-webkit-details-marker{ display:none; }
+.fdetail__head:hover{ background:var(--accent-pale); }
+.fdetail[open] > .fdetail__head{ background:var(--accent); color:#fff; }
+.fdetail[open] > .fdetail__head:hover{ background:var(--accent-dark); }
+.fdetail__head:focus-visible{ outline:3px solid var(--accent-dark); outline-offset:-3px; }
+.fdetail:not([open]) .lbl-open{ display:none; }
+.fdetail[open] .lbl-close{ display:none; }
+/* ＋／− の丸い印 */
+.fdetail__mark{
+  position:relative; flex:none; width:28px; height:28px; border-radius:50%;
+  background:#fff; border:1px solid var(--line);
+}
+.fdetail[open] .fdetail__mark{ background:rgba(255,255,255,.22); border-color:transparent; }
+.fdetail__mark::before,.fdetail__mark::after{
+  content:""; position:absolute; left:7px; top:12.5px;
+  width:13px; height:2.5px; background:var(--accent); border-radius:2px;
+}
+.fdetail[open] .fdetail__mark::before,
+.fdetail[open] .fdetail__mark::after{ background:#fff; }
+.fdetail__mark::after{ transform:rotate(90deg); }
+.fdetail[open] .fdetail__mark::after{ display:none; }
+.fdetail__body{ padding:20px 20px 22px; background:var(--white); }
+/* 開いたときにすぐ見えるよう、スクロールの演出はやめます */
+.fdetail__body .reveal{ opacity:1 !important; transform:none !important; }
+@media (max-width:560px){
+  .fdetail__head{ padding:14px 16px; font-size:.95rem; }
+  .fdetail__body{ padding:16px 14px 18px; }
+}
+
+/* =========================================================
    食事
    ========================================================= */
 .meal{ display:grid; gap:24px; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); align-items:start; }
@@ -2193,29 +2238,42 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
     <h3 class="deco-label deco-label--gap"><span>実際のお支払いの例</span></h3>
     <p class="lede">上の費用に、<strong>介護保険の自己負担額</strong>が加わります。重要事項説明書に載せている、代表的な2つの例です。</p>
 
-    <div class="tablewrap">
-      <table class="fee">
-        <thead>
-          <tr>
-            <th scope="col">　</th>
-            <th scope="col">例1</th>
-            <th scope="col">例2</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><th scope="row">介護度</th><td>要支援2</td><td>要介護3</td></tr>
-          <tr><th scope="row">お部屋の広さ</th><td>18.00㎡</td><td>19.70㎡</td></tr>
-          <tr><th scope="row">家賃</th><td>80,000円</td><td>80,000円</td></tr>
-          <tr><th scope="row">管理費</th><td>90,000円</td><td>90,000円</td></tr>
-          <tr><th scope="row">食費</th><td>55,000円</td><td>55,000円</td></tr>
-          <tr><th scope="row">介護保険の自己負担</th><td>11,804円</td><td>25,284円</td></tr>
-          <tr class="total"><th scope="row">1か月の合計</th><td>236,804円</td><td>250,284円</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="fee-note">※ 介護保険の自己負担額は、介護度・負担割合（1割〜3割）・各種加算によって変わります。上の例はいずれも1割負担の場合です。</p>
-    <p class="fee-note">※ 各種加算（夜間看護体制加算、個別機能訓練加算、医療機関連携加算、看取り介護加算、処遇改善に関する加算など）がかかります。くわしくは重要事項説明書をご覧ください。</p>
-    <p class="fee-note">※ 入院などで不在のときも、月額の利用料は減額になりません。</p>
+    <!-- ===== お支払いの例は、折りたたんでいます（2026-09-17） =====
+         表と注記は、知りたい方だけが開く形にしました。
+         ★ポイントのカードとちがい、ここは「その場で開く」ふつうの折りたたみです
+         　（ポップアップにはなりません）。class を .pdetail ではなく .fdetail に
+         　しているのが、その切り分けです。消さないでください。 -->
+    <details class="fdetail" id="dt-fee">
+      <summary class="fdetail__head">
+        <span><span class="lbl-close">代表的な2つの例を見る</span><span class="lbl-open">とじる</span></span>
+        <span class="fdetail__mark" aria-hidden="true"></span>
+      </summary>
+      <div class="fdetail__body">
+        <div class="tablewrap">
+          <table class="fee">
+            <thead>
+              <tr>
+                <th scope="col">　</th>
+                <th scope="col">例1</th>
+                <th scope="col">例2</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">介護度</th><td>要支援2</td><td>要介護3</td></tr>
+              <tr><th scope="row">お部屋の広さ</th><td>18.00㎡</td><td>19.70㎡</td></tr>
+              <tr><th scope="row">家賃</th><td>80,000円</td><td>80,000円</td></tr>
+              <tr><th scope="row">管理費</th><td>90,000円</td><td>90,000円</td></tr>
+              <tr><th scope="row">食費</th><td>55,000円</td><td>55,000円</td></tr>
+              <tr><th scope="row">介護保険の自己負担</th><td>11,804円</td><td>25,284円</td></tr>
+              <tr class="total"><th scope="row">1か月の合計</th><td>236,804円</td><td>250,284円</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="fee-note">※ 介護保険の自己負担額は、介護度・負担割合（1割〜3割）・各種加算によって変わります。上の例はいずれも1割負担の場合です。</p>
+        <p class="fee-note">※ 各種加算（夜間看護体制加算、個別機能訓練加算、医療機関連携加算、看取り介護加算、処遇改善に関する加算など）がかかります。くわしくは重要事項説明書をご覧ください。</p>
+        <p class="fee-note">※ 入院などで不在のときも、月額の利用料は減額になりません。</p>
+      </div>
+    </details>
 
     <p class="fee-etc"><strong>このほかに、実費でいただくもの</strong><br>
     医療費（診療費・お薬代など）／介護用品・消耗品費／有料サービスのご利用料／福祉用具のレンタル・購入費（介護保険の対象外のもの）／お部屋のテレビのNHK受信料</p>
@@ -2522,6 +2580,17 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
       if (n) send('point_open_' + n);
     });
   });
+
+  /* ①-2 お支払いの例を開いたとき。費用を真剣に見ている方の数が分かります。
+          イベント名：fee_example_open */
+  var fee = document.getElementById('dt-fee');
+  if (fee) {
+    fee.addEventListener('toggle', function () {
+      if (!fee.open || fee.dataset.counted) return;
+      fee.dataset.counted = '1';
+      send('fee_example_open');
+    });
+  }
 
   /* ② 電話ボタンを押したとき。
         ★Googleアナリティクスは tel: のクリックを自動では数えません。★
