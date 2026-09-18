@@ -158,6 +158,52 @@ img{ max-width:100%; display:block; }
 .header__links{ display:flex; gap:8px; flex:none; }
 
 /* =========================================================
+   ヘッダーのメニュー（2026-09-18 追加）
+   ・行き先はすべて同じページの中（1枚もののため）
+   ・パソコンでは、ヘッダーが画面の上に貼りついてついてきます
+   ・スマホでは貼りつけません（画面下のお問い合わせバーと合わせて
+     上下がふさがり、読むところが狭くなってしまうため）
+   ========================================================= */
+.gnav{ display:flex; align-items:center; gap:4px; flex-wrap:wrap; }
+.gnav a{
+  display:inline-flex; align-items:center; min-height:40px; padding:8px 14px;
+  border-radius:999px;
+  font-size:.88rem; font-weight:700; color:var(--ink); text-decoration:none;
+  white-space:nowrap;
+  transition: background-color .18s ease, color .18s ease;
+}
+.gnav a:hover{ background:var(--accent); color:#fff; }
+.gnav a:focus-visible{ outline:3px solid var(--accent-dark); outline-offset:2px; }
+
+@media (min-width:761px){
+  /* パソコンでは、上に貼りついてついてきます。
+     ★このページは「body直下は position:relative」という決めごとがあるため、
+       必ず body > .header と書きます（.header だけでは上書きされて貼りつきません）。 */
+  /* ★body > header.header と2つ重ねて書いています。
+     この決めごとの行（body > *:not(.bglogos)）が下のほうにあるため、
+     同じ強さだと負けてしまうからです。片方を消すと貼りつかなくなります。 */
+  body > header.header{ position:sticky; top:0; z-index:60; }
+  /* メニューで飛んだとき、見出しがヘッダーの下に隠れないようにします。
+     ヘッダーの高さ＋すこしの余白。幅によって高さが変わるので2段にしています。 */
+  #sec-points, #sec-svc, #sec-fee, #sec-access{ scroll-margin-top:136px; }
+}
+@media (min-width:1100px){
+  /* この幅からは、施設名・メニュー・採用情報が横1列に収まります（実測で確認） */
+  #sec-points, #sec-svc, #sec-fee, #sec-access{ scroll-margin-top:92px; }
+}
+@media (max-width:760px){
+  /* スマホでは、メニューを2行目に置いて折り返します。
+     ★横スクロールにはしていません。横に隠れた項目は気づかれないためです。
+       4つとも必ず見えるように、折り返す形にしてあります。 */
+  .gnav{
+    order:3; width:100%; flex-wrap:wrap; justify-content:center;
+    gap:4px; margin-top:2px;
+    border-top:1px solid var(--line); padding-top:8px;
+  }
+  .gnav a{ font-size:.84rem; padding:8px 12px; min-height:40px; }
+}
+
+/* =========================================================
    1枚目（ファーストビュー）
    ========================================================= */
 .fv{
@@ -1460,7 +1506,10 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
    細い画面（320〜520px）
    ========================================================= */
 @media (max-width:520px){
-  .header{ flex-wrap:nowrap; align-items:center; padding:12px 18px; gap:10px; }
+  /* 1行目＝施設名と採用情報、2行目＝メニュー。
+     ★flex-wrap は wrap のままにしてください（nowrap にするとメニューが
+       1行目に押し込まれて、施設名と重なります）。 */
+  .header{ flex-wrap:wrap; align-items:center; padding:12px 18px; gap:8px 10px; }
   .header__id{ flex:1 1 auto; flex-direction:column; gap:0; min-width:0; }
   .header .facility{ font-size:.82rem; line-height:1.5; }
   .header .group{ font-size:.68rem; white-space:nowrap; }
@@ -1567,6 +1616,19 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
     <span class="facility">メディカルケアホーム与野中央</span>
     <span class="group">医療法人博滇会グループ</span>
   </div>
+
+  <!-- ===== ヘッダーのメニュー（2026-09-18 追加） =====
+       1枚もののページなので、行き先はすべて「このページの中」です。
+       href の「#○○」は、飛び先の節に付けた id と対になっています。
+       ★節を削除するときは、ここの項目も消してください（押しても何も起きなくなります）。
+       id は消さないでください（押された回数を数えるために使います）。 -->
+  <nav class="gnav" aria-label="ページ内のメニュー">
+    <a id="nav-points" href="#sec-points">おすすめポイント</a>
+    <a id="nav-svc"    href="#sec-svc">ご利用のかたち</a>
+    <a id="nav-fee"    href="#sec-fee">費用について</a>
+    <a id="nav-access" href="#sec-access">アクセス</a>
+  </nav>
+
   <div class="header__links">
   <!-- ▼差し替え②：求人情報のアドレス
        いまは法人の採用ページ。施設ごとの求人ページができたらそちらへ。
@@ -1612,7 +1674,7 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 </main>
 
 <!-- ===== おすすめポイント ===== -->
-<section class="section section--decor" aria-labelledby="points-title">
+<section class="section section--decor" id="sec-points" aria-labelledby="points-title">
   <div class="decor" aria-hidden="true">
     <i style="--x:2%;--y:6%;--s:56px;--col:var(--c1)"></i>
     <i style="--x:8%;--y:16%;--s:34px;--col:var(--c3);--r:180deg"></i>
@@ -2217,7 +2279,7 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 <!-- ===== 費用 =====
      法人サイト（hakushinkai.jp/facilities/yono_central/）の掲載内容をもとにしています。
      ★料金は改定されます。「いつ時点の金額か」を必ず書き、更新の担当を決めてください。★ -->
-<section class="section section--white" aria-labelledby="fee-title">
+<section class="section section--white" id="sec-fee" aria-labelledby="fee-title">
   <div class="wrap">
     <p class="eyebrow">安心してご検討いただくために</p>
     <h2 class="h2 h2--deco" id="fee-title">費用について。</h2>
@@ -2333,7 +2395,7 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 </section>
 
 <!-- ===== フッター（所在地・アクセス・地図） ===== -->
-<footer class="footer">
+<footer class="footer" id="sec-access">
   <div class="wrap footer__grid">
 
     <div class="footer__info">
@@ -2591,6 +2653,16 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
       send('fee_example_open');
     });
   }
+
+  /* ①-3 ヘッダーのメニューを押したとき。
+          「メニューが実際に使われているか」が分かります。使われていなければ外せます。
+          イベント名：nav_click_points / nav_click_svc / nav_click_fee / nav_click_access */
+  document.querySelectorAll('.gnav a').forEach(function (a) {
+    a.addEventListener('click', function () {
+      var n = (a.id || '').replace('nav-', '');
+      if (n) send('nav_click_' + n);
+    });
+  });
 
   /* ② 電話ボタンを押したとき。
         ★Googleアナリティクスは tel: のクリックを自動では数えません。★
