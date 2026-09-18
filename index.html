@@ -139,9 +139,20 @@ img{ max-width:100%; display:block; }
   padding:16px 24px; border-bottom:1px solid var(--line);
   background:var(--bg);
 }
-.header__id{ display:flex; align-items:baseline; gap:.9em; flex-wrap:wrap; }
-.header .facility{ font-size:1rem; font-weight:700; letter-spacing:.04em; }
-.header .group{ font-size:.8rem; color:var(--ink-soft); letter-spacing:.06em; }
+/* 施設のかたまりは2段。
+   1段目＝施設名／2段目＝［何の施設か］＋法人名。
+   ★1段に横並べするとヘッダーが2行になってしまうので、この形にしています。 */
+.header__id{ display:flex; flex-direction:column; align-items:flex-start; gap:2px; min-width:0; }
+.header__sub{ display:flex; align-items:center; gap:.7em; flex-wrap:wrap; }
+.header .facility{ font-size:1rem; font-weight:700; letter-spacing:.04em; line-height:1.4; }
+/* 「何の施設か」をひと目で分かるようにする、小さな札（2026-09-18 追加） */
+.header .kind{
+  flex:none; line-height:1.4;
+  font-size:.7rem; font-weight:700; letter-spacing:.02em; white-space:nowrap;
+  color:var(--accent); background:var(--accent-pale);
+  border-radius:999px; padding:4px 10px;
+}
+.header .group{ font-size:.8rem; color:var(--ink-soft); letter-spacing:.06em; line-height:1.5; }
 
 .link-recruit{
   flex:none;
@@ -185,11 +196,11 @@ img{ max-width:100%; display:block; }
   body > header.header{ position:sticky; top:0; z-index:60; }
   /* メニューで飛んだとき、見出しがヘッダーの下に隠れないようにします。
      ヘッダーの高さ＋すこしの余白。幅によって高さが変わるので2段にしています。 */
-  #sec-points, #sec-svc, #sec-fee, #sec-access{ scroll-margin-top:136px; }
+  #sec-points, #sec-svc, #sec-fee, #sec-access{ scroll-margin-top:150px; }
 }
-@media (min-width:1100px){
+@media (min-width:1000px){
   /* この幅からは、施設名・メニュー・採用情報が横1列に収まります（実測で確認） */
-  #sec-points, #sec-svc, #sec-fee, #sec-access{ scroll-margin-top:92px; }
+  #sec-points, #sec-svc, #sec-fee, #sec-access{ scroll-margin-top:100px; }
 }
 @media (max-width:760px){
   /* スマホでは、メニューを2行目に置いて折り返します。
@@ -1512,6 +1523,7 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
   .header{ flex-wrap:wrap; align-items:center; padding:12px 18px; gap:8px 10px; }
   .header__id{ flex:1 1 auto; flex-direction:column; gap:0; min-width:0; }
   .header .facility{ font-size:.82rem; line-height:1.5; }
+  .header .kind{ font-size:.66rem; padding:3px 8px; }
   .header .group{ font-size:.68rem; white-space:nowrap; }
   .header__links{ gap:6px; }
   .header__links .link-recruit{ font-size:.74rem; padding:7px 11px; min-height:36px; }
@@ -1573,6 +1585,14 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 .only-sp{ display:none; }
 .only-pc{ display:inline; }
 
+/* 761〜900px では、バーの「ご見学・ご相談は…」の一言が入りきらず
+   画面が横にはみ出していました（2026-09-18 修正）。この幅では一言を隠し、
+   ボタンだけを中央に置きます。 */
+@media (max-width:900px){
+  .callbar__msg{ display:none; }
+  .callbar__inner{ justify-content:center; }
+}
+
 @media (max-width:760px){
   :root{ --callbar-h: 76px; }
   .callbar{ padding:10px 16px calc(10px + env(safe-area-inset-bottom, 0px)); }
@@ -1614,7 +1634,11 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 <header class="header">
   <div class="header__id">
     <span class="facility">メディカルケアホーム与野中央</span>
-    <span class="group">医療法人博滇会グループ</span>
+    <span class="header__sub">
+      <!-- 何の施設かが、ひと目で分かるようにするための札（2026-09-18 追加） -->
+      <span class="kind">介護付有料老人ホーム</span>
+      <span class="group">医療法人博滇会グループ</span>
+    </span>
   </div>
 
   <!-- ===== ヘッダーのメニュー（2026-09-18 追加） =====
