@@ -305,17 +305,8 @@ body > main.fv{
 }
 .fv::after{ display:none; }          /* 写真の上の暗い膜は、もう要りません */
 .fv__inner{ padding:26px 24px 34px; text-align:center; }
-.fv .services{ justify-content:center; margin-bottom:1.4em; }
-.fv .actions{ justify-content:center; margin-bottom:1.2em; }
-
-.services{ display:flex; flex-wrap:wrap; gap:8px; list-style:none; margin-bottom:2.4em; }
-.services li{
-  font-size:.84rem; color:var(--band-ink);
-  border:1px solid var(--band-line); border-radius:999px;
-  padding:5px 14px; background:rgba(255,255,255,.58); white-space:nowrap;
-}
-
-.place{ font-size:.88rem; color:rgba(35,48,59,.86); }
+/* 写真の下はボタンだけになったので、下の余白は要りません（2026-09-28） */
+.fv .actions{ justify-content:center; margin-bottom:0; }
 
 .fv .btn--tel{ background:#fff; color:var(--accent); }
 .fv .btn--tel:hover{ background:var(--accent-pale); }
@@ -1729,12 +1720,6 @@ body > div.callbar{
          画面には出さず、読み上げと検索エンジンにだけ伝わる形で置いています。 -->
     <h1 class="sr-only">介護付有料老人ホーム メディカルケアホーム与野中央（さいたま市中央区）｜医療法人博滇会</h1>
 
-    <ul class="services">
-      <li>介護付き有料老人ホーム</li>
-      <li>全室個室 51室</li>
-      <li>24時間365日の医療サポート</li>
-    </ul>
-
     <div class="actions">
       <a class="btn btn--tel" id="btn-tel" href="tel:0488297853">
         <span class="label">お電話でのご相談</span><span class="num">048-829-7853</span>
@@ -1749,7 +1734,6 @@ body > div.callbar{
       </a>
     </div>
 
-    <p class="place">さいたま市中央区上峰3丁目6−2</p>
   </div>
 </main>
 
