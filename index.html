@@ -1450,9 +1450,11 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
    名前まで入った横型ロゴ（logo-hakushinkai.png）を入れています。
    マークだけに戻したい場合は、下の width/height を 74px/74px にして
    HTML側の画像を logo-header.png（マークだけ）に差し替えてください。 */
+/* ロゴが縦長（マーク／法人名／HAKUSHINKAI の3段）になったので、
+   箱も縦長にしています。横長のロゴに戻すときは 128px/100px へ。 */
 .orgcard__logo{
-  flex:none; width:128px; height:100px; border-radius:10px;
-  background:#fff; padding:12px 14px;
+  flex:none; width:104px; height:128px; border-radius:10px;
+  background:#fff; padding:12px 13px;
   display:flex; align-items:center; justify-content:center;
 }
 .orgcard__logo img{ width:100%; height:100%; object-fit:contain; }
@@ -1525,7 +1527,7 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 @media (max-width:560px){
   /* スマホでは、ロゴ・文章・矢印を縦に積みます（横に並べると文章がつぶれるため） */
   .orgcard{ flex-direction:column; align-items:flex-start; gap:13px; padding:16px; }
-  .orgcard__logo{ width:112px; height:88px; padding:9px 10px; }
+  .orgcard__logo{ width:92px; height:112px; padding:9px 10px; }
   .orgcard__text strong{ font-size:1rem; }
   .orgcard__arrow{ margin-left:0; align-self:flex-end; width:22px; height:22px; }
   .footer__fine{ gap:0; }
@@ -2542,7 +2544,7 @@ body > div.callbar{
     <a class="orgcard" id="btn-org" href="https://hakushinkai.jp/" target="_blank" rel="noopener">
       <span class="orgcard__logo">
         <!-- 法人名まで入った横型ロゴ。マークだけに戻す場合は logo-header.png に差し替え -->
-        <img src="logo-hakushinkai.png" alt="医療法人 博滇会" width="600" height="600" loading="lazy">
+        <img src="logo-hakushinkai.png" alt="医療法人 博滇会" width="430" height="560" loading="lazy">
       </span>
       <span class="orgcard__text">
         <strong>この施設を運営しているのは</strong>
