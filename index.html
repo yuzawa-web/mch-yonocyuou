@@ -2669,17 +2669,34 @@ body > div.callbar{
   setTimeout(sweep, 1200);
 })();
 
-/* 画面下のバーを、ページ最後の「まずは、ご相談ください。」が
-   見えているあいだだけ隠します。 */
+/* 画面下のバーを、同じボタンが画面に出ているあいだは隠します。
+   隠す相手は2か所：
+     ①1枚目（写真の下）のボタン  ②ページ最後の「まずは、ご相談ください。」
+   ★同じ色・同じ文言のボタンが上下に2つ並ぶと、二重に出ているように見えるためです。
+     並んで見えていたのを 2026-09-28 に直しました。 */
 (function () {
   var bar = document.querySelector('.callbar');
-  var cta = document.querySelector('.cta');
-  if (!bar || !cta || !('IntersectionObserver' in window)) return;
-  new IntersectionObserver(function (entries) {
+  if (!bar || !('IntersectionObserver' in window)) return;
+
+  var targets = [
+    document.querySelector('.fv .actions'),   /* ①1枚目のボタン */
+    document.querySelector('.cta')            /* ②最後のご相談 */
+  ].filter(Boolean);
+  if (!targets.length) return;
+
+  var shown = 0;                              /* いま見えている相手の数 */
+  var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
-      bar.classList.toggle('is-hidden', entry.isIntersecting);
+      var was = entry.target.dataset.barHiding === '1';
+      var now = entry.isIntersecting;
+      if (was === now) return;
+      entry.target.dataset.barHiding = now ? '1' : '';
+      shown += now ? 1 : -1;
     });
-  }, { threshold: 0.2 }).observe(cta);
+    bar.classList.toggle('is-hidden', shown > 0);
+  }, { threshold: 0.35 });
+
+  targets.forEach(function (t) { io.observe(t); });
 })();
 
 /* =========================================================
