@@ -75,15 +75,6 @@
   --maxw:        1040px;
 }
 
-/* 手書きの書体（Zen Kurenaido）。
-   使う文字だけに絞ってあるので 3KB ほどしかありません。
-   ファイルは index.html と同じ場所に置いてください。 */
-@font-face{
-  font-family:"Tegaki";
-  src:url("tegaki-subset.woff2") format("woff2");
-  font-weight:400; font-display:swap;
-}
-
 *{ box-sizing:border-box; margin:0; padding:0; }
 
 html{ height:100%; scroll-behavior:smooth; }
@@ -142,7 +133,10 @@ img{ max-width:100%; display:block; }
 /* 施設のかたまりは2段。
    1段目＝施設名／2段目＝［何の施設か］＋法人名。
    ★1段に横並べするとヘッダーが2行になってしまうので、この形にしています。 */
-.header__id{ display:flex; flex-direction:column; align-items:flex-start; gap:2px; min-width:0; }
+.header__id{ display:flex; flex-direction:row; align-items:center; gap:11px; min-width:0; }
+/* 法人のマーク。高さだけを決めて、横幅は自動です */
+.header__logo{ flex:none; width:auto; height:36px; }
+.header__idtext{ display:flex; flex-direction:column; align-items:flex-start; gap:2px; min-width:0; }
 .header__sub{ display:flex; align-items:center; gap:.7em; flex-wrap:wrap; }
 .header .facility{ font-size:1rem; font-weight:700; letter-spacing:.04em; line-height:1.4; }
 /* 「何の施設か」をひと目で分かるようにする、小さな札（2026-09-18 追加） */
@@ -165,6 +159,20 @@ img{ max-width:100%; display:block; }
 }
 .link-recruit:hover{ background:var(--accent); color:#fff; border-color:var(--accent); }
 .link-recruit:focus-visible{ outline:3px solid var(--accent-dark); outline-offset:3px; }
+
+/* ヘッダーの「見学・ご相談」ボタン（2026-09-28 追加）。
+   採用情報より目立つよう、塗りつぶしの深藍にしています。 */
+.link-visit{
+  flex:none; display:inline-flex; align-items:center; gap:.45em;
+  font-size:.85rem; font-weight:700; text-decoration:none; white-space:nowrap;
+  color:#fff; background:var(--accent); border:1px solid var(--accent);
+  border-radius:999px; padding:8px 18px; min-height:40px;
+  transition: background-color .18s ease, border-color .18s ease;
+}
+.link-visit:hover{ background:var(--accent-dark); border-color:var(--accent-dark); }
+.link-visit:focus-visible{ outline:3px solid var(--accent-dark); outline-offset:3px; }
+.link-visit__ic{ flex:none; width:17px; height:17px; }
+.link-visit__ic svg{ width:100%; height:100%; }
 
 .header__links{ display:flex; gap:8px; flex:none; }
 
@@ -196,10 +204,15 @@ img{ max-width:100%; display:block; }
   body > header.header{ position:sticky; top:0; z-index:60; }
   /* メニューで飛んだとき、見出しがヘッダーの下に隠れないようにします。
      ヘッダーの高さ＋すこしの余白。幅によって高さが変わるので2段にしています。 */
+  #sec-points, #sec-svc, #sec-fee, #sec-access{ scroll-margin-top:210px; }
+}
+/* ヘッダーの高さは幅で変わるので、3段にしています（すべて実測で確認）。
+   761px=194px／820px以上=138px／1200px以上=81px */
+@media (min-width:820px){
   #sec-points, #sec-svc, #sec-fee, #sec-access{ scroll-margin-top:150px; }
 }
-@media (min-width:1000px){
-  /* この幅からは、施設名・メニュー・採用情報が横1列に収まります（実測で確認） */
+@media (min-width:1200px){
+  /* この幅からは、ロゴ・施設名・メニュー・2つのボタンが横1列に収まります */
   #sec-points, #sec-svc, #sec-fee, #sec-access{ scroll-margin-top:100px; }
 }
 @media (max-width:760px){
@@ -247,46 +260,45 @@ img{ max-width:100%; display:block; }
       rgba(16,32,52,.12) 100%);
 }
 
+/* スマホ。写真の上に文字を重ねなくなったので、
+   むかしの「写真をぼかして文字を読ませる」仕掛けは要らなくなりました（2026-09-28）。 */
 @media (max-width:640px){
-  .fv{ min-height:auto; padding:0 24px 44px; }
-  .fv::before{
-    background-image:
-      linear-gradient(to bottom,
-        rgba(22,44,72,0)   38%,
-        rgba(22,44,72,.42) 60%,
-        rgba(22,44,72,.88) 82%,
-        rgba(30,64,104,1)  94%,
-        rgba(30,64,104,1) 100%),
-      var(--fv-photo);
-    background-size: 100% 125vw, 100% auto;
-    background-position: top center, top center;
-    background-repeat: no-repeat, no-repeat;
-    background-color:#1E4068;
-  }
-  .fv::after{ background:none; }
-  .fv__inner{ padding-top: calc(125vw - 42vw); }
-  .fv .lead{ margin-bottom:.4em; }
-  .fv .actions{ margin-bottom:1em; }
+  .fv__inner{ padding:22px 20px 30px; }
   .fv .btn{ min-height:56px; }
 }
 
 .fv__inner{ position:relative; z-index:1; width:100%; max-width:var(--maxw); margin:0 auto; }
 
-/* ★見せ場★ このページで主役はこの一行だけです（手書き・白）*/
-.lead{
-  font-family:"Tegaki", system-ui, "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
-  font-size: clamp(1.7rem, 7.6vw, 4rem);
-  font-weight:400;
-  line-height:1.45; letter-spacing:.01em;
-  color:#fff;
-  text-shadow:0 2px 14px rgba(0,0,0,.42), 0 1px 3px rgba(0,0,0,.30);
-  margin-bottom:.5em;
-  opacity:0; transform:translateY(14px);
-  animation: rise .9s cubic-bezier(.22,.61,.36,1) .15s forwards;
+/* 画面には出さず、読み上げ・検索エンジンにだけ伝えるための書き方。
+   ページの見出し（h1）をここに置いています。消さないでください。 */
+.sr-only{
+  position:absolute; width:1px; height:1px; margin:-1px; padding:0;
+  overflow:hidden; clip:rect(0 0 0 0); clip-path:inset(50%); white-space:nowrap; border:0;
 }
-@keyframes rise{ to{ opacity:1; transform:translateY(0); } }
-/* 折り返してよいのは読点のうしろだけ */
-.lead span{ display:inline-block; white-space:nowrap; }
+
+/* =========================================================
+   ヒーローの形（2026-09-28 変更・ル・サンク湯澤のサイトと同じ形）
+   ・写真を「ひとかたまり」として置きます
+   ・ボタンや文字は写真にかぶせず、写真の「下」に並べます
+   ★body > main.fv と2つ重ねて書いています。このページには
+     「body直下は position:relative」という決めごとがあり、
+     .fv だけでは負けてしまうためです。片方を消すと形が崩れます。
+   ========================================================= */
+body > main.fv{
+  display:block; min-height:0; padding:0; background:var(--accent-dark);
+}
+.fv::before{
+  position:static; display:block; width:100%; inset:auto;
+  aspect-ratio:1366 / 768;
+  max-height:calc(100svh - 300px);   /* 写真だけで画面が埋まらないように */
+  min-height:37vw;                   /* 横長になりすぎないように */
+  /* 写真の見せる位置。0%＝上ぞろえ、100%＝下ぞろえ。建物が入るよう下寄りにしています */
+  background-position:50% 62%;
+}
+.fv::after{ display:none; }          /* 写真の上の暗い膜は、もう要りません */
+.fv__inner{ padding:26px 24px 34px; text-align:center; }
+.fv .services{ justify-content:center; margin-bottom:1.4em; }
+.fv .actions{ justify-content:center; margin-bottom:1.2em; }
 
 .services{ display:flex; flex-wrap:wrap; gap:8px; list-style:none; margin-bottom:2.4em; }
 .services li{
@@ -331,7 +343,7 @@ img{ max-width:100%; display:block; }
 .bglogos span{
   position:absolute; left:var(--x); top:var(--y);
   width:var(--s); height:var(--s);
-  background:url("logo-mark.png") no-repeat center / contain;
+  background:url("logo-header.png") no-repeat center / contain;
   opacity:.10;
   animation: float var(--d) ease-in-out var(--dl) infinite alternate;
 }
@@ -1425,7 +1437,7 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
    ここは「法人名が読めること」を優先して、マークだけでなく
    名前まで入った横型ロゴ（logo-hakushinkai.png）を入れています。
    マークだけに戻したい場合は、下の width/height を 74px/74px にして
-   HTML側の画像を logo-mark.png に差し替えてください。 */
+   HTML側の画像を logo-header.png（マークだけ）に差し替えてください。 */
 .orgcard__logo{
   flex:none; width:128px; height:100px; border-radius:10px;
   background:#fff; padding:12px 14px;
@@ -1521,12 +1533,18 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
      ★flex-wrap は wrap のままにしてください（nowrap にするとメニューが
        1行目に押し込まれて、施設名と重なります）。 */
   .header{ flex-wrap:wrap; align-items:center; padding:12px 18px; gap:8px 10px; }
-  .header__id{ flex:1 1 auto; flex-direction:column; gap:0; min-width:0; }
+  /* ★.header__id は「ロゴ＋文字」の横並びのままにしてください。
+     縦にするとロゴが文字の上にのってしまいます。 */
+  .header__id{ flex:1 1 auto; flex-direction:row; align-items:center; gap:8px; min-width:0; }
+  .header__logo{ height:28px; }
+  .header__idtext{ gap:0; min-width:0; }
   .header .facility{ font-size:.82rem; line-height:1.5; }
   .header .kind{ font-size:.66rem; padding:3px 8px; }
   .header .group{ font-size:.68rem; white-space:nowrap; }
   .header__links{ gap:6px; }
-  .header__links .link-recruit{ font-size:.74rem; padding:7px 11px; min-height:36px; }
+  .header__links .link-recruit{ font-size:.72rem; padding:6px 10px; min-height:36px; }
+  .header__links .link-visit{ font-size:.75rem; padding:6px 12px; min-height:36px; gap:.35em; }
+  .header__links .link-visit__ic{ display:none; }   /* せまい画面ではアイコンを省きます */
 }
 @media (max-width:380px){
   .section{ padding:56px 20px; }
@@ -1538,7 +1556,6 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 }
 
 @media (prefers-reduced-motion: reduce){
-  .lead{ opacity:1; transform:none; animation:none; }
   .bg-logo{ animation:none; }
   .btn, .insta-link{ transition:none; }
   .btn:active{ transform:none; }
@@ -1550,8 +1567,15 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 :root{ --callbar-h: 84px; }
 .footer{ padding-bottom: calc(44px + var(--callbar-h) + env(safe-area-inset-bottom, 0px)); }
 
-.callbar{
+/* ★body > div.callbar と2つ重ねて書いています。
+     このページには「body直下は position:relative」という決めごとがあり、
+     .callbar だけだと負けて「画面に貼りつかず、ページのいちばん下に1回出るだけ」に
+     なってしまいます（2026-09-18 にその状態を発見して修正）。
+     片方を消すと、また追従しなくなります。 */
+body > div.callbar{
   position:fixed; left:0; right:0; bottom:0; z-index:50;
+}
+.callbar{
   background:var(--accent-dark);
   border-top:1px solid rgba(255,255,255,.18);
   padding: 12px 24px calc(12px + env(safe-area-inset-bottom, 0px));
@@ -1633,12 +1657,16 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 <!-- ===== 上の帯 ===== -->
 <header class="header">
   <div class="header__id">
-    <span class="facility">メディカルケアホーム与野中央</span>
-    <span class="header__sub">
-      <!-- 何の施設かが、ひと目で分かるようにするための札（2026-09-18 追加） -->
-      <span class="kind">介護付有料老人ホーム</span>
-      <span class="group">医療法人博滇会グループ</span>
-    </span>
+    <!-- 法人のマーク（2026-09-28 追加）。ル・サンク湯澤のサイトと同じ置き方です。 -->
+    <img class="header__logo" src="logo-header.png" alt="医療法人博滇会" width="480" height="320">
+    <div class="header__idtext">
+      <span class="facility">メディカルケアホーム与野中央</span>
+      <span class="header__sub">
+        <!-- 何の施設かが、ひと目で分かるようにするための札（2026-09-18 追加） -->
+        <span class="kind">介護付有料老人ホーム</span>
+        <span class="group">医療法人博滇会グループ</span>
+      </span>
+    </div>
   </div>
 
   <!-- ===== ヘッダーのメニュー（2026-09-18 追加） =====
@@ -1663,6 +1691,18 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
      target="_blank" rel="noopener">
     採用情報
   </a>
+  <!-- ▼差し替え①（同じアドレス。?から後ろの印は残してください）
+       ヘッダーの「見学・ご相談」ボタン（2026-09-28 追加） -->
+  <a class="link-visit" id="btn-visit-header"
+     href="https://hakushinkai.jp/contact/?from=mch-yono&amp;place=header">
+    <span class="link-visit__ic" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"
+           stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.4 9.1 9.1 0 0 1-3.2-.6L3 21l1.8-5.1A8.2 8.2 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/>
+      </svg>
+    </span>
+    見学・ご相談
+  </a>
   </div>
 </header>
 
@@ -1670,8 +1710,10 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 <main class="fv">
   <div class="fv__inner">
 
-    <!-- ★見せ場★ 折り返してよいのは読点のうしろだけ -->
-    <h1 class="lead"><span>私たちは、</span><span>第二の家族です。</span></h1>
+    <!-- 手書きの見せ場は 2026-09-28 にやめました。
+         ただし、どのページにも見出し（h1）は必要なので、
+         画面には出さず、読み上げと検索エンジンにだけ伝わる形で置いています。 -->
+    <h1 class="sr-only">介護付有料老人ホーム メディカルケアホーム与野中央（さいたま市中央区）｜医療法人博滇会</h1>
 
     <ul class="services">
       <li>介護付き有料老人ホーム</li>
@@ -2487,7 +2529,7 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
   <div class="wrap orgblock">
     <a class="orgcard" id="btn-org" href="https://hakushinkai.jp/" target="_blank" rel="noopener">
       <span class="orgcard__logo">
-        <!-- 法人名まで入った横型ロゴ。マークだけに戻す場合は logo-mark.png に差し替え -->
+        <!-- 法人名まで入った横型ロゴ。マークだけに戻す場合は logo-header.png に差し替え -->
         <img src="logo-hakushinkai.png" alt="医療法人 博滇会" width="600" height="600" loading="lazy">
       </span>
       <span class="orgcard__text">
