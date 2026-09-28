@@ -72,6 +72,14 @@
   --accent-pale: #E3EAF1;   /* 深藍5をうすくしたもの */
   --crimson:     #A93A2E;   /* 深紅1。数字などの差し色 */
   --line:        #E2D9C6;   /* 稲2。枠線 */
+  /* ▼3つの面（1枚目の下・最後のご相談・画面下のバー）の色（2026-09-28）
+     ここを書き換えれば、3か所まとめて色が変わります。
+     ★この色はうすいので、上に置く文字は白ではなく --band-ink（濃い色）です。
+       白い文字にすると薄すぎて読めません（白との濃さの差は2.1倍しかなく、
+       読みやすさの目安4.5倍を大きく下回ります）。 */
+  --band:        #9DB899;   /* ＝若葉2（--leaf・おすすめカード1と同じ色） */
+  --band-ink:    #23303B;   /* その上に置く文字の色 */
+  --band-line:   rgba(35,48,59,.30);
   --maxw:        1040px;
 }
 
@@ -285,7 +293,7 @@ img{ max-width:100%; display:block; }
      .fv だけでは負けてしまうためです。片方を消すと形が崩れます。
    ========================================================= */
 body > main.fv{
-  display:block; min-height:0; padding:0; background:var(--accent-dark);
+  display:block; min-height:0; padding:0; background:var(--band);
 }
 .fv::before{
   position:static; display:block; width:100%; inset:auto;
@@ -302,18 +310,17 @@ body > main.fv{
 
 .services{ display:flex; flex-wrap:wrap; gap:8px; list-style:none; margin-bottom:2.4em; }
 .services li{
-  font-size:.84rem; color:#fff;
-  border:1px solid rgba(255,255,255,.55); border-radius:999px;
-  padding:5px 14px; background:rgba(255,255,255,.14); white-space:nowrap;
-  backdrop-filter:blur(2px);
+  font-size:.84rem; color:var(--band-ink);
+  border:1px solid var(--band-line); border-radius:999px;
+  padding:5px 14px; background:rgba(255,255,255,.58); white-space:nowrap;
 }
 
-.place{ font-size:.88rem; color:rgba(255,255,255,.92); text-shadow:0 1px 6px rgba(0,0,0,.5); }
+.place{ font-size:.88rem; color:rgba(35,48,59,.86); }
 
 .fv .btn--tel{ background:#fff; color:var(--accent); }
 .fv .btn--tel:hover{ background:var(--accent-pale); }
-.fv .btn--visit{ background:rgba(255,255,255,.10); color:#fff; border-color:#fff; }
-.fv .btn--visit:hover{ background:#fff; color:var(--accent); }
+.fv .btn--visit{ background:transparent; color:var(--band-ink); border-color:var(--band-ink); }
+.fv .btn--visit:hover{ background:var(--band-ink); color:#fff; }
 
 /* =========================================================
    ボタン
@@ -369,9 +376,11 @@ body > *:not(.bglogos){ position:relative; z-index:1; }
   z-index:1; pointer-events:none;
 }
 .cta{ position:relative; }
+/* 上の節との境目の曲線。★--band と同じ色（%239DB899）にしてください。
+   色を変えるときは、ここの fill= も一緒に変えないと、境目だけ前の色が残ります。 */
 .cta::before{
   content:""; position:absolute; left:0; right:0; top:-22px; height:23px;
-  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 23' preserveAspectRatio='none'><path d='M0 23 C 180 2 380 2 620 12 C 860 22 1040 20 1200 5 L1200 23 Z' fill='%231E4068'/></svg>") no-repeat center bottom / 100% 100%;
+  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 23' preserveAspectRatio='none'><path d='M0 23 C 180 2 380 2 620 12 C 860 22 1040 20 1200 5 L1200 23 Z' fill='%239DB899'/></svg>") no-repeat center bottom / 100% 100%;
 }
 
 /* スクロールしたとき、下から小さく出てくる */
@@ -1369,15 +1378,18 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 /* =========================================================
    最後のご相談
    ========================================================= */
-.cta{ background:var(--accent); color:#fff; padding:64px 24px; text-align:center; }
-.cta .h2{ color:#fff; }
-.cta .lede{ color:rgba(255,255,255,.85); }
+.cta{ background:var(--band); color:var(--band-ink); padding:64px 24px; text-align:center; }
+.cta .h2{ color:var(--band-ink); }
+.cta .lede{ color:rgba(35,48,59,.82); }
+/* うすい地になったので、小さい一行も濃い色にします（白では読めません） */
+.cta .eyebrow--light{ color:rgba(35,48,59,.78); }
+.cta .eyebrow--light::before, .cta .eyebrow--light::after{ background:rgba(35,48,59,.62); }
 .cta .actions{ justify-content:center; margin-bottom:1.2em; }
 .cta .btn--tel{ background:#fff; color:var(--accent); flex:0 1 380px; }
 .cta .btn--tel:hover{ background:var(--accent-pale); }
-.cta .btn--visit{ background:transparent; color:#fff; border-color:#fff; flex:0 1 300px; }
-.cta .btn--visit:hover{ background:#fff; color:var(--accent); }
-.cta .note{ font-size:.86rem; color:rgba(255,255,255,.85); }
+.cta .btn--visit{ background:transparent; color:var(--band-ink); border-color:var(--band-ink); flex:0 1 300px; }
+.cta .btn--visit:hover{ background:var(--band-ink); color:#fff; }
+.cta .note{ font-size:.86rem; color:rgba(35,48,59,.75); }
 
 /* =========================================================
    フッター
@@ -1576,8 +1588,8 @@ body > div.callbar{
   position:fixed; left:0; right:0; bottom:0; z-index:50;
 }
 .callbar{
-  background:var(--accent-dark);
-  border-top:1px solid rgba(255,255,255,.18);
+  background:var(--band);
+  border-top:1px solid var(--band-line);
   padding: 12px 24px calc(12px + env(safe-area-inset-bottom, 0px));
   transition: transform .32s ease, opacity .32s ease;
 }
@@ -1590,7 +1602,7 @@ body > div.callbar{
   max-width:var(--maxw); margin:0 auto;
   display:flex; align-items:center; justify-content:space-between; gap:18px;
 }
-.callbar__msg{ color:#fff; font-size:.95rem; font-weight:700; white-space:nowrap; }
+.callbar__msg{ color:var(--band-ink); font-size:.95rem; font-weight:700; white-space:nowrap; }
 .callbar__btns{ display:flex; gap:10px; flex:0 1 auto; }
 
 .cbtn{
@@ -1601,10 +1613,10 @@ body > div.callbar{
 }
 .cbtn--tel{ background:#fff; color:var(--accent); }
 .cbtn--tel:hover{ background:var(--accent-pale); }
-.cbtn--visit{ background:transparent; color:#fff; border:2px solid #fff; }
-.cbtn--visit:hover{ background:#fff; color:var(--accent); }
+.cbtn--visit{ background:transparent; color:var(--band-ink); border:2px solid var(--band-ink); }
+.cbtn--visit:hover{ background:var(--band-ink); color:#fff; }
 .cbtn:active{ transform:translateY(1px); }
-.cbtn:focus-visible{ outline:3px solid #fff; outline-offset:3px; }
+.cbtn:focus-visible{ outline:3px solid var(--band-ink); outline-offset:3px; }
 
 .only-sp{ display:none; }
 .only-pc{ display:inline; }
