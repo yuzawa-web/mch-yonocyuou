@@ -1159,7 +1159,7 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 }
 
 /* =========================================================
-   ご利用いただける、4つのかたち（2026-09-09 作り直し）
+   ご利用いただける、3つのかたち（2026-09-09 作り直し／2026-09-30 4→3）
    上：数字の札4つ／下：サービスのカード4つ。
    どちらも「左上の色の三角＋白いアイコン」「斜めに切った写真」でそろえています。
    ========================================================= */
@@ -1177,7 +1177,7 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 .cnr-ico svg{ width:100%; height:100%; }
 
 /* --- 下の4つ（施設のデータ） ---
-   「4つのかたち」を主役にするため、この札は
+   「3つのかたち」を主役にするため、この札は
    ①サービスカードより下に置き ②写真を外し ③高さを詰めています。
    数字を読むだけの帯として、静かに見えるようにしてあります。 */
 .statshead{
@@ -1206,7 +1206,7 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 .stat__num small{ font-size:.72em; }
 .stat__sub{ display:block; font-size:.8rem; color:var(--ink-soft); line-height:1.6; margin-top:.3em; }
 
-/* --- 上の4つ（ご利用いただける4つのかたち）。ここがこの節の主役 --- */
+/* --- 上の3つ（ご利用いただける3つのかたち）。ここがこの節の主役 --- */
 .svc-cards{
   list-style:none; margin:0; padding:0;
   display:grid; gap:18px; grid-template-columns:repeat(auto-fit, minmax(min(400px,100%),1fr));
@@ -1231,12 +1231,21 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
   margin:40px 0 .5em;
 }
 .svc__body p{ font-size:.9rem; color:var(--ink-soft); line-height:1.8; margin:0; }
+/* 介護保険の正式な名前。小さく添えるだけにして、見出しは分かりやすい言葉にしています */
+.svc__official{
+  font-size:.78rem !important; color:var(--tc-ink) !important; font-weight:700;
+  line-height:1.6 !important; margin:-.2em 0 .7em !important;
+}
+/* 3つ目は横いっぱいに。2列のとき、右側が空いてしまわないようにするためです */
+@media (min-width:860px){
+  .svc--wide{ grid-column:1 / -1; }
+}
 .svc__price{
   margin-top:.9em; padding:9px 14px; border-radius:8px;
   background:rgba(255,255,255,.75); font-size:.9rem; color:var(--ink);
 }
 .svc__price strong{ color:var(--tc-ink); }
-/* 4つのかたちに共通の、ひとつのボタン（2026-09-17）
+/* 3つのかたちに共通の、ひとつのボタン（2026-09-17）
    もとはカードごとにリンクがありましたが、飛び先が同じだったので1つにまとめました。 */
 .svc-cta{ margin-top:30px; text-align:center; }
 .svc-cta__lead{
@@ -2178,17 +2187,21 @@ body > div.callbar{
   </div>
   <div class="wrap">
     <p class="eyebrow">暮らしに合わせて</p>
-    <h2 class="h2 h2--deco" id="svc-title">ご利用いただける、<span class="num">4</span>つのかたち。</h2>
+    <h2 class="h2 h2--deco" id="svc-title">ご利用いただける、<span class="num">3</span>つのかたち。</h2>
     <p class="lede lede--center">ずっとお住まいになる方も、短い期間だけの方も、まずはお試しの方も。暮らしの状況に合わせて選んでいただけます。</p>
 
-    <!-- 4つのサービス -->
+    <!-- ===== 3つのかたち（2026-09-30 4つから3つへ）=====
+         もとは「特定施設入居者生活介護」と「介護予防特定施設入居者生活介護」を
+         別のカードにしていましたが、読む人にとっては同じ「本入居」なので1つにまとめました。
+         介護保険上の正式な名前は、見出しの下に小さく 足して残しています。 -->
     <ul class="svc-cards">
       <li class="svc" style="--tc:var(--c1);--tc-bg:var(--c1-bg);--tc-ink:var(--c1-ink)">
         <span class="cnr" aria-hidden="true"></span>
         <span class="svc__no" aria-hidden="true">1</span>
         <div class="svc__body">
-          <h3 class="svc__ttl">特定施設入居者生活介護</h3>
-          <p>要介護の認定を受けた方が、お住まいになりながら介護・生活支援を受けていただくサービスです。介護付有料老人ホームの基本のかたちになります。</p>
+          <h3 class="svc__ttl">本入居</h3>
+          <p class="svc__official">特定施設入居者生活介護／介護予防特定施設入居者生活介護</p>
+          <p><strong>要介護の方も、要支援の方も</strong>ご利用いただけます。お住まいになりながら、介護・生活支援を受けていただくサービスです。介護付有料老人ホームの基本のかたちです。</p>
         </div>
         <figure class="svc__photo"><img src="event-6.jpg" alt="行事で過ごすようす" width="444" height="332" loading="lazy"></figure>
       </li>
@@ -2197,25 +2210,16 @@ body > div.callbar{
         <span class="cnr" aria-hidden="true"></span>
         <span class="svc__no" aria-hidden="true">2</span>
         <div class="svc__body">
-          <h3 class="svc__ttl">短期利用特定施設<span class="nb">入居者生活介護</span></h3>
+          <h3 class="svc__ttl">ショートステイ</h3>
+          <p class="svc__official">短期利用特定施設入居者生活介護</p>
           <p>短い期間だけご利用いただけます。ご家族の通院・お仕事・休息のあいだ、安心してお預けいただけます。</p>
         </div>
         <figure class="svc__photo"><img src="event-4.jpg" alt="外出のようす" width="444" height="332" loading="lazy"></figure>
       </li>
 
-      <li class="svc" style="--tc:var(--c3);--tc-bg:var(--c3-bg);--tc-ink:var(--c3-ink)">
+      <li class="svc svc--wide" style="--tc:var(--c4);--tc-bg:var(--c4-bg);--tc-ink:var(--c4-ink)">
         <span class="cnr" aria-hidden="true"></span>
         <span class="svc__no" aria-hidden="true">3</span>
-        <div class="svc__body">
-          <h3 class="svc__ttl">介護予防特定施設<span class="nb">入居者生活介護</span></h3>
-          <p>要支援の認定を受けた方向けのサービスです。いまの元気を保ちながら、必要な支援を受けて暮らしていただけます。</p>
-        </div>
-        <figure class="svc__photo"><img src="event-3.jpg" alt="レクリエーションのようす" width="444" height="332" loading="lazy"></figure>
-      </li>
-
-      <li class="svc" style="--tc:var(--c4);--tc-bg:var(--c4-bg);--tc-ink:var(--c4-ink)">
-        <span class="cnr" aria-hidden="true"></span>
-        <span class="svc__no" aria-hidden="true">4</span>
         <div class="svc__body">
           <h3 class="svc__ttl">体験入居<span class="badge">空室利用</span></h3>
           <p>お部屋が空いているときに、実際に泊まって暮らしを体験していただけます。先に生活のリズムを知っておくと、そのあとの入居がスムーズです。</p>
@@ -2225,7 +2229,7 @@ body > div.callbar{
       </li>
     </ul>
 
-    <!-- 施設のデータ。4つのかたちより下に置き、写真を外して小さくしています -->
+    <!-- 施設のデータ。3つのかたちより下に置き、写真を外して小さくしています -->
     <p class="statshead">施設のデータ</p>
     <ul class="stats">
       <li class="stat" style="--tc:var(--c1)">
