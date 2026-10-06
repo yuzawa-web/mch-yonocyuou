@@ -141,20 +141,27 @@ img{ max-width:100%; display:block; }
 /* 施設のかたまりは2段。
    1段目＝施設名／2段目＝［何の施設か］＋法人名。
    ★1段に横並べするとヘッダーが2行になってしまうので、この形にしています。 */
-.header__id{ display:flex; flex-direction:row; align-items:center; gap:11px; min-width:0; }
-/* 法人のマーク。高さだけを決めて、横幅は自動です */
-.header__logo{ flex:none; width:auto; height:36px; }
-.header__idtext{ display:flex; flex-direction:column; align-items:flex-start; gap:2px; min-width:0; }
-.header__sub{ display:flex; align-items:center; gap:.7em; flex-wrap:wrap; }
-.header .facility{ font-size:1rem; font-weight:700; letter-spacing:.04em; line-height:1.4; }
-/* 「何の施設か」をひと目で分かるようにする、小さな札（2026-09-18 追加） */
-.header .kind{
-  flex:none; line-height:1.4;
-  font-size:.7rem; font-weight:700; letter-spacing:.02em; white-space:nowrap;
-  color:var(--accent); background:var(--accent-pale);
-  border-radius:999px; padding:4px 10px;
+/* ★2026-10-06 変更：施設のロゴ画像に差し替えました。
+   ［ロゴ画像］｜医療法人博滇会グループ
+   施設名と「介護付有料老人ホーム」はロゴの中に入っているので、
+   文字では書いていません。間の細いたて線は border-left で引いています。 */
+.header__id{ display:flex; flex-direction:row; align-items:center; gap:13px; min-width:0; }
+/* ロゴ。高さだけを決めて、横幅は自動です（大きさを変えるのはこの height だけ） */
+.header__logo{ flex:none; width:auto; height:40px; }
+.header__idtext{
+  display:flex; flex-direction:column; align-items:flex-start; gap:3px; min-width:0;
+  padding-left:14px; border-left:1px solid var(--line);
 }
-.header .group{ font-size:.8rem; color:var(--ink-soft); letter-spacing:.06em; line-height:1.5; }
+.header__sub{ display:flex; align-items:center; gap:.6em; flex-wrap:wrap; }
+/* 正式名称。ロゴのほうが主役なので、ロゴより控えめな大きさにしています。
+   word-break:keep-all ＝「文字の途中では折り返さない」。
+   これと HTML の <wbr> を組み合わせて、細い画面では
+   「メディカルケアホーム／与野中央」でだけ折り返るようにしています。 */
+.header .facility{
+  font-size:.9rem; font-weight:700; letter-spacing:.03em; line-height:1.4;
+  word-break:keep-all;
+}
+.header .group{ font-size:.74rem; color:var(--ink-soft); letter-spacing:.06em; line-height:1.5; }
 
 .link-recruit{
   flex:none;
@@ -215,11 +222,13 @@ img{ max-width:100%; display:block; }
   #sec-points, #sec-svc, #sec-fee, #sec-access{ scroll-margin-top:210px; }
 }
 /* ヘッダーの高さは幅で変わるので、3段にしています（すべて実測で確認）。
-   761px=194px／820px以上=138px／1200px以上=81px */
+   761px=187px／820px以上=131px／1300px以上=76px
+   ★2026-10-06：ロゴ＋施設名が少し横に広がったため、
+     横1列に収まる幅が 1200px → 1300px に変わりました。 */
 @media (min-width:820px){
   #sec-points, #sec-svc, #sec-fee, #sec-access{ scroll-margin-top:150px; }
 }
-@media (min-width:1200px){
+@media (min-width:1300px){
   /* この幅からは、ロゴ・施設名・メニュー・2つのボタンが横1列に収まります */
   #sec-points, #sec-svc, #sec-fee, #sec-access{ scroll-margin-top:100px; }
 }
@@ -1550,11 +1559,10 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
   /* ★.header__id は「ロゴ＋文字」の横並びのままにしてください。
      縦にするとロゴが文字の上にのってしまいます。 */
   .header__id{ flex:1 1 auto; flex-direction:row; align-items:center; gap:8px; min-width:0; }
-  .header__logo{ height:28px; }
-  .header__idtext{ gap:0; min-width:0; }
-  .header .facility{ font-size:.82rem; line-height:1.5; }
-  .header .kind{ font-size:.66rem; padding:3px 8px; }
-  .header .group{ font-size:.68rem; white-space:nowrap; }
+  .header__logo{ height:30px; }
+  .header__idtext{ gap:1px; min-width:0; padding-left:9px; }
+  .header .facility{ font-size:.72rem; line-height:1.5; }
+  .header .group{ font-size:.63rem; white-space:nowrap; }
   .header__links{ gap:6px; }
   .header__links .link-recruit{ font-size:.72rem; padding:6px 10px; min-height:36px; }
   .header__links .link-visit{ font-size:.75rem; padding:6px 12px; min-height:36px; gap:.35em; }
@@ -1567,6 +1575,12 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
   .btn--tel .label{ font-size:.85rem; font-weight:600; }
   .btn--tel .num{ font-size:1.25rem; }
   .header__links .link-recruit{ font-size:.7rem; padding:6px 9px; }
+  /* いちばん細い画面では「医療法人博滇会グループ」が端まで届いてしまうので、
+     少し小さくして、折り返せるようにしています（2026-10-06） */
+  .header__logo{ height:27px; }
+  .header__idtext{ padding-left:7px; }
+  .header .facility{ font-size:.68rem; }
+  .header .group{ font-size:.58rem; white-space:normal; line-height:1.4; }
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -1671,15 +1685,22 @@ body > div.callbar{
 <!-- ===== 上の帯 ===== -->
 <header class="header">
   <div class="header__id">
-    <!-- 法人のマーク（2026-09-28 追加）。ル・サンク湯澤のサイトと同じ置き方です。 -->
-    <img class="header__logo" src="logo-header.png" alt="医療法人博滇会" width="480" height="320">
+    <!-- 施設のロゴ（2026-10-06 差し替え）。
+         ロゴの中に「MCH与野中央」と「介護付有料老人ホーム」が入っているので、
+         ここでは文字では書かず、画像ひとつにしています。
+         ★alt（画像の説明）には、読み上げと検索のために正式名称を書いています。
+           ロゴ画像を差し替えるときも、この alt は残してください。 -->
+    <img class="header__logo" src="logo-mch.png"
+         alt="メディカルケアホーム与野中央（介護付有料老人ホーム）"
+         width="898" height="181">
+    <!-- ロゴは「MCH与野中央」という略称なので、
+         正式名称を文字でも出しています（2026-10-06 追加） -->
     <div class="header__idtext">
-      <span class="facility">メディカルケアホーム与野中央</span>
-      <span class="header__sub">
-        <!-- 何の施設かが、ひと目で分かるようにするための札（2026-09-18 追加） -->
-        <span class="kind">介護付有料老人ホーム</span>
-        <span class="group">医療法人博滇会グループ</span>
-      </span>
+      <!-- ★<wbr> は「折り返すならここで」という目印です（画面には何も出ません）。
+           これが無いと、細い画面で「メディカルケアホーム与／野中央」と
+           へんなところで切れてしまいます。消さないでください。 -->
+      <span class="facility">メディカルケアホーム<wbr>与野中央</span>
+      <span class="group">医療法人博滇会グループ</span>
     </div>
   </div>
 
