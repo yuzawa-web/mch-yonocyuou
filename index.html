@@ -81,6 +81,10 @@
   --band-ink:    #23303B;   /* その上に置く文字の色 */
   --band-line:   rgba(35,48,59,.30);
   --maxw:        1040px;
+  /* 節の見出しの左の三角ぶんの字下げ（2026-10-06）。
+     三角26px＋すき間18px＝44px。ここを変えると、小さな一行・見出し・
+     説明文の3つがまとめてそろって動きます。 */
+  --hind:        44px;
 }
 
 *{ box-sizing:border-box; margin:0; padding:0; }
@@ -454,43 +458,46 @@ h3.deco-label{ font-size:1.05rem; }
   --c5:#B9AAC0; --c5-bg:#EFEAF2; --c5-ink:#6F5E7E;   /* 紫2 */
 }
 
-/* 見出しの上の小さな一行（＼ ここが私たちの自慢です ／） */
+/* =========================================================
+   節の見出し（2026-10-06 作りなおし）
+   ・中央ぞろえ＋手描き風の波線 → 左ぞろえ＋直角二等辺三角形
+   ・三角はロゴと同じ形で、色は深藍。CSSの clip-path で描いています
+   ・三角の幅26px＋すき間18px＝44px を、小さな一行・見出し・説明文の
+     すべてに padding-left として入れ、左のラインをそろえています
+     ★3か所ぜんぶ同じ 44px にしてください。1つだけ変えるとズレます
+   ========================================================= */
 .eyebrow{
-  display:flex; align-items:center; justify-content:center; gap:16px;
-  font-size:.92rem; font-weight:700; letter-spacing:.08em;
-  color:var(--ink-soft); margin:0 0 .5em;
+  position:relative; display:block; text-align:left;
+  padding-left:var(--hind);
+  font-size:.82rem; font-weight:700; letter-spacing:.16em;
+  color:var(--ink-soft); margin:0 0 .3em;
 }
-.eyebrow::before, .eyebrow::after{
-  content:""; width:2px; height:24px; background:var(--ink-soft);
-  border-radius:2px; opacity:.65;
+/* 直角二等辺三角形。左上が直角で、右下へ斜めに切れています */
+.eyebrow::before{
+  content:""; position:absolute; left:0; top:.2em;
+  width:26px; height:26px; background:var(--accent);
+  clip-path:polygon(0 0, 100% 0, 0 100%);
 }
-.eyebrow::before{ transform:rotate(-22deg); }
-.eyebrow::after{ transform:rotate(22deg); }
+.eyebrow::after{ content:none; }
 
-/* 節の見出し（中央ぞろえ・下に手描き風の線） */
+/* 節の見出し（左ぞろえ） */
 .h2--deco{
-  text-align:center; background-image:none;
-  display:table; margin:0 auto .55em; position:relative; padding-bottom:.4em;
-  max-width:min(100%, 24em);
+  text-align:left; background-image:none;
+  display:block; margin:0 0 .5em; position:static;
+  padding-left:var(--hind); padding-bottom:0; max-width:none;
 }
 .h2--deco span{ background-image:none; display:inline; white-space:normal; }
 .h2--deco .num{
-  color:var(--crimson); font-size:1.55em; line-height:1; vertical-align:-.06em;
+  color:var(--crimson); font-size:1.4em; line-height:1; vertical-align:-.04em;
   margin-right:.02em;
 }
-.h2--deco::after{
-  content:""; display:block; position:absolute; left:50%; bottom:0;
-  width:100%; height:11px; transform:translateX(-50%);
-  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 12' preserveAspectRatio='none'><path d='M4 8 C 60 2 120 11 180 5 C 230 1 270 7 296 4' stroke='%23E4C939' stroke-width='6' fill='none' stroke-linecap='round'/></svg>") no-repeat center / 100% 100%;
-}
-.lede--center{ text-align:center; max-width:34em; margin-left:auto; margin-right:auto; }
+/* 波線はやめました。戻す場合はこの display:none を消してください */
+.h2--deco::after{ display:none; }
+.lede--center{ text-align:left; max-width:36em; margin-left:0; margin-right:0; padding-left:var(--hind); }
 
-/* 最後のご相談（深緑の地）用 */
+/* 最後のご相談（若葉の地）用 */
 .eyebrow--light{ color:rgba(255,255,255,.9); }
-.eyebrow--light::before, .eyebrow--light::after{ background:rgba(255,255,255,.9); }
-.h2--light::after{
-  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 12' preserveAspectRatio='none'><path d='M4 8 C 60 2 120 11 180 5 C 230 1 270 7 296 4' stroke='%23E4C939' stroke-width='6' fill='none' stroke-linecap='round' opacity='0.9'/></svg>") no-repeat center / 100% 100%;
-}
+.eyebrow--light::before{ background:rgba(255,255,255,.9); }
 
 /* 背景に散らす三角と葉（飾り。読み上げの対象外） */
 .decor{ position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
@@ -800,18 +807,18 @@ body > .pmodal{
 .point__more:focus-visible{ outline:3px solid var(--accent-dark); outline-offset:3px; }
 /* 飛んだ先が、画面の上にぴったりつかないように */
 [id^="sec-"]{ scroll-margin-top:18px; }
-/* 飛んだ先で、見出しの黄色い線が引かれる。
-   「どこへ移動したか」が分かるようにするための動きです。 */
-[id^="sec-"]:target .h2--deco::after{
-  transform-origin:left center;
-  animation: draw-line .7s cubic-bezier(.22,.61,.36,1) both;
+/* 飛んだ先で、見出しの三角がすっと出る。
+   「どこへ移動したか」が分かるようにするための動きです（2026-10-06 変更）。 */
+[id^="sec-"]:target .eyebrow::before{
+  transform-origin:left top;
+  animation: pop-tri .55s cubic-bezier(.22,.61,.36,1) both;
 }
-@keyframes draw-line{
-  from{ transform:translateX(-50%) scaleX(0); }
-  to  { transform:translateX(-50%) scaleX(1); }
+@keyframes pop-tri{
+  from{ transform:scale(.15); opacity:0; }
+  to  { transform:scale(1);   opacity:1; }
 }
 @media (prefers-reduced-motion: reduce){
-  [id^="sec-"]:target .h2--deco::after{ animation:none; }
+  [id^="sec-"]:target .eyebrow::before{ animation:none; }
 }
 
 @media (max-width:520px){
@@ -1387,18 +1394,21 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 /* =========================================================
    最後のご相談
    ========================================================= */
-.cta{ background:var(--band); color:var(--band-ink); padding:64px 24px; text-align:center; }
+/* 見出しを左ぞろえにしたので（2026-10-06）、ボタンと注記も左にそろえています。
+   中央ぞろえに戻す場合は、ここを text-align:center に戻し、
+   下の .cta .actions / .cta .note の padding-left を消してください。 */
+.cta{ background:var(--band); color:var(--band-ink); padding:64px 24px; text-align:left; }
 .cta .h2{ color:var(--band-ink); }
 .cta .lede{ color:rgba(35,48,59,.82); }
 /* うすい地になったので、小さい一行も濃い色にします（白では読めません） */
 .cta .eyebrow--light{ color:rgba(35,48,59,.78); }
-.cta .eyebrow--light::before, .cta .eyebrow--light::after{ background:rgba(35,48,59,.62); }
-.cta .actions{ justify-content:center; margin-bottom:1.2em; }
+.cta .eyebrow--light::before{ background:var(--band-ink); }
+.cta .actions{ justify-content:flex-start; margin-bottom:1.2em; padding-left:var(--hind); }
 .cta .btn--tel{ background:#fff; color:var(--accent); flex:0 1 380px; }
 .cta .btn--tel:hover{ background:var(--accent-pale); }
 .cta .btn--visit{ background:transparent; color:var(--band-ink); border-color:var(--band-ink); flex:0 1 300px; }
 .cta .btn--visit:hover{ background:var(--band-ink); color:#fff; }
-.cta .note{ font-size:.86rem; color:rgba(35,48,59,.75); }
+.cta .note{ font-size:.86rem; color:rgba(35,48,59,.75); padding-left:var(--hind); }
 
 /* =========================================================
    フッター
@@ -1547,6 +1557,14 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 /* =========================================================
    細い画面（320〜520px）
    ========================================================= */
+/* せまい画面では、三角を小さくして字下げも詰めます（2026-10-06）。
+   ご相談の節のボタンは、字下げすると電話番号が入りきらないため0にします。 */
+@media (max-width:620px){
+  :root{ --hind:34px; }
+  .eyebrow::before{ width:21px; height:21px; }
+  .cta .actions{ padding-left:0; }
+}
+
 @media (max-width:520px){
   /* 1行目＝施設名と採用情報、2行目＝メニュー。
      ★flex-wrap は wrap のままにしてください（nowrap にするとメニューが
