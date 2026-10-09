@@ -421,28 +421,43 @@ body > *:not(.bglogos){ position:relative; z-index:1; }
   border-radius:999px; padding:6px 14px; white-space:nowrap;
 }
 
-/* 節の中の小さな飾り見出し */
+/* 節の中の小さな飾り見出し（2026-10-08 作りなおし）。
+   節の見出しと同じ言い方にそろえました。
+   前：中央ぞろえ ── ● 見出し ● ──
+   後：左ぞろえ   ◤ 見出し ──────────（残りを細い線で埋める）
+   ★三角は節の見出しと同じ直角二等辺三角形。大きさだけ小さくしています。 */
 .deco-label{
-  display:flex; align-items:center; justify-content:center; gap:14px;
-  color:var(--accent); font-weight:700; font-size:.95rem; letter-spacing:.12em;
+  display:flex; align-items:stretch; justify-content:flex-start; gap:0;
+  color:var(--accent); font-weight:700; font-size:.95rem; letter-spacing:.1em;
   margin:0 0 1.6em;
 }
-.deco-label::before, .deco-label::after{
-  content:""; width:56px; height:1px; background:var(--accent); opacity:.5;
+/* 左はしの、深紅の三角（旗ざお）。
+   ::before が三角、span がうすい藍の帯、::after が右へ伸びる細い線です。
+   HTMLは <h3 class="deco-label"><span>見出し</span></h3> のまま。
+   ★3つの clip-path の 14px はそろえてください。ずらすと継ぎ目が欠けます。 */
+.deco-label::before{
+  content:""; flex:none; width:14px; background:var(--crimson);
+  clip-path:polygon(0 0, 100% 0, 100% 100%);
 }
-.deco-label span{ display:inline-flex; align-items:center; gap:12px; }
+/* 見出しの文字が乗る、うすい藍の帯。左上を斜めに切っています */
+.deco-label span{
+  display:inline-flex; align-items:center;
+  background:var(--accent-pale);
+  padding:9px 20px 9px 26px;
+  clip-path:polygon(14px 0, 100% 0, 100% 100%, 0 100%);
+}
+.deco-label span::before, .deco-label span::after{ content:none; }
+/* 帯の右に伸びる細い線。残りの幅をぜんぶ使います */
+.deco-label::after{
+  content:""; flex:1 1 auto; min-width:24px; height:1px; align-self:center;
+  background:var(--accent); opacity:.28; margin-left:14px;
+}
 h3.deco-label{ font-size:1.05rem; }
 .deco-label--gap{ margin-top:3.4em; }
-.deco-label span::before, .deco-label span::after{
-  content:""; width:7px; height:7px; border-radius:50%; background:var(--accent);
-}
 @media (max-width:560px){
-  .deco-label{ display:block; text-align:center; }
-  .deco-label::before, .deco-label::after{ display:none; }
-  .deco-label span{ display:inline; }
-  .deco-label span::before, .deco-label span::after{
-    display:inline-block; vertical-align:middle; margin:0 10px;
-  }
+  .deco-label{ letter-spacing:.05em; }
+  .deco-label span{ padding:8px 14px 8px 20px; }
+  .deco-label::after{ margin-left:10px; }
 }
 
 /* =========================================================
@@ -483,9 +498,18 @@ h3.deco-label{ font-size:1.05rem; }
 /* 節の見出し（左ぞろえ） */
 .h2--deco{
   text-align:left; background-image:none;
-  display:block; margin:0 0 .5em; position:static;
+  display:block; margin:0 0 .5em; position:relative;
   padding-left:var(--hind); padding-bottom:0; max-width:none;
 }
+/* 小さな一行が無い節では、三角を見出しのほうに出します（2026-10-08 追加）。
+   小さな一行がある節では、すぐ下の行で消しています。自動で切り替わるので、
+   小さな一行を足したり消したりしても、三角は1つだけ出ます。 */
+.h2--deco::before{
+  content:""; position:absolute; left:0; top:.42em;
+  width:26px; height:26px; background:var(--accent);
+  clip-path:polygon(0 0, 100% 0, 0 100%);
+}
+.eyebrow + .h2--deco::before{ content:none; }
 .h2--deco span{ background-image:none; display:inline; white-space:normal; }
 .h2--deco .num{
   color:var(--crimson); font-size:1.4em; line-height:1; vertical-align:-.04em;
@@ -809,7 +833,9 @@ body > .pmodal{
 [id^="sec-"]{ scroll-margin-top:18px; }
 /* 飛んだ先で、見出しの三角がすっと出る。
    「どこへ移動したか」が分かるようにするための動きです（2026-10-06 変更）。 */
-[id^="sec-"]:target .eyebrow::before{
+[id^="sec-"]:target .eyebrow::before,
+[id^="sec-"]:target .eyebrow + .h2--deco::before,
+[id^="sec-"]:target .h2--deco::before{
   transform-origin:left top;
   animation: pop-tri .55s cubic-bezier(.22,.61,.36,1) both;
 }
@@ -818,7 +844,8 @@ body > .pmodal{
   to  { transform:scale(1);   opacity:1; }
 }
 @media (prefers-reduced-motion: reduce){
-  [id^="sec-"]:target .eyebrow::before{ animation:none; }
+  [id^="sec-"]:target .eyebrow::before,
+  [id^="sec-"]:target .h2--deco::before{ animation:none; }
 }
 
 @media (max-width:520px){
@@ -1402,7 +1429,7 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 .cta .lede{ color:rgba(35,48,59,.82); }
 /* うすい地になったので、小さい一行も濃い色にします（白では読めません） */
 .cta .eyebrow--light{ color:rgba(35,48,59,.78); }
-.cta .eyebrow--light::before{ background:var(--band-ink); }
+.cta .eyebrow--light::before, .cta .h2--deco::before{ background:var(--band-ink); }
 .cta .actions{ justify-content:flex-start; margin-bottom:1.2em; padding-left:var(--hind); }
 .cta .btn--tel{ background:#fff; color:var(--accent); flex:0 1 380px; }
 .cta .btn--tel:hover{ background:var(--accent-pale); }
@@ -1413,7 +1440,11 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 /* =========================================================
    フッター
    ========================================================= */
-.footer{ background:#1B2733; color:#CBD3DB; padding:56px 24px 44px; font-size:.9rem; }
+/* ★2026-10-09：地の色を #1B2733（ほぼ黒）から
+   博滇会の深藍（--accent ＝ #1E4068・ボタンと同じ色）に変えました。
+   「暗すぎる」ためです。中の文字・枠は白のすけた色でできているので、
+   この1行を書き換えるだけで全体の明るさが変わります。 */
+.footer{ background:var(--accent); color:#CBD3DB; padding:56px 24px 44px; font-size:.9rem; }
 .footer__grid{
   display:grid; gap:36px;
   grid-template-columns: minmax(280px, 1fr) minmax(280px, 1.1fr);
@@ -1429,19 +1460,19 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
   padding:12px 0; border-bottom:1px solid rgba(255,255,255,.14);
 }
 .access > div:first-child{ border-top:1px solid rgba(255,255,255,.14); }
-.access dt{ color:#94A2AF; font-size:.85rem; }
+.access dt{ color:#A8B6C4; font-size:.85rem; }
 .access dd{ color:#E4EAF0; line-height:1.7; }
 .access dd a{ font-size:1.02rem; letter-spacing:.03em; white-space:nowrap; }
 /* メールアドレスは長いので、細い画面では折り返します */
 .access dd a[href^="mailto:"]{ white-space:normal; word-break:break-all; font-size:.95rem; }
 .access .bus-row{ display:block; margin-bottom:.8em; }
 .access .bus-row:last-child{ margin-bottom:0; }
-.access .bus-from{ display:block; color:#94A2AF; font-size:.78rem; line-height:1.5; }
+.access .bus-from{ display:block; color:#A8B6C4; font-size:.78rem; line-height:1.5; }
 
 .footer__map{ display:flex; flex-direction:column; gap:12px; }
 .footer__map iframe{
   width:100%; aspect-ratio:4/3; min-height:260px;
-  border:0; border-radius:10px; background:#22303C; display:block;
+  border:0; border-radius:10px; background:#2A4F7A; display:block;
 }
 .map-link{
   align-self:flex-start;
@@ -1517,7 +1548,7 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
   border:1px solid rgba(255,255,255,.24); border-radius:999px;
   transition: background-color .18s ease, border-color .18s ease;
 }
-.groupsvc a small{ font-size:.76rem; font-weight:400; color:#94A2AF; }
+.groupsvc a small{ font-size:.76rem; font-weight:400; color:#A8B6C4; }
 .groupsvc a:hover{ background:rgba(255,255,255,.14); border-color:rgba(255,255,255,.55); }
 .groupsvc a:hover small{ color:#CBD3DB; }
 .groupsvc a:focus-visible{ outline:3px solid #fff; outline-offset:3px; }
@@ -1530,13 +1561,13 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 }
 .footer__fine a{
   display:inline-flex; align-items:center; min-height:40px;
-  font-size:.8rem; color:#94A2AF; text-decoration:none;
+  font-size:.8rem; color:#A8B6C4; text-decoration:none;
   border-bottom:1px solid transparent;
   transition: color .18s ease, border-color .18s ease;
 }
 .footer__fine a:hover{ color:#fff; border-bottom-color:rgba(255,255,255,.5); }
 .footer__fine a:focus-visible{ outline:3px solid #fff; outline-offset:3px; }
-.footer__fine .copy{ font-size:.8rem; color:#94A2AF; margin-left:auto; }
+.footer__fine .copy{ font-size:.8rem; color:#A8B6C4; margin-left:auto; }
 
 @media (max-width:560px){
   /* スマホでは、ロゴ・文章・矢印を縦に積みます（横に並べると文章がつぶれるため） */
@@ -1561,7 +1592,7 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
    ご相談の節のボタンは、字下げすると電話番号が入りきらないため0にします。 */
 @media (max-width:620px){
   :root{ --hind:34px; }
-  .eyebrow::before{ width:21px; height:21px; }
+  .eyebrow::before, .h2--deco::before{ width:21px; height:21px; }
   .cta .actions{ padding-left:0; }
 }
 
@@ -2401,7 +2432,7 @@ body > div.callbar{
     </div>
 
     <h3 class="deco-label deco-label--gap"><span>実際のお支払いの例</span></h3>
-    <p class="lede">上の費用に、<strong>介護保険の自己負担額</strong>が加わります。重要事項説明書に載せている、代表的な2つの例です。</p>
+    <p class="lede">上の費用に、<strong>介護保険の自己負担額</strong>が加わります。代表的な2つの例です。</p>
 
     <!-- ===== お支払いの例は、折りたたんでいます（2026-09-17） =====
          表と注記は、知りたい方だけが開く形にしました。
@@ -2443,8 +2474,7 @@ body > div.callbar{
     <p class="fee-etc"><strong>このほかに、実費でいただくもの</strong><br>
     医療費（診療費・お薬代など）／介護用品・消耗品費／有料サービスのご利用料／福祉用具のレンタル・購入費（介護保険の対象外のもの）／お部屋のテレビのNHK受信料</p>
 
-    <p class="flow-note"><span class="check">要確認</span>金額は<strong>重要事項説明書（令和7年1月作成）</strong>から取っています。<strong>「◯年◯月時点の金額です」の一文を入れ、更新の担当を決めてください。</strong>改定があったときに古い金額が残っているのが、いちばん信用を落とします。<br>
-    <strong>※ 法人サイトの費用ページは食費が40,000円のままです。重要事項説明書では55,000円なので、法人サイト側も直したほうがよさそうです。</strong></p>
+    <!-- 2026-10-08：確認用の注記（金額の出どころ・法人サイトとの食いちがい）は削除しました。 -->
   </div>
 </section>
 
@@ -2479,9 +2509,10 @@ body > div.callbar{
 <!-- ===== 最後のご相談 ===== -->
 <section class="cta" aria-labelledby="cta-title">
   <div class="wrap">
-    <p class="eyebrow eyebrow--light">ご見学だけでも、どうぞ</p>
+    <!-- 2026-10-08：小さな一行「ご見学だけでも、どうぞ」は削除しました。
+         三角は、小さな一行が無いときは見出しのほうに出ます（CSSで切り替わります）。 -->
     <h2 class="h2 h2--deco h2--light" id="cta-title"><span>まずは、ご相談ください。</span></h2>
-    <p class="lede lede--center">ご本人の状態がわからない段階でも大丈夫です。ご家族だけのご見学もできます。</p>
+    <p class="lede lede--center">ご本人の状態がわからない段階でも大丈夫です。ご家族だけでのご見学も可能です。</p>
     <div class="actions">
       <a class="btn btn--tel" id="btn-tel-2" href="tel:0488297853">
         <span class="label">お電話でのご相談</span><span class="num">048-829-7853</span>
@@ -2493,7 +2524,6 @@ body > div.callbar{
         見学・入居のご相談
       </a>
     </div>
-    <p class="note">受付時間はお電話にてご確認ください。</p>
   </div>
 </section>
 
