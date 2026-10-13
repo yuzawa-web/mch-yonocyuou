@@ -167,11 +167,13 @@ img{ max-width:100%; display:block; }
 }
 .header .group{ font-size:.74rem; color:var(--ink-soft); letter-spacing:.06em; line-height:1.5; }
 
+/* ★2026-10-14：丸い形（border-radius:999px）をやめて、四角にしました。
+   角をすこし丸めたい場合は、border-radius を 3px などにしてください。 */
 .link-recruit{
   flex:none;
   font-size:.85rem; font-weight:700; text-decoration:none; white-space:nowrap;
   color:var(--accent); background:#fff;
-  border:1px solid var(--line); border-radius:999px;
+  border:1px solid var(--line); border-radius:0;
   padding:8px 18px; min-height:40px;
   display:inline-flex; align-items:center;
   transition: background-color .18s ease, color .18s ease, border-color .18s ease;
@@ -185,7 +187,7 @@ img{ max-width:100%; display:block; }
   flex:none; display:inline-flex; align-items:center; gap:.45em;
   font-size:.85rem; font-weight:700; text-decoration:none; white-space:nowrap;
   color:#fff; background:var(--accent); border:1px solid var(--accent);
-  border-radius:999px; padding:8px 18px; min-height:40px;
+  border-radius:0; padding:8px 18px; min-height:40px;
   transition: background-color .18s ease, border-color .18s ease;
 }
 .link-visit:hover{ background:var(--accent-dark); border-color:var(--accent-dark); }
@@ -587,15 +589,6 @@ h3.deco-label{ font-size:1.05rem; }
 .equip__box:nth-child(2) li{ background:var(--c4-bg); }
 
 /* 葉っぱの区切り */
-.leaf-rule{
-  display:flex; align-items:center; justify-content:center; gap:14px;
-  margin:2.8em auto 0; max-width:280px; color:var(--c1);
-}
-.leaf-rule::before, .leaf-rule::after{
-  content:""; flex:1 1 auto; height:2px; background:currentColor; opacity:.55; border-radius:2px;
-}
-.leaf-rule svg{ width:26px; height:26px; flex:none; }
-
 /* =========================================================
    おすすめポイント（5つ）
    左上の色の三角に番号、右側に斜めに切った写真。
@@ -1206,7 +1199,16 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
    上：数字の札4つ／下：サービスのカード4つ。
    どちらも「左上の色の三角＋白いアイコン」「斜めに切った写真」でそろえています。
    ========================================================= */
-.svc-sec{ background:linear-gradient(180deg, var(--bg) 0%, var(--bg-soft) 100%); }
+/* ★2026-10-13：節の変わり目が分かりにくかったので、
+   ベージュのグラデーションをやめて「白地」にしました（案B）。
+   前の節（おすすめポイント＝うすいベージュ）との色の差で、
+   話が変わったことが伝わります。 */
+.svc-sec{ background:var(--white); }
+/* 節が白地になったので、中の白い箱は地の色（うすいベージュ）にして
+   見分けがつくようにしています（2026-10-13）。
+   ★白地をやめるときは、この2行も消してください。 */
+.svc-sec .stat{ background:var(--bg); }
+.svc-sec .pamph{ background:var(--bg); }
 
 /* 共通：左上の色の三角と、その上の白いアイコン */
 .cnr{
@@ -1538,7 +1540,7 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 .orgblock{ margin-top:34px; }
 .groupsvc{ margin-top:16px; padding:20px 22px 22px;
   background:rgba(255,255,255,.04); border-radius:12px; }
-.groupsvc__lede{ font-size:.88rem; color:#CBD3DB; line-height:1.9; margin:0 0 1.1em; }
+.groupsvc__lede{ font-size:.88rem; color:#CBD3DB; line-height:1.9; margin:0; }
 .groupsvc__lede strong{ color:#fff; }
 .groupsvc ul{ list-style:none; display:flex; flex-wrap:wrap; gap:8px; margin:0; padding:0; }
 .groupsvc a{
@@ -1742,7 +1744,7 @@ body > div.callbar{
            これが無いと、細い画面で「メディカルケアホーム与／野中央」と
            へんなところで切れてしまいます。消さないでください。 -->
       <span class="facility">メディカルケアホーム<wbr>与野中央</span>
-      <span class="group">医療法人博滇会グループ</span>
+      <span class="group">博滇会グループ</span>
     </div>
   </div>
 
@@ -1822,7 +1824,7 @@ body > div.callbar{
   </div>
   <div class="wrap">
     <h2 class="h2 h2--deco" id="points-title"><span class="num">5</span>つのおすすめポイント</h2>
-    <p class="lede lede--center">プロの医療で見守る安心を。かけがえのない、我が家のぬくもりを。<br>24時間365日の医療サポートがあるからこそ叶う、心からの安心をご用意しています。</p>
+    <p class="lede lede--center">24時間365日の医療サポートがあるからこそ叶う、心からの安心をご用意しています。<br>提供しているのは「介護」だけでなく「暮らし」です。安全・尊厳・安心・つながりを大切に、入居者様の、その人らしい毎日を支えてまいります。</p>
 
     <ul class="points">
       <li class="point" style="--pt-col:var(--c1);--pt-bg:var(--c1-bg);--pt-ink:var(--c1-ink)">
@@ -2211,11 +2213,7 @@ body > div.callbar{
       </li>
     </ul>
 
-    <p class="leaf-rule" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 21V11"/><path d="M12 13c-4 0-6-2.5-6-6 4 0 6 2.5 6 6z"/><path d="M12 12c4 0 6-2 6-5.5-4 0-6 2-6 5.5z"/>
-      </svg>
-    </p>
+    <!-- 2026-10-13：葉っぱの区切り飾りは削除しました。 -->
   </div>
 </section>
 
@@ -2604,12 +2602,7 @@ body > div.callbar{
          リンク先は法人サイトの「事業を知る」の各見出しです。 -->
     <div class="groupsvc">
       <p class="groupsvc__lede">博滇会グループは、さいたま市・上尾市で、<strong>医療・介護・保育の20をこえる事業所</strong>を運営しています。</p>
-      <ul>
-        <li><a id="btn-grp-mamoru" href="https://hakushinkai.jp/facilities/#mamoru" target="_blank" rel="noopener">まもる<small>医療</small></a></li>
-        <li><a id="btn-grp-kurasu" href="https://hakushinkai.jp/facilities/#kurasu" target="_blank" rel="noopener">くらす<small>住まい</small></a></li>
-        <li><a id="btn-grp-sasaeru" href="https://hakushinkai.jp/facilities/#sasaeru" target="_blank" rel="noopener">ささえる<small>在宅</small></a></li>
-        <li><a id="btn-grp-hagukumu" href="https://hakushinkai.jp/facilities/#hagukumu" target="_blank" rel="noopener">はぐくむ<small>保育</small></a></li>
-      </ul>
+      <!-- 2026-10-13：まもる／くらす／ささえる／はぐくむ の4つのボタンは削除しました。 -->
     </div>
   </div>
 
