@@ -363,9 +363,13 @@ body > main.fv{
   opacity:.10;
   animation: float var(--d) ease-in-out var(--dl) infinite alternate;
 }
+/* ★2026-10-14：動きを速くしました。
+   速さは、HTML側の各ロゴに書いてある --d（1往復にかかる時間）で決まります。
+   ゆっくりに戻すなら、--d の秒数を大きくしてください（前は24〜36秒でした）。
+   動く距離も少し大きくしています。 */
 @keyframes float{
   from{ transform:translate3d(0,0,0) rotate(0deg); }
-  to  { transform:translate3d(12px,-26px,0) rotate(9deg); }
+  to  { transform:translate3d(20px,-44px,0) rotate(14deg); }
 }
 body > *:not(.bglogos){ position:relative; z-index:1; }
 
@@ -408,12 +412,12 @@ body > *:not(.bglogos){ position:relative; z-index:1; }
   position:absolute; right:-6%; top:10%;
   width:min(46vw, 460px);
   opacity:.12; pointer-events:none; user-select:none; z-index:0;
-  animation: drift 34s ease-in-out infinite alternate;
+  animation: drift 14s ease-in-out infinite alternate;
 }
 .bg-logo img{ width:100%; height:auto; display:block; }
 @keyframes drift{
   from{ transform:translate3d(0,0,0) rotate(0deg); }
-  to  { transform:translate3d(-4%,6%,0) rotate(5deg); }
+  to  { transform:translate3d(-7%,10%,0) rotate(8deg); }
 }
 
 .nb{ white-space:nowrap; }
@@ -1728,16 +1732,16 @@ body > div.callbar{
 <body>
 <!-- 背景に浮かぶ小さな法人ロゴ（飾り）。読み上げの対象からは外しています -->
 <div class="bglogos" aria-hidden="true">
-  <span style="--x:4%;--y:8%;--s:52px;--d:30s;--dl:0s"></span>
-  <span style="--x:88%;--y:14%;--s:38px;--d:26s;--dl:-4s"></span>
-  <span style="--x:16%;--y:30%;--s:30px;--d:34s;--dl:-9s"></span>
-  <span style="--x:72%;--y:36%;--s:56px;--d:28s;--dl:-2s"></span>
-  <span style="--x:8%;--y:56%;--s:42px;--d:32s;--dl:-14s"></span>
-  <span style="--x:92%;--y:62%;--s:32px;--d:24s;--dl:-6s"></span>
-  <span style="--x:30%;--y:74%;--s:36px;--d:36s;--dl:-11s"></span>
-  <span style="--x:64%;--y:84%;--s:48px;--d:27s;--dl:-3s"></span>
-  <span style="--x:46%;--y:20%;--s:26px;--d:31s;--dl:-17s"></span>
-  <span style="--x:20%;--y:92%;--s:30px;--d:25s;--dl:-8s"></span>
+  <span style="--x:4%;--y:8%;--s:52px;--d:12s;--dl:0s"></span>
+  <span style="--x:88%;--y:14%;--s:38px;--d:10s;--dl:-4s"></span>
+  <span style="--x:16%;--y:30%;--s:30px;--d:13s;--dl:-9s"></span>
+  <span style="--x:72%;--y:36%;--s:56px;--d:11s;--dl:-2s"></span>
+  <span style="--x:8%;--y:56%;--s:42px;--d:13s;--dl:-14s"></span>
+  <span style="--x:92%;--y:62%;--s:32px;--d:9s;--dl:-6s"></span>
+  <span style="--x:30%;--y:74%;--s:36px;--d:14s;--dl:-11s"></span>
+  <span style="--x:64%;--y:84%;--s:48px;--d:11s;--dl:-3s"></span>
+  <span style="--x:46%;--y:20%;--s:26px;--d:12s;--dl:-17s"></span>
+  <span style="--x:20%;--y:92%;--s:30px;--d:10s;--dl:-8s"></span>
 </div>
 
 <!-- ===== 上の帯 ===== -->
