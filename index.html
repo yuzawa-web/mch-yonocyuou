@@ -600,7 +600,7 @@ h3.deco-label{ font-size:1.05rem; }
 
 /* 葉っぱの区切り */
 /* =========================================================
-   おすすめポイント（5つ）
+   おすすめポイント（6つ）
    左上の色の三角に番号、右側に斜めに切った写真。
    ========================================================= */
 .points{
@@ -608,8 +608,10 @@ h3.deco-label{ font-size:1.05rem; }
   display:grid; gap:18px;
   grid-template-columns:repeat(auto-fit, minmax(min(420px, 100%),1fr));
 }
-.point:nth-child(5){ grid-column:1 / -1; }
-.point:nth-child(5){ --photo-w:34%; }
+/* ★2026-10-14：ポイントが6つになったので、5番目だけ横いっぱいにする
+   指定をやめました。6枚きれいに2列×3段で並びます。
+   奇数個に戻すときは、最後の1枚に下の2行（nth-child の数字を変えて）を戻してください。
+   .point:nth-child(5){ grid-column:1 / -1; --photo-w:34%; } */
 .point{
   position:relative; overflow:hidden;
   background:var(--pt-bg); border-radius:14px;
@@ -1046,6 +1048,11 @@ body > .pmodal{
 .fee-break li{ display:flex; justify-content:space-between; gap:1em; font-size:.94rem; }
 .fee-break .lbl{ color:var(--ink-soft); }
 .fee-break .val{ font-weight:700; white-space:nowrap; }
+/* リハビリの料金（2026-10-15 追加）。
+   横に3つ並ぶので、列と列のあいだを広くして
+   「2,200円」と「40分」がくっついて見えないようにしています。 */
+.fee-reha .fee-break{ gap:12px 40px; }
+
 .fee-nyukyo{
   display:inline-flex; align-items:center; gap:.5em; margin-top:1.2em;
   background:var(--sun-soft); color:var(--accent-dark);
@@ -1841,7 +1848,7 @@ body > div.callbar{
     <i style="--x:94%;--y:88%;--s:34px;--col:var(--c2);--r:180deg"></i>
   </div>
   <div class="wrap">
-    <h2 class="h2 h2--deco" id="points-title"><span class="num">5</span>つのおすすめポイント</h2>
+    <h2 class="h2 h2--deco" id="points-title"><span class="num">6</span>つのおすすめポイント</h2>
     <p class="lede lede--center">24時間365日の医療サポートがあるからこそ叶う、心からの安心をご用意しています。提供しているのは「介護」だけでなく「暮らし」です。安全・尊厳・安心・つながりを大切に、入居者様の、その人らしい毎日を支えてまいります。</p>
 
     <ul class="points">
@@ -1967,7 +1974,7 @@ body > div.callbar{
             </svg>
           </span>
           <p class="point__ttl">24時間365日の安心</p>
-          <p>夜間も見守り体制を整えています。常駐の看護師が日々の体調を見守り、グループの医療機関と連携して、急な体調の変化にも対応します。</p>
+          <p>夜間も見守り体制を整えています。常駐の看護師が日々の体調を見守り、<strong>グループの医療機関には24時間365日、当直の医師がいます</strong>。</p>
         </div>
                 <figure class="point__photo"><img src="ph-corridor.jpg" alt="手すりのある廊下" width="900" height="675" loading="lazy"></figure>
         <details class="pdetail" id="dt-point-2">
@@ -1978,8 +1985,8 @@ body > div.callbar{
         <span class="feat__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 13.5A8.5 8.5 0 1 1 10.5 3.5a6.6 6.6 0 0 0 10 10z"/></svg></span>
         <div>
           <h4>夜間サポート</h4>
-          <span class="feat__cap">24時間の夜間見守り体制 ＋ グループの医療機関との連携</span>
-          <p>夜間も見守り体制を整えています。急な体調の変化があったときは、常駐の看護師とグループの医療機関が連携して対応します。</p>
+          <span class="feat__cap">24時間の夜間見守り体制 ＋ グループの医療機関に24時間365日の当直医。</span>
+          <p>夜間も見守り体制を整えています。急な体調の変化があったときは、常駐の看護師が、<strong>24時間365日 当直の医師がいるグループの医療機関</strong>と連携して対応します。</p>
         </div>
       </li>
       <li>
@@ -2226,6 +2233,47 @@ body > div.callbar{
           </div>
         </details>
       </li>
+
+      <!-- ★2026-10-14 追加：6つめのポイント（グループのリハビリ）。
+           色は1枚目と同じ若葉（--c1）です。色は5色しかないので、6枚目から1色目に戻ります。 -->
+      <li class="point" style="--pt-col:var(--c1);--pt-bg:var(--c1-bg);--pt-ink:var(--c1-ink)">
+        <span class="point__corner" aria-hidden="true"></span>
+        <span class="point__no" aria-hidden="true">6</span>
+        <div class="point__body">
+          <span class="point__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="14" cy="4.5" r="1.8"/><path d="M13 9l-3.5 2 1.5 4"/><path d="M9.5 11 6 9"/><path d="M11 15l-2 6"/><path d="M11 15l4 2 1.5 4"/>
+            </svg>
+          </span>
+          <p class="point__ttl">グループのリハビリ</p>
+          <p>博滇会グループの訪問リハビリスタッフによるプログラムを、住み慣れた施設内で受けていただくことが可能です。</p>
+        </div>
+                <figure class="point__photo"><img src="ph-dining.jpg" alt="食堂兼機能訓練室" width="900" height="675" loading="lazy"></figure>
+        <details class="pdetail" id="dt-point-6">
+          <summary class="pdetail__head"><span><span class="lbl-close">リハビリの体制を、くわしく見る</span><span class="lbl-open">とじる</span></span><span class="pdetail__mark" aria-hidden="true"></span></summary>
+          <div class="point__panel">
+    <p class="lede">博滇会グループの<strong>訪問リハビリ</strong>が施設にうかがい、リハビリを行います。</p>
+
+    <ul class="feat">
+      <li>
+        <span class="feat__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg></span>
+        <div>
+          <h4>リハビリスタッフが施設へ来所します</h4>
+          <p>グループの訪問リハビリスタッフが施設へ訪問するため、通院や送迎の負担なく、住み慣れた館内で、落ち着いてリハビリを受けていただけます。</p>
+        </div>
+      </li>
+      <li>
+        <span class="feat__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M17 20v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="3.2"/><path d="M17 11h4"/><path d="M19 9v4"/></svg></span>
+        <div>
+          <h4>同じグループだからこそのスムーズなやり取り</h4>
+          <p>同じ博滇会グループのリハビリスタッフが担当させていただくため、普段のご様子や体調の変化をスムーズにやり取りできることがメリットです。</p>
+        </div>
+      </li>
+    </ul>
+
+          </div>
+        </details>
+      </li>
     </ul>
 
     <!-- 2026-10-13：葉っぱの区切り飾りは削除しました。 -->
@@ -2431,11 +2479,11 @@ body > div.callbar{
 
     <div class="fee-total">
       <p class="fee-total__cap">毎月かならずかかる費用（介護保険の自己負担をのぞく）</p>
-      <p class="fee-total__num">225,000<small>円 ／ 月</small></p>
+      <p class="fee-total__num">237,500<small>円 ／ 月</small></p>
       <ul class="fee-break">
         <li><span class="lbl">家賃</span><span class="val">80,000円</span></li>
         <li><span class="lbl">管理費</span><span class="val">90,000円</span></li>
-        <li><span class="lbl">食費</span><span class="val">55,000円</span></li>
+        <li><span class="lbl">食費</span><span class="val">67,500円</span></li>
       </ul>
       <p class="fee-note" style="margin-top:1em"><strong>光熱水費は0円</strong>です（管理費にふくまれています）。介護費用も、この管理費のほかにいただくことはありません。</p>
       <span class="fee-nyukyo">前払金・敷金は、いただきません（0円）</span>
@@ -2469,9 +2517,9 @@ body > div.callbar{
               <tr><th scope="row">お部屋の広さ</th><td>18.00㎡</td><td>19.70㎡</td></tr>
               <tr><th scope="row">家賃</th><td>80,000円</td><td>80,000円</td></tr>
               <tr><th scope="row">管理費</th><td>90,000円</td><td>90,000円</td></tr>
-              <tr><th scope="row">食費</th><td>55,000円</td><td>55,000円</td></tr>
-              <tr><th scope="row">介護保険の自己負担</th><td>11,804円</td><td>25,284円</td></tr>
-              <tr class="total"><th scope="row">1か月の合計</th><td>236,804円</td><td>250,284円</td></tr>
+              <tr><th scope="row">食費</th><td>67,500円</td><td>67,500円</td></tr>
+              <tr><th scope="row">介護保険の自己負担</th><td>12,014円</td><td>25,735円</td></tr>
+              <tr class="total"><th scope="row">1か月の合計</th><td>249,514円</td><td>263,235円</td></tr>
             </tbody>
           </table>
         </div>
@@ -2480,6 +2528,22 @@ body > div.callbar{
         <p class="fee-note">※ 入院などで不在のときも、月額の利用料は減額になりません。</p>
       </div>
     </details>
+
+    <!-- ★2026-10-15 追加：リハビリの料金（自費）。
+         介護保険の対象外なので、上の「毎月かならずかかる費用」とは分けて置いています。
+         ★事業所名は、ご依頼により載せていません。 -->
+    <h3 class="deco-label deco-label--gap"><span>リハビリのご利用料金</span></h3>
+    <p class="lede">博滇会グループの訪問リハビリをご利用の場合の料金です。<strong>介護保険の対象外（自費）</strong>となります。</p>
+
+    <div class="fee-total fee-reha">
+      <p class="fee-total__cap">訪問リハビリ　1回あたり（自費）</p>
+      <ul class="fee-break">
+        <li><span class="lbl">20分</span><span class="val">2,200円</span></li>
+        <li><span class="lbl">40分</span><span class="val">4,400円</span></li>
+        <li><span class="lbl">60分</span><span class="val">6,600円</span></li>
+      </ul>
+      <p class="fee-note" style="margin-top:1em">ご利用の回数・時間は、ご本人の状態やご希望に合わせてご相談ください。</p>
+    </div>
 
     <p class="fee-etc"><strong>このほかに、実費でいただくもの</strong><br>
     医療費（診療費・お薬代など）／介護用品・消耗品費／有料サービスのご利用料／福祉用具のレンタル・購入費（介護保険の対象外のもの）／お部屋のテレビのNHK受信料</p>
@@ -2662,7 +2726,7 @@ body > div.callbar{
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>前へ
         </button>
-        <span class="pmodal__count">1 / 5</span>
+        <span class="pmodal__count">1 / 6</span>
         <button class="pmodal__fnav pmodal__fnext" type="button">次へ
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
