@@ -1421,16 +1421,15 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 /* =========================================================
    最後のご相談
    ========================================================= */
-/* 見出しを左ぞろえにしたので（2026-10-06）、ボタンと注記も左にそろえています。
-   中央ぞろえに戻す場合は、ここを text-align:center に戻し、
-   下の .cta .actions / .cta .note の padding-left を消してください。 */
+/* 見出しと説明文は左ぞろえ、ボタンだけ中央（2026-10-09）。
+   ボタンの中央ぞろえは、下の .cta .actions で指定しています。 */
 .cta{ background:var(--band); color:var(--band-ink); padding:64px 24px; text-align:left; }
 .cta .h2{ color:var(--band-ink); }
 .cta .lede{ color:rgba(35,48,59,.82); }
 /* うすい地になったので、小さい一行も濃い色にします（白では読めません） */
 .cta .eyebrow--light{ color:rgba(35,48,59,.78); }
 .cta .eyebrow--light::before, .cta .h2--deco::before{ background:var(--band-ink); }
-.cta .actions{ justify-content:flex-start; margin-bottom:1.2em; padding-left:var(--hind); }
+.cta .actions{ justify-content:center; margin-bottom:1.2em; padding-left:0; }
 .cta .btn--tel{ background:#fff; color:var(--accent); flex:0 1 380px; }
 .cta .btn--tel:hover{ background:var(--accent-pale); }
 .cta .btn--visit{ background:transparent; color:var(--band-ink); border-color:var(--band-ink); flex:0 1 300px; }
@@ -1588,12 +1587,10 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 /* =========================================================
    細い画面（320〜520px）
    ========================================================= */
-/* せまい画面では、三角を小さくして字下げも詰めます（2026-10-06）。
-   ご相談の節のボタンは、字下げすると電話番号が入りきらないため0にします。 */
+/* せまい画面では、三角を小さくして字下げも詰めます（2026-10-06）。 */
 @media (max-width:620px){
   :root{ --hind:34px; }
   .eyebrow::before, .h2--deco::before{ width:21px; height:21px; }
-  .cta .actions{ padding-left:0; }
 }
 
 @media (max-width:520px){
@@ -1824,7 +1821,6 @@ body > div.callbar{
     <i style="--x:94%;--y:88%;--s:34px;--col:var(--c2);--r:180deg"></i>
   </div>
   <div class="wrap">
-    <p class="eyebrow">ここが私たちの自慢です</p>
     <h2 class="h2 h2--deco" id="points-title"><span class="num">5</span>つのおすすめポイント</h2>
     <p class="lede lede--center">プロの医療で見守る安心を。かけがえのない、我が家のぬくもりを。<br>24時間365日の医療サポートがあるからこそ叶う、心からの安心をご用意しています。</p>
 
@@ -2252,7 +2248,6 @@ body > div.callbar{
     </span>
   </div>
   <div class="wrap">
-    <p class="eyebrow">暮らしに合わせて</p>
     <h2 class="h2 h2--deco" id="svc-title">ご利用いただける、<span class="num">3</span>つのかたち。</h2>
     <p class="lede lede--center">ずっとお住まいになる方も、短い期間だけの方も、まずはお試しの方も。暮らしの状況に合わせて選んでいただけます。</p>
 
@@ -2415,7 +2410,6 @@ body > div.callbar{
      ★料金は改定されます。「いつ時点の金額か」を必ず書き、更新の担当を決めてください。★ -->
 <section class="section section--white" id="sec-fee" aria-labelledby="fee-title">
   <div class="wrap">
-    <p class="eyebrow">安心してご検討いただくために</p>
     <h2 class="h2 h2--deco" id="fee-title">費用について。</h2>
     <p class="lede lede--center">入居時にまとまったお金をいただくことはありません。毎月かかるのは、<strong>家賃・管理費・食費</strong>と、<strong>介護保険の自己負担額</strong>の2つだけです。</p>
 
@@ -2483,7 +2477,6 @@ body > div.callbar{
      アカウントが変わったら、下のリンク先の @ のあとを書き換えてください。 -->
 <section class="section" aria-labelledby="insta-title">
   <div class="wrap">
-    <p class="eyebrow">ふだんの、ようす</p>
     <h2 class="h2 h2--deco" id="insta-title">ふだんの様子は、Instagramで</h2>
     <p class="lede lede--center">行事の様子や日々のできごとを、職員が投稿しています。</p>
 
