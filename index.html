@@ -1130,18 +1130,21 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
      ポイントのカード（.pdetail）はポップアップになりますが、
      こちらは .fdetail という別の名前にしてあるので、そうなりません。
    ========================================================= */
+/* ★2026-10-14：押せることが分かりにくかったので、ボタンらしく作り直しました。
+   前：うすいベージュの地（ページの地とほとんど同じ色）＋白い丸の＋
+   後：深藍の枠＋うすい藍の地＋深藍で塗った丸の＋ */
 .fdetail{
-  margin-top:1.6em; border:1px solid var(--line); border-radius:12px; overflow:hidden;
+  margin-top:1.6em; border:2px solid var(--accent); border-radius:12px; overflow:hidden;
 }
 .fdetail__head{
   display:flex; align-items:center; justify-content:space-between; gap:12px;
   padding:16px 20px; min-height:62px; cursor:pointer; list-style:none;
-  background:var(--bg-soft); color:var(--accent);
+  background:var(--accent-pale); color:var(--accent);
   font-size:1rem; font-weight:700;
   transition: background-color .18s ease, color .18s ease;
 }
 .fdetail__head::-webkit-details-marker{ display:none; }
-.fdetail__head:hover{ background:var(--accent-pale); }
+.fdetail__head:hover{ background:#D4E0EC; }
 .fdetail[open] > .fdetail__head{ background:var(--accent); color:#fff; }
 .fdetail[open] > .fdetail__head:hover{ background:var(--accent-dark); }
 .fdetail__head:focus-visible{ outline:3px solid var(--accent-dark); outline-offset:-3px; }
@@ -1149,13 +1152,13 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
 .fdetail[open] .lbl-close{ display:none; }
 /* ＋／− の丸い印 */
 .fdetail__mark{
-  position:relative; flex:none; width:28px; height:28px; border-radius:50%;
-  background:#fff; border:1px solid var(--line);
+  position:relative; flex:none; width:30px; height:30px; border-radius:50%;
+  background:var(--accent); border:1px solid var(--accent);
 }
 .fdetail[open] .fdetail__mark{ background:rgba(255,255,255,.22); border-color:transparent; }
 .fdetail__mark::before,.fdetail__mark::after{
-  content:""; position:absolute; left:7px; top:12.5px;
-  width:13px; height:2.5px; background:var(--accent); border-radius:2px;
+  content:""; position:absolute; left:7px; top:13px;
+  width:14px; height:2.6px; background:#fff; border-radius:2px;
 }
 .fdetail[open] .fdetail__mark::before,
 .fdetail[open] .fdetail__mark::after{ background:#fff; }
@@ -2420,7 +2423,7 @@ body > div.callbar{
 <section class="section" id="sec-fee" aria-labelledby="fee-title">
   <div class="wrap">
     <h2 class="h2 h2--deco" id="fee-title">費用について</h2>
-    <p class="lede lede--center">入居時にまとまったお金をいただくことはありません。毎月かかるのは、<strong>家賃・管理費・食費</strong>と、<strong>介護保険の自己負担額</strong>の2つだけです。</p>
+    <p class="lede lede--center">入居時にまとまった費用をいただくことはありません。毎月かかるのは、<strong>家賃・管理費・食費</strong>と、<strong>介護保険の自己負担額</strong>の2つだけです。</p>
 
     <div class="fee-total">
       <p class="fee-total__cap">毎月かならずかかる費用（介護保険の自己負担をのぞく）</p>
