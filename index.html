@@ -522,7 +522,10 @@ h3.deco-label{ font-size:1.05rem; }
 }
 /* 波線はやめました。戻す場合はこの display:none を消してください */
 .h2--deco::after{ display:none; }
-.lede--center{ text-align:left; max-width:36em; margin-left:0; margin-right:0; padding-left:var(--hind); }
+/* 説明文。★2026-10-14：1行あたりの幅の上限（36文字ぶん）をやめて、
+   節の幅いっぱいを使うようにしました。折り返しの回数が減ります。
+   読みにくければ max-width:46em などを入れて狭められます。 */
+.lede--center{ text-align:left; max-width:none; margin-left:0; margin-right:0; padding-left:var(--hind); }
 
 /* 最後のご相談（若葉の地）用 */
 .eyebrow--light{ color:rgba(255,255,255,.9); }
