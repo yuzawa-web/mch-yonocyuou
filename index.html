@@ -117,6 +117,9 @@ img{ max-width:100%; display:block; }
 }
 .h2 span{ display:inline-block; white-space:nowrap; }
 .lede{ color:var(--ink-soft); margin-bottom:1.7em; }
+/* 「家賃・管理費・食費」のような強調した語句が、
+   途中で改行されないようにします（2026-10-14 追加） */
+.lede strong{ white-space:nowrap; }
 
 .ph-img{
   width:100%; height:auto; display:block;
@@ -1204,6 +1207,11 @@ table.fee tbody tr.total th, table.fee tbody tr.total td{
    前の節（おすすめポイント＝うすいベージュ）との色の差で、
    話が変わったことが伝わります。 */
 .svc-sec{ background:var(--white); }
+/* Instagramの節も白地（2026-10-14）。
+   節の地の色は ベージュ→白→ベージュ→白 と交互になるようにしています。
+   おすすめポイント＝ベージュ／3つのかたち＝白／費用＝ベージュ／Instagram＝白 */
+.insta-sec{ background:var(--white); }
+.insta-sec .insta-embed{ background:var(--bg); }
 /* 節が白地になったので、中の白い箱は地の色（うすいベージュ）にして
    見分けがつくようにしています（2026-10-13）。
    ★白地をやめるときは、この2行も消してください。 */
@@ -1935,7 +1943,6 @@ body > div.callbar{
       <figcaption>2階の見取り図です。<strong>3階・4階も、2階と同じお部屋の配置</strong>になっています。廊下を囲むようにお部屋があり、食堂兼機能訓練室・浴室は同じ階にあります。</figcaption>
     </figure>
 
-    <p class="photos__note" style="margin-top:1.6em"><span class="check">要確認</span>写真はパンフレットのデータから取り出したものです。人が写っている写真（レクリエーション・職員）は、あらためて掲載の許可が必要なため入れていません。許可が取れたら追加してください。</p>
           </div>
         </details>
       </li>
@@ -1950,7 +1957,7 @@ body > div.callbar{
             </svg>
           </span>
           <p class="point__ttl">24時間365日の安心</p>
-          <p>夜間の見守り体制に加え、グループの医師が24時間365日当直。常駐の看護師がすぐに対応できる救急体制を整えています。</p>
+          <p>夜間も見守り体制を整えています。常駐の看護師が日々の体調を見守り、グループの医療機関と連携して、急な体調の変化にも対応します。</p>
         </div>
                 <figure class="point__photo"><img src="ph-corridor.jpg" alt="手すりのある廊下" width="900" height="675" loading="lazy"></figure>
         <details class="pdetail" id="dt-point-2">
@@ -1961,8 +1968,8 @@ body > div.callbar{
         <span class="feat__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 13.5A8.5 8.5 0 1 1 10.5 3.5a6.6 6.6 0 0 0 10 10z"/></svg></span>
         <div>
           <h4>夜間サポート</h4>
-          <span class="feat__cap">24時間の夜間見守り体制 ＋ 医師の24時間365日当直体制</span>
-          <p>夜間の見守り体制に加え、グループの医師が24時間365日当直。常駐看護師との即時連携で万全の救急体制を整えています。</p>
+          <span class="feat__cap">24時間の夜間見守り体制 ＋ グループの医療機関との連携</span>
+          <p>夜間も見守り体制を整えています。急な体調の変化があったときは、常駐の看護師とグループの医療機関が連携して対応します。</p>
         </div>
       </li>
       <li>
@@ -2165,7 +2172,6 @@ body > div.callbar{
       </div>
     </div>
 
-    <p class="flow-note"><span class="check">要確認</span>写真は<strong>法人サイトの「年間行事」に載っているもの</strong>です。行事の月と一言は、こちらで書き添えました。実際の時期・内容と合っているかご確認ください。</p>
           </div>
         </details>
       </li>
@@ -2207,7 +2213,6 @@ body > div.callbar{
       </li>
     </ul>
 
-    <p class="flow-note"><span class="check">要確認</span>この節の文章は、法人サイトの「施設の特徴」をもとに、こちらで書き起こしたものです。施設のお考えと合っているかご確認ください。</p>
           </div>
         </details>
       </li>
@@ -2406,7 +2411,10 @@ body > div.callbar{
 <!-- ===== 費用 =====
      法人サイト（hakushinkai.jp/facilities/yono_central/）の掲載内容をもとにしています。
      ★料金は改定されます。「いつ時点の金額か」を必ず書き、更新の担当を決めてください。★ -->
-<section class="section section--white" id="sec-fee" aria-labelledby="fee-title">
+<!-- ★2026-10-14：この節は白地（section--white）でしたが、すぐ上の
+     「3つのかたち」を白地にしたため、白が2つ続いて境目が消えていました。
+     ここをベージュ（ふつうの .section）に戻して、白→ベージュで切り替わるようにしています。 -->
+<section class="section" id="sec-fee" aria-labelledby="fee-title">
   <div class="wrap">
     <h2 class="h2 h2--deco" id="fee-title">費用について。</h2>
     <p class="lede lede--center">入居時にまとまったお金をいただくことはありません。毎月かかるのは、<strong>家賃・管理費・食費</strong>と、<strong>介護保険の自己負担額</strong>の2つだけです。</p>
@@ -2473,7 +2481,7 @@ body > div.callbar{
 <!-- ===== Instagram =====
      アカウントは @mchyonotyuou2024 です（2026-10-09 確定）。
      アカウントが変わったら、下のリンク先の @ のあとを書き換えてください。 -->
-<section class="section" aria-labelledby="insta-title">
+<section class="section insta-sec" aria-labelledby="insta-title">
   <div class="wrap">
     <h2 class="h2 h2--deco" id="insta-title">ふだんの様子は、Instagramで</h2>
     <p class="lede lede--center">行事の様子や日々のできごとを、職員が投稿しています。</p>
